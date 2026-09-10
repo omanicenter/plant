@@ -2,135 +2,163 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نظام فحص عينات النباتات</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>مختبر أمراض النبات</title>
 <style>
-:root{--green:#047857;--green-d:#065f46;--muted:#64748b;--border:#e2e8f0;--bg:#f1f5f9}
-*{box-sizing:border-box;font-family:"Segoe UI",Tahoma,Arial,sans-serif}
+:root{
+  --g:#1b7a43; --g2:#14532d; --gl:#e8f5ec; --gl2:#d7efe0;
+  --muted:#64748b; --border:#e2e8f0; --bg:#eef3ef;
+}
+*{box-sizing:border-box;font-family:"Segoe UI",Tahoma,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:#0f172a}
 button{cursor:pointer;font-family:inherit}
-input,select,textarea{font-family:inherit;font-size:14px;padding:9px 12px;border:1px solid var(--border);border-radius:8px;width:100%;background:#fff}
+input,select,textarea{font-family:inherit;font-size:14px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;width:100%;background:#fff;color:#0f172a}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--gl2);border-color:var(--g)}
 textarea{resize:vertical}
-label{font-size:13px;font-weight:600;display:block;margin-bottom:5px}
+label{font-size:13px;font-weight:700;display:block;margin-bottom:6px;color:#1e293b}
 .hidden{display:none!important}
-a{color:var(--green-d)}
-/* تسجيل الدخول */
-#authScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.auth-card{background:#fff;border-radius:16px;padding:32px;max-width:400px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.08)}
-.auth-card h1{font-size:20px;text-align:center;color:var(--green-d);margin:0 0 6px}
-.auth-card p.sub{text-align:center;color:var(--muted);font-size:13px;margin:0 0 22px}
-.auth-card .field{margin-bottom:14px}
-.auth-links{display:flex;justify-content:space-between;margin-top:12px;font-size:13px}
-/* شاشات الحالة */
+a{color:var(--g)}
+
+/* ===== الدخول ===== */
+#authScreen{min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(180deg,#fff 55%,var(--g2) 55%)}
+.auth-top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 22px}
+.logo{width:92px;height:92px;border-radius:50%;background:var(--gl);border:3px solid var(--g);display:flex;align-items:center;justify-content:center;font-size:44px;margin-bottom:12px}
+.auth-top h1{font-size:21px;color:var(--g2);margin:0 0 4px}
+.auth-top p{color:var(--muted);font-size:12.5px;margin:0 0 22px}
+.auth-card{background:#fff;border-radius:18px;padding:22px;width:100%;max-width:380px;box-shadow:0 6px 24px rgba(0,0,0,.07)}
+.auth-card .field{margin-bottom:12px}
+.auth-links{display:flex;justify-content:space-between;margin-top:12px;font-size:12.5px}
+.auth-hero{height:34vh;background:linear-gradient(160deg,#166534,#22c55e);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+.auth-hero .plant{font-size:110px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.3));margin-bottom:24px}
+.auth-hero::after{content:"";position:absolute;bottom:0;left:0;right:0;height:44px;background:radial-gradient(ellipse at 50% 100%, #3f2d1e 0%, #2b1e12 70%);border-radius:50% 50% 0 0/100% 100% 0 0;transform:scaleX(1.3)}
+
+/* ===== شاشات الحالة ===== */
 .status-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.status-card{background:#fff;border-radius:16px;padding:36px;max-width:420px;width:100%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.status-card{background:#fff;border-radius:18px;padding:34px;max-width:420px;width:100%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.08)}
 .status-card .ico{font-size:52px;margin-bottom:12px}
-/* الهيكل */
-#appScreen{display:flex;min-height:100vh}
-aside{width:230px;background:#fff;border-inline-start:1px solid var(--border);padding:18px 12px;position:sticky;top:0;height:100vh;flex-shrink:0;display:flex;flex-direction:column}
-aside h2{font-size:15px;color:var(--green-d);margin:0 8px 18px;display:flex;align-items:center;gap:8px}
-nav button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border:none;background:none;border-radius:10px;font-size:14px;margin-bottom:4px;color:#334155;text-align:right}
-nav button:hover{background:#f1f5f9}
-nav button.active{background:#ecfdf5;color:var(--green-d);font-weight:700}
-.userbox{margin-top:auto;padding:12px;border-top:1px solid var(--border);font-size:13px}
-.userbox .role{color:var(--muted);font-size:12px}
-main{flex:1;padding:26px;max-width:1100px;margin:0 auto;width:100%;min-width:0}
-.page-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:18px}
-.page-head h1{font-size:22px;margin:0}
-.btn{background:var(--green);color:#fff;border:none;padding:10px 18px;border-radius:10px;font-size:14px;font-weight:600}
-.btn:hover{background:var(--green-d)}
-.btn.outline{background:#fff;color:#0f172a;border:1px solid var(--border)}
+
+/* ===== الهيكل ===== */
+#appScreen{min-height:100vh;display:flex;flex-direction:column;max-width:520px;margin:0 auto;background:#fff;box-shadow:0 0 30px rgba(0,0,0,.06)}
+.topbar{position:sticky;top:0;z-index:40;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:13px 16px}
+.topbar b{font-size:16px}
+.topbar button{background:none;border:none;color:#fff;font-size:20px;padding:2px 6px}
+main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
+.page-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px}
+.page-head h1{font-size:19px;margin:0}
+
+/* البطاقات الرئيسية */
+.hello{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.hello .av{width:52px;height:52px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:26px}
+.hello b{font-size:16px}.hello span{font-size:12px;color:var(--muted);display:block}
+.homegrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.tile{background:var(--gl);border-radius:16px;padding:20px 12px;text-align:center;border:1px solid var(--gl2)}
+.tile:active{transform:scale(.97)}
+.tile .ico{font-size:30px;margin-bottom:8px}
+.tile b{font-size:13.5px;color:#14532d}
+.tile small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+
+/* أزرار */
+.btn{background:var(--g);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-size:14.5px;font-weight:700}
+.btn:active{filter:brightness(.92)}
+.btn.outline{background:#fff;color:#334155;border:1px solid var(--border)}
 .btn.danger{background:#dc2626}
-.btn.teal{background:#0f766e}
-.btn.sm{padding:6px 12px;font-size:12.5px}
-.btn:disabled{opacity:.55;cursor:not-allowed}
-.card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:18px}
-.card h3{margin:0 0 14px;font-size:16px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-@media(max-width:900px){.grid2,.grid5{grid-template-columns:1fr 1fr}}
-.stat{background:#fff;border-radius:14px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
-.stat .n{font-size:26px;font-weight:800;margin-top:6px}
-.stat .t{font-size:12px;color:var(--muted)}
-table.list{width:100%;border-collapse:collapse;font-size:13.5px}
-table.list th,table.list td{padding:11px 10px;text-align:right;border-bottom:1px solid var(--border)}
-table.list th{color:var(--muted);font-size:12px;background:#f8fafc}
-table.list tbody tr:hover{background:#f8fafc}
-table.list tbody tr.clickable{cursor:pointer}
-.badge{display:inline-block;padding:3px 11px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.btn.gray{background:#e2e8f0;color:#334155}
+.btn.sm{padding:7px 12px;font-size:12.5px;border-radius:9px}
+.btn:disabled{opacity:.55}
+.btnrow{display:flex;gap:10px}
+.btnrow .btn{flex:1}
+
+/* بطاقات */
+.card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid var(--border);margin-bottom:14px}
+.card h3{margin:0 0 12px;font-size:15.5px;color:var(--g2)}
+.stat{background:#fff;border-radius:14px;padding:13px;border:1px solid var(--border)}
+.stat .n{font-size:23px;font-weight:800;margin-top:4px;color:var(--g2)}
+.stat .t{font-size:11.5px;color:var(--muted)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:640px){.grid5{grid-template-columns:repeat(2,1fr)}}
+
+/* جداول وقوائم */
+table.list{width:100%;border-collapse:collapse;font-size:13px}
+table.list th,table.list td{padding:10px 8px;text-align:right;border-bottom:1px solid var(--border)}
+table.list th{color:var(--muted);font-size:11.5px;background:#f8fafc}
+.badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:700;white-space:nowrap}
 .b-received{background:#dbeafe;color:#1e40af}.b-in_progress{background:#fef3c7;color:#92400e}
 .b-completed{background:#d1fae5;color:#065f46}.b-pending_approval{background:#ede9fe;color:#5b21b6}
 .b-approved{background:#ccfbf1;color:#115e59}.b-sent{background:#e2e8f0;color:#334155}
 .b-suspended{background:#fee2e2;color:#b91c1c}.b-pending{background:#fef3c7;color:#92400e}
-.mono{font-family:Consolas,monospace;font-weight:700;color:var(--green-d)}
+.b-replied{background:#d1fae5;color:#065f46}.b-waiting{background:#fef3c7;color:#92400e}
+.mono{font-family:Consolas,monospace;font-weight:700;color:var(--g2)}
+.sample-item{display:flex;gap:12px;align-items:center;padding:12px;border:1px solid var(--border);border-radius:14px;margin-bottom:10px;background:#fff}
+.sample-item img{width:64px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0}
+.sample-item .info{flex:1;min-width:0;font-size:12.5px;color:var(--muted);line-height:1.8}
+.sample-item .info b{color:#0f172a;font-size:13.5px}
+
+/* خطوات المعالج */
+.stepsbar{display:flex;gap:6px;margin-bottom:16px}
+.stepsbar div{flex:1;text-align:center;font-size:11px;color:var(--muted);padding-top:8px;position:relative}
+.stepsbar div::before{content:"";display:block;width:26px;height:26px;border-radius:50%;background:#e2e8f0;color:#64748b;margin:0 auto 4px;line-height:26px;font-weight:700;content:attr(data-n)}
+.stepsbar div.on{color:var(--g2);font-weight:700}
+.stepsbar div.on::before{background:var(--g);color:#fff}
+.stepsbar div.done::before{background:var(--gl2);color:var(--g2)}
+
 /* خط المراحل */
 .stages{display:flex;justify-content:space-between;margin:6px 0;overflow:hidden}
-.stg{flex:1;text-align:center;position:relative;font-size:11.5px;min-width:0}
-.stg::before{content:"";display:block;width:22px;height:22px;border-radius:50%;margin:0 auto 5px;background:#e2e8f0;border:2px solid #fff;box-shadow:0 0 0 2px #e2e8f0;z-index:1;position:relative}
-.stg.done::before{background:var(--green);box-shadow:0 0 0 2px var(--green)}
-.stg .d{font-size:10px;color:var(--muted)}
-.stg .bar{position:absolute;top:13px;right:50%;width:100%;height:3px;background:#e2e8f0}
-.stg.done .bar{background:var(--green)}
+.stg{flex:1;text-align:center;position:relative;font-size:9.5px;min-width:0;color:#475569}
+.stg::before{content:"";display:block;width:16px;height:16px;border-radius:50%;margin:0 auto 5px;background:#e2e8f0;border:2px solid #fff;box-shadow:0 0 0 2px #e2e8f0;z-index:1;position:relative}
+.stg.done::before{background:var(--g);box-shadow:0 0 0 2px var(--g)}
+.stg .bar{position:absolute;top:9px;right:50%;width:100%;height:3px;background:#e2e8f0}
+.stg.done .bar{background:var(--g)}
 .stg:first-child .bar{display:none}
-/* صورة */
-.imgbox img{max-height:220px;max-width:100%;border-radius:10px;border:1px solid var(--border)}
-.img-drop{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;color:var(--muted);cursor:pointer;font-size:13px;display:block}
-.img-drop:hover{background:#f8fafc}
-/* رسم شهري */
-.chart{display:flex;align-items:flex-end;gap:8px;height:180px;padding-top:24px}
+
+.imgbox img{max-height:220px;max-width:100%;border-radius:12px;border:1px solid var(--border)}
+.img-drop{border:2px dashed #a7c8b4;border-radius:12px;padding:22px;text-align:center;color:var(--muted);cursor:pointer;font-size:13px;display:block;background:var(--gl)}
+.chart{display:flex;align-items:flex-end;gap:8px;height:150px;padding-top:24px}
 .chart .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;min-width:0}
-.chart .bar-v{background:var(--green);width:70%;border-radius:6px 6px 0 0;min-height:3px;position:relative}
+.chart .bar-v{background:var(--g);width:70%;border-radius:6px 6px 0 0;min-height:3px;position:relative}
 .chart .bar-v span{position:absolute;top:-20px;right:50%;transform:translateX(50%);font-size:12px;font-weight:700}
-.chart .lbl{font-size:10.5px;color:var(--muted);text-align:center}
-/* تنبيهات */
-.alert{padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:12px}
+.chart .lbl{font-size:10px;color:var(--muted);text-align:center}
+.alert{padding:12px 14px;border-radius:12px;font-size:13px;margin-bottom:12px}
 .alert.purple{background:#f5f3ff;color:#5b21b6;border:1px solid #ddd6fe}
 .alert.red{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
-#toast{position:fixed;bottom:90px;right:50%;transform:translateX(50%);background:#0f172a;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:90vw;text-align:center}
-/* سجل الحركة */
+.alert.green{background:var(--gl);color:var(--g2);border:1px solid var(--gl2)}
+#toast{position:fixed;bottom:100px;right:50%;transform:translateX(50%);background:#0f172a;color:#fff;padding:12px 22px;border-radius:12px;font-size:14px;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:90vw;text-align:center}
 .log-item{display:flex;gap:10px;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--border)}
-.log-item .dot{width:9px;height:9px;border-radius:50%;background:var(--green);margin-top:5px;flex-shrink:0}
+.log-item .dot{width:9px;height:9px;border-radius:50%;background:var(--g);margin-top:5px;flex-shrink:0}
 .log-item small{color:var(--muted);display:block}
-/* نافذة منبثقة */
+
+/* منبثقة */
 #modal{position:fixed;inset:0;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;z-index:80;padding:16px}
-.modal-card{background:#fff;border-radius:14px;padding:22px;max-width:440px;width:100%}
-.modal-card h3{margin:0 0 12px}
+.modal-card{background:#fff;border-radius:16px;padding:20px;max-width:440px;width:100%;max-height:85vh;overflow:auto}
+.modal-card h3{margin:0 0 12px;font-size:16px}
 .modal-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
+
+/* الشريط السفلي */
+.bottomnav{position:fixed;bottom:0;right:50%;transform:translateX(50%);width:100%;max-width:520px;z-index:50;background:#fff;border-top:1px solid var(--border);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(0,0,0,.06)}
+.bottomnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;font-size:10.5px;color:var(--muted);padding:6px 2px;border-radius:10px;position:relative}
+.bottomnav button .ico{font-size:21px}
+.bottomnav button.active{color:var(--g2);font-weight:700}
+.bottomnav .b-dot{position:absolute;top:0;left:20%;background:#7c3aed;color:#fff;font-size:10px;border-radius:99px;padding:1px 6px}
+
+/* قائمة منسدلة جانبية */
+#drawer{position:fixed;inset:0;z-index:70}
+#drawer .back{position:absolute;inset:0;background:rgba(15,23,42,.4)}
+#drawer .panel{position:absolute;top:0;bottom:0;right:0;width:270px;background:#fff;padding:20px 14px;overflow:auto;box-shadow:-4px 0 20px rgba(0,0,0,.15)}
+#drawer .panel h3{color:var(--g2);margin:0 0 14px}
+#drawer button.mi{display:flex;align-items:center;gap:10px;width:100%;padding:12px;border:none;background:none;border-radius:12px;font-size:14px;text-align:right;color:#1e293b}
+#drawer button.mi:active{background:var(--gl)}
+
 /* التقرير للطباعة */
 #reportPage{background:#f1f5f9;padding:26px 0;min-height:100vh}
-.sheet{background:#fff;max-width:820px;margin:0 auto;padding:44px 48px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
-.sheet table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:18px}
+.sheet{background:#fff;max-width:820px;margin:0 auto;padding:40px 44px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.sheet table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:16px}
 .sheet th,.sheet td{border:1px solid #94a3b8;padding:8px 10px;text-align:center}
 .sheet .head td{font-weight:700;background:#f8fafc}
 .sheet h2{font-size:16px;text-decoration:underline;margin:18px 0 8px}
 .sheet ul{line-height:2}
 .sheet .sig{display:flex;justify-content:space-between;margin-top:50px;font-size:13px}
-.report-toolbar{max-width:820px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-/* الشريط العلوي للجوال */
-#topBar{display:none}
-#bottomNav{display:none}
-@media(max-width:700px){
-  aside{display:none}
-  main{padding:14px;padding-top:70px;padding-bottom:90px;max-width:100%}
-  .grid2,.grid5{grid-template-columns:1fr 1fr}
-  .page-head h1{font-size:19px}
-  .card{padding:14px}
-  .stg{font-size:9.5px}
-  .stg::before{width:16px;height:16px}
-  .stg .bar{top:9px}
-  .stg .d{display:none}
-  .chart{height:150px}
-  table.list{font-size:12px;min-width:620px}
-  .sheet{padding:22px 16px}
-  #topBar{display:flex;position:fixed;top:0;left:0;right:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);padding:10px 14px;align-items:center;justify-content:space-between}
-  #topBar b{color:var(--green-d);font-size:15px}
-  #topBar button{background:none;border:none;font-size:20px;padding:4px}
-  #bottomNav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--border);padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(0,0,0,.06)}
-  #bottomNav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;font-size:10.5px;color:var(--muted);padding:6px 2px;border-radius:10px;position:relative}
-  #bottomNav button .ico{font-size:21px}
-  #bottomNav button.active{color:var(--green-d);font-weight:700}
-  #bottomNav .b-dot{position:absolute;top:0;left:20%;background:#7c3aed;color:#fff;font-size:10px;border-radius:99px;padding:1px 6px}
-}
+.report-toolbar{max-width:820px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 14px}
+@media(max-width:640px){.sheet{padding:20px 14px}.sheet table{font-size:11.5px}}
 @media print{
   body{background:#fff}
   .no-print{display:none!important}
@@ -142,58 +170,44 @@ table.list tbody tr.clickable{cursor:pointer}
 
 <!-- ======== شاشة الدخول ======== -->
 <div id="authScreen">
-  <div class="auth-card">
-    <h1>🌱 نظام فحص عينات النباتات</h1>
-    <p class="sub">قسم بحوث أمراض النبات — مركز بحوث وقاية النبات</p>
-    <div class="field hidden" id="nameField"><label>الاسم الكامل</label><input id="authName" type="text" placeholder="الاسم الكامل"></div>
-    <div class="field"><label>البريد الإلكتروني</label><input id="authEmail" type="email" placeholder="name@example.com"></div>
-    <div class="field"><label>كلمة المرور</label><input id="authPass" type="password" placeholder="••••••••"></div>
-    <button class="btn" id="authMainBtn" style="width:100%" onclick="doLogin()">تسجيل الدخول</button>
-    <div class="auth-links">
-      <a href="#" onclick="toggleRegister();return false" id="regLink">إنشاء حساب جديد</a>
-      <a href="#" onclick="forgotPass();return false">نسيت كلمة المرور؟</a>
+  <div class="auth-top">
+    <div class="logo">🌿</div>
+    <h1>مختبر أمراض النبات</h1>
+    <p>نظام تسجيل وفحص العينات</p>
+    <div class="auth-card">
+      <div class="field hidden" id="nameField"><label>الاسم الكامل</label><input id="authName" type="text" placeholder="الاسم الكامل"></div>
+      <div class="field"><label>البريد الإلكتروني</label><input id="authEmail" type="email" placeholder="name@example.com"></div>
+      <div class="field"><label>كلمة المرور</label><input id="authPass" type="password" placeholder="••••••••"></div>
+      <button class="btn" id="authMainBtn" style="width:100%" onclick="doLogin()">تسجيل الدخول</button>
+      <div class="auth-links">
+        <a href="#" onclick="toggleRegister();return false" id="regLink">إنشاء حساب جديد</a>
+        <a href="#" onclick="forgotPass();return false">هل نسيت كلمة المرور؟</a>
+      </div>
     </div>
   </div>
+  <div class="auth-hero"><div class="plant">🌱</div></div>
 </div>
 
-<!-- ======== شاشة الحالة (انتظار / موقوف / تفعيل) ======== -->
 <div id="statusScreen" class="hidden"></div>
 
 <!-- ======== التطبيق ======== -->
 <div id="appScreen" class="hidden">
-  <div id="topBar" class="no-print">
-    <b>🌱 فحص العينات</b>
-    <div>
-      <button onclick="openProfile()" title="حسابي">👤</button>
-      <button onclick="doLogout()" title="تسجيل الخروج">🚪</button>
-    </div>
+  <div class="topbar no-print">
+    <button onclick="openDrawer()">☰</button>
+    <b id="topTitle">الرئيسية</b>
+    <button onclick="goHomeBell()">🔔</button>
   </div>
-  <aside>
-    <h2>🌱 <span>فحص العينات</span></h2>
-    <nav id="sideNav">
-      <button data-page="dashboard" onclick="showPage('dashboard')">📊 <span>لوحة المتابعة</span></button>
-      <button data-page="samples" onclick="showPage('samples')">🧪 <span>سجل العينات</span></button>
-      <button data-page="new" onclick="showPage('new')">➕ <span>تسجيل عينة</span></button>
-      <button data-page="approvals" id="navApprovals" class="hidden" onclick="showPage('approvals')">✅ <span>موافقات التقارير</span> <b id="pendBadge" class="badge b-pending_approval hidden" style="margin-inline-start:auto"></b></button>
-      <button data-page="staff" id="navStaff" class="hidden" onclick="showPage('staff')">👥 <span>الموظفون</span></button>
-    </nav>
-    <div class="userbox">
-      <b id="userName"></b>
-      <div class="role" id="userRole"></div>
-      <button class="btn outline" style="width:100%;margin-top:10px;padding:7px" onclick="doLogout()">تسجيل الخروج</button>
-    </div>
-  </aside>
   <main id="main"></main>
-  <nav id="bottomNav">
-    <button data-page="dashboard" onclick="showPage('dashboard')"><span class="ico">📊</span>المتابعة</button>
-    <button data-page="samples" onclick="showPage('samples')"><span class="ico">🧪</span>العينات</button>
-    <button data-page="new" onclick="showPage('new')"><span class="ico">➕</span>تسجيل</button>
-    <button data-page="approvals" id="navApprovalsM" class="hidden" onclick="showPage('approvals')"><span class="ico">✅</span>الموافقات<span id="pendBadgeM" class="b-dot hidden"></span></button>
-    <button data-page="staff" id="navStaffM" class="hidden" onclick="showPage('staff')"><span class="ico">👥</span>الموظفون</button>
-  </nav>
+  <div class="bottomnav no-print" id="bottomNav">
+    <button data-page="dashboard" onclick="showPage('dashboard')"><span class="ico">🏠</span>الرئيسية</button>
+    <button data-page="approvals" onclick="showPage('approvals')"><span class="ico">📊</span>التقارير<span id="pendBadgeM" class="b-dot hidden"></span></button>
+    <button data-page="samples" onclick="showPage('samples')"><span class="ico">🗂️</span>العينات</button>
+    <button data-page="more" onclick="showPage('more')"><span class="ico">☰</span>المزيد</button>
+  </div>
 </div>
 
 <div id="reportPage" class="hidden"></div>
+<div id="drawer" class="hidden no-print"></div>
 <div id="modal" class="hidden no-print"></div>
 <div id="toast" class="hidden"></div>
 
@@ -201,7 +215,6 @@ table.list tbody tr.clickable{cursor:pointer}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-/* ═══════ إعدادات Firebase ═══════ */
 const firebaseConfig = {
   apiKey: "AIzaSyCiLxa2mg7JlT1Z_6OGbnnDGXAmMoPL5QI",
   authDomain: "bahla-plant-center.firebaseapp.com",
@@ -210,53 +223,65 @@ const firebaseConfig = {
   messagingSenderId: "916346827518",
   appId: "1:916346827518:web:7b45b514af5464e32aabaf"
 };
-/* ═══════════════════════════════ */
-
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-const STAGES = {received:"تم الاستلام",in_progress:"قيد الفحص",completed:"اكتمل الفحص",pending_approval:"بانتظار موافقة المسؤول",approved:"تمت الموافقة",sent:"أُرسل لصاحب العينة"};
+/* ===== ثوابت ===== */
+const STAGES = {received:"تم الاستلام",in_progress:"قيد الفحص",completed:"اكتمل الفحص",pending_approval:"بانتظار الموافقة",approved:"تمت الموافقة",sent:"أُرسل لصاحب العينة"};
 const STAGE_ORDER = ["received","in_progress","completed","pending_approval","approved","sent"];
 const REPORT_STATUS = {pending:"بانتظار الموافقة",approved:"معتمد",rejected:"معاد للمراجعة",sent:"مُرسل"};
-const SAMPLE_TYPES = ["تربة وجذور","جذور","تربة","أوراق","أغصان","ثمار","بذور","شتلات","عينة كاملة","أخرى"];
 const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 const ROLES = {admin:"المسؤول",approver:"المدير",user:"فاحص",pending:"بانتظار الموافقة"};
+const DURATIONS = ["يوم","يومان","3 أيام","4 أيام","5 أيام","6 أيام","7 أيام","8 أيام","9 أيام","10 أيام","11 يوم","12 يوم","13 يوم","14 يوم"];
+const DEFAULT_LISTS = {
+  crops:["عنب","نخيل","ليمون","مانجو","طماطم","قمح","بصل"],
+  parts:["الأوراق","السيقان","الجذور","الثمار"],
+  symptoms:["تبقعات","ذبول","تعفن","اصفرار","تشققات","نمو فطري","تقرحات","جفاف الأطراف"],
+  pathogens:["فطر","بكتيريا","فيروس","نيماتودا","حشرة","إجهاد بيئي","غير محدد"],
+  directorates:["مديرية زراعة الباطنة شمال","مديرية زراعة الباطنة جنوب","مديرية زراعة الظاهرة","مديرية زراعة الداخلية","مديرية زراعة الشرقية شمال","مديرية زراعة الشرقية جنوب","مديرية زراعة الوسطى","مديرية زراعة ظفار","مديرية زراعة مسقط","مديرية زراعة مسندم","مديرية زراعة البريمي"]
+};
+const LIST_NAMES = {crops:"المحاصيل",parts:"أجزاء النبات المصابة",symptoms:"أنواع الأعراض",pathogens:"الأسباب المرضية",directorates:"المديريات"};
+/* الصفحات وصلاحياتها */
+const PAGES = {dashboard:"الرئيسية",samples:"سجل العينات",new:"تسجيل عينة",transferred:"العينات المحولة",approvals:"موافقات التقارير",settings:"الإعدادات",staff:"الموظفون"};
 
-let me = null;
-let isRegisterMode = false;
+let me = null, LISTS = {...DEFAULT_LISTS}, isRegisterMode = false;
 const $ = id => document.getElementById(id);
 const esc = s => String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const today = () => new Date().toISOString().slice(0,10);
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.remove("hidden");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.add("hidden"),3200);}
 function fmtDate(ts){if(!ts)return"";const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString("ar");}
 const canApprove = () => me && (me.role==="admin"||me.role==="approver");
+function myPages(){
+  if(me.role==="admin") return Object.keys(PAGES);
+  if(me.pages && me.pages.length) return me.pages;
+  return me.role==="approver" ? ["dashboard","samples","new","transferred","approvals"] : ["dashboard","samples","new","transferred"];
+}
+const can = p => myPages().includes(p);
 
-/* ---------- شاشات الحالة ---------- */
-function showStatus(icon, title, body, extraBtn){
-  $("authScreen").classList.add("hidden");
-  $("appScreen").classList.add("hidden");
+/* ===== شاشات الحالة ===== */
+function showStatus(icon,title,body,extraBtn){
+  ["authScreen","appScreen","reportPage"].forEach(i=>$(i).classList.add("hidden"));
   $("statusScreen").classList.remove("hidden");
   $("statusScreen").innerHTML = `<div class="status-card">
     <div class="ico">${icon}</div><h2 style="margin:0 0 10px">${title}</h2>
     <p style="color:var(--muted);font-size:14px;line-height:1.9">${body}</p>
     ${extraBtn||""}
-    <button class="btn outline" style="width:100%;margin-top:10px" onclick="doLogout()">تسجيل الخروج</button>
-  </div>`;
+    <button class="btn outline" style="width:100%;margin-top:10px" onclick="doLogout()">تسجيل الخروج</button></div>`;
 }
 function hideAll(){["authScreen","statusScreen","appScreen","reportPage"].forEach(i=>$(i).classList.add("hidden"));}
 
-/* ---------- الدخول والتسجيل ---------- */
+/* ===== الدخول ===== */
 function toggleRegister(){
-  isRegisterMode = !isRegisterMode;
-  $("nameField").classList.toggle("hidden", !isRegisterMode);
-  $("authMainBtn").textContent = isRegisterMode ? "إنشاء الحساب" : "تسجيل الدخول";
-  $("authMainBtn").onclick = isRegisterMode ? doRegister : doLogin;
-  $("regLink").textContent = isRegisterMode ? "لدي حساب — تسجيل الدخول" : "إنشاء حساب جديد";
+  isRegisterMode=!isRegisterMode;
+  $("nameField").classList.toggle("hidden",!isRegisterMode);
+  $("authMainBtn").textContent=isRegisterMode?"إنشاء الحساب":"تسجيل الدخول";
+  $("authMainBtn").onclick=isRegisterMode?doRegister:doLogin;
+  $("regLink").textContent=isRegisterMode?"لدي حساب — تسجيل الدخول":"إنشاء حساب جديد";
 }
 async function doLogin(){
   try{
-    const cred = await auth.signInWithEmailAndPassword($("authEmail").value.trim(), $("authPass").value);
+    const cred=await auth.signInWithEmailAndPassword($("authEmail").value.trim(),$("authPass").value);
     await cred.user.reload();
   }catch(e){
     const msgs={"auth/user-not-found":"لا يوجد حساب بهذا البريد","auth/wrong-password":"كلمة المرور غير صحيحة","auth/invalid-credential":"بيانات الدخول غير صحيحة","auth/invalid-email":"البريد غير صحيح","auth/too-many-requests":"محاولات كثيرة — حاول لاحقاً"};
@@ -264,20 +289,17 @@ async function doLogin(){
   }
 }
 async function doRegister(){
-  const name=$("authName").value.trim(), email=$("authEmail").value.trim(), pass=$("authPass").value;
+  const name=$("authName").value.trim(),email=$("authEmail").value.trim(),pass=$("authPass").value;
   if(!name) return toast("اكتب اسمك الكامل");
   if(pass.length<6) return toast("كلمة المرور 6 أحرف على الأقل");
   try{
-    const cred = await auth.createUserWithEmailAndPassword(email, pass);
-    const admins = await db.collection("users").where("role","==","admin").limit(1).get();
-    const isFirst = admins.empty;
-    await db.collection("users").doc(cred.user.uid).set({
-      name, email, role: isFirst?"admin":"pending", status:"active", suspendReason:"", createdAt: today()
-    });
+    const cred=await auth.createUserWithEmailAndPassword(email,pass);
+    const admins=await db.collection("users").where("role","==","admin").limit(1).get();
+    const isFirst=admins.empty;
+    await db.collection("users").doc(cred.user.uid).set({name,email,role:isFirst?"admin":"pending",status:"active",suspendReason:"",pages:[],createdAt:today()});
     await cred.user.sendEmailVerification();
     await auth.signOut();
-    toggleRegister();
-    hideAll(); $("authScreen").classList.remove("hidden");
+    if(isRegisterMode) toggleRegister();
     showStatus("📧","تحقق من بريدك الإلكتروني",
       "أرسلنا رابط تفعيل إلى <b>"+esc(email)+"</b>.<br>افتح الرابط ثم سجّل الدخول.<br>"+
       (isFirst?"<b>حسابك هو حساب المسؤول.</b>":"بعد التفعيل سيراجع المسؤول حسابك ويمنحك الصلاحيات."),
@@ -291,124 +313,125 @@ function backToLogin(){hideAll();$("authScreen").classList.remove("hidden");}
 async function forgotPass(){
   const email=$("authEmail").value.trim();
   if(!email) return toast("اكتب بريدك أولاً ثم اضغط «نسيت كلمة المرور»");
-  try{ await auth.sendPasswordResetEmail(email); toast("أرسلنا رابط إعادة التعيين إلى بريدك"); }
-  catch(e){ toast(e.code==="auth/user-not-found"?"لا يوجد حساب بهذا البريد":"خطأ: "+e.message); }
+  try{await auth.sendPasswordResetEmail(email);toast("أرسلنا رابط إعادة التعيين إلى بريدك");}
+  catch(e){toast(e.code==="auth/user-not-found"?"لا يوجد حساب بهذا البريد":"خطأ: "+e.message);}
 }
 function doLogout(){auth.signOut();}
+async function resendVerify(){try{await auth.currentUser.sendEmailVerification();toast("أُعيد إرسال الرابط");}catch(e){toast("انتظر قليلاً ثم حاول");}}
 
 auth.onAuthStateChanged(async u=>{
-  if(!u){ me=null; hideAll(); $("authScreen").classList.remove("hidden"); return; }
+  if(!u){me=null;hideAll();$("authScreen").classList.remove("hidden");return;}
   await u.reload();
   if(!u.emailVerified){
-    showStatus("📧","بريدك غير مفعّل",
-      "فعّل حسابك من الرابط المرسل إلى <b>"+esc(u.email)+"</b> ثم سجّل الدخول.",
+    showStatus("📧","بريدك غير مفعّل","فعّل حسابك من الرابط المرسل إلى <b>"+esc(u.email)+"</b> ثم سجّل الدخول.",
       `<button class="btn outline" style="width:100%" onclick="resendVerify()">إعادة إرسال رابط التفعيل</button>`);
     return;
   }
-  const doc = await db.collection("users").doc(u.uid).get();
-  if(!doc.exists){
-    showStatus("🚫","الحساب محذوف","تم حذف حسابك من قبل الإدارة. راجع المسؤول.");
-    return;
-  }
-  me = {uid:u.uid, ...doc.data()};
-  [navApprovals,navApprovalsM,navStaff,navStaffM].forEach(e=>e.classList.add("hidden"));
+  const doc=await db.collection("users").doc(u.uid).get();
+  if(!doc.exists){showStatus("🚫","الحساب محذوف","تم حذف حسابك من قبل الإدارة. راجع المسؤول.");return;}
+  me={uid:u.uid,...doc.data()};
   if(me.status==="suspended"){
     showStatus("⛔","حسابك موقوف","تم إيقاف حسابك من قبل الإدارة."+(me.suspendReason?`<br><b>السبب:</b> ${esc(me.suspendReason)}`:""));
     return;
   }
   if(me.role==="pending"){
-    showStatus("⏳","حسابك في انتظار الموافقة من الإدارة",
-      "تم تفعيل حسابك بنجاح.<br>سيقوم المسؤول بمراجعة حسابك ومنحك الصلاحيات المناسبة، بعدها تستطيع استخدام النظام.");
+    showStatus("⏳","حسابك في انتظار الموافقة من الإدارة","تم تفعيل حسابك بنجاح.<br>سيقوم المسؤول بمراجعة حسابك ومنحك الصلاحيات المناسبة.");
     return;
   }
-  // دخول ناجح
-  hideAll(); $("appScreen").classList.remove("hidden");
-  userName.textContent = me.name;
-  userRole.textContent = ROLES[me.role]||me.role;
-  if(canApprove()){ navApprovals.classList.remove("hidden"); navApprovalsM.classList.remove("hidden"); }
-  if(me.role==="admin"){ navStaff.classList.remove("hidden"); navStaffM.classList.remove("hidden"); }
+  hideAll();$("appScreen").classList.remove("hidden");
+  await loadLists();
   showPage("dashboard");
 });
-async function resendVerify(){
-  try{ await auth.currentUser.sendEmailVerification(); toast("أُعيد إرسال الرابط"); }catch(e){ toast("انتظر قليلاً ثم حاول"); }
+
+/* ===== القوائم المنسدلة (من Firestore) ===== */
+async function loadLists(){
+  try{
+    const d=await db.collection("settings").doc("lists").get();
+    if(d.exists){LISTS={...DEFAULT_LISTS,...d.data()};}
+    else{await db.collection("settings").doc("lists").set(DEFAULT_LISTS);}
+  }catch(e){LISTS={...DEFAULT_LISTS};}
 }
-</script>
-<script>
-/* ---------- أدوات عامة ---------- */
-async function nextNo(name, prefix){
-  const ref = db.collection("counters").doc(name);
-  const year = new Date().getFullYear();
-  const n = await db.runTransaction(async t=>{
-    const d = await t.get(ref);
-    const v = (d.exists? d.data().value:0)+1;
-    t.set(ref,{value:v});
-    return v;
-  });
-  return `${prefix}-${year}-${String(n).padStart(4,"0")}`;
+const opts = key => LISTS[key].map(x=>`<option>${esc(x)}</option>`).join("");
+
+/* ===== أدوات ===== */
+async function nextNo(name,prefix){
+  const ref=db.collection("counters").doc(name);
+  const year=new Date().getFullYear();
+  const n=await db.runTransaction(async t=>{const d=await t.get(ref);const v=(d.exists?d.data().value:0)+1;t.set(ref,{value:v});return v;});
+  return `${prefix}-${year}-${String(n).padStart(3,"0")}`;
 }
-async function logStage(sampleId, stage, note){
-  await db.collection("samples").doc(sampleId).collection("logs").add({
-    stage, note: note||"", by: me.name, at: firebase.firestore.FieldValue.serverTimestamp()
-  });
+async function logStage(sampleId,stage,note){
+  await db.collection("samples").doc(sampleId).collection("logs").add({stage,note:note||"",by:me.name,at:firebase.firestore.FieldValue.serverTimestamp()});
 }
-function fileToDataUrl(file, maxSize=900, quality=0.7){
+function fileToDataUrl(file,maxSize=900,quality=0.7){
   return new Promise((res,rej)=>{
-    const r = new FileReader();
-    r.onload = ()=>{const img=new Image();img.onload=()=>{
+    const r=new FileReader();
+    r.onload=()=>{const img=new Image();img.onload=()=>{
       let w=img.width,h=img.height;const sc=Math.min(1,maxSize/Math.max(w,h));
       const c=document.createElement("canvas");c.width=Math.round(w*sc);c.height=Math.round(h*sc);
-      c.getContext("2d").drawImage(img,0,0,c.width,c.height);
-      res(c.toDataURL("image/jpeg",quality));
+      c.getContext("2d").drawImage(img,0,0,c.width,c.height);res(c.toDataURL("image/jpeg",quality));
     };img.onerror=rej;img.src=r.result;};
     r.onerror=rej;r.readAsDataURL(file);
   });
 }
-function openModal(html){ $("modal").innerHTML = `<div class="modal-card">${html}</div>`; $("modal").classList.remove("hidden"); }
-function closeModal(){ $("modal").classList.add("hidden"); $("modal").innerHTML=""; }
-
-/* ---------- التنقل ---------- */
+function openModal(html){$("modal").innerHTML=`<div class="modal-card">${html}</div>`;$("modal").classList.remove("hidden");}
+function closeModal(){$("modal").classList.add("hidden");$("modal").innerHTML="";}
+function openDrawer(){
+  $("drawer").classList.remove("hidden");
+  $("drawer").innerHTML=`<div class="back" onclick="closeDrawer()"></div><div class="panel">
+    <h3>🌿 مختبر أمراض النبات</h3>
+    <button class="mi" onclick="closeDrawer();showPage('dashboard')">🏠 الرئيسية</button>
+    <button class="mi" onclick="closeDrawer();showPage('new')">📝 تسجيل عينة جديدة</button>
+    <button class="mi" onclick="closeDrawer();showPage('samples')">🗂️ قائمة العينات</button>
+    <button class="mi" onclick="closeDrawer();showPage('transferred')">🚚 العينات المحولة للمديرية</button>
+    <button class="mi" onclick="closeDrawer();showPage('approvals')">📊 التقارير والموافقات</button>
+    ${me.role==="admin"?`<button class="mi" onclick="closeDrawer();showPage('staff')">👥 الموظفون</button><button class="mi" onclick="closeDrawer();showPage('settings')">⚙️ الإعدادات</button>`:""}
+    <hr style="border:none;border-top:1px solid var(--border);margin:10px 0">
+    <button class="mi" onclick="closeDrawer();openProfile()">👤 حسابي (${esc(me.name)})</button>
+    <button class="mi" style="color:#dc2626" onclick="closeDrawer();doLogout()">🚪 تسجيل الخروج</button>
+  </div>`;
+}
+function closeDrawer(){$("drawer").classList.add("hidden");}
+function goHomeBell(){showPage("approvals");}
+</script>
+<script>
+/* ===== التنقل ===== */
 function showPage(p){
-  document.querySelectorAll("#sideNav button,#bottomNav button").forEach(b=>b.classList.toggle("active", b.dataset.page===p));
-  if(p==="dashboard") renderDashboard();
-  if(p==="samples") renderSamples();
-  if(p==="new") renderNew();
-  if(p==="approvals") renderApprovals();
-  if(p==="staff") renderStaff();
-}
-function openProfile(){
-  document.querySelectorAll("#sideNav button,#bottomNav button").forEach(b=>b.classList.remove("active"));
-  $("main").innerHTML = `
-    <div class="page-head"><h1>حسابي</h1></div>
-    <div class="card" style="max-width:420px;text-align:center;padding:36px">
-      <div style="font-size:52px">👤</div>
-      <h3 style="margin:10px 0 4px">${esc(me.name)}</h3>
-      <p style="color:var(--muted);font-size:13px;margin:0 0 4px">${esc(me.email||"")}</p>
-      <span class="badge b-approved">${ROLES[me.role]||me.role}</span>
-      <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px">
-        <button class="btn outline" onclick="auth.sendPasswordResetEmail('${esc(me.email||"")}').then(()=>toast('أرسلنا رابط تغيير كلمة المرور لبريدك'))">تغيير كلمة المرور</button>
-        <button class="btn danger" onclick="doLogout()">تسجيل الخروج</button>
-      </div>
-    </div>`;
+  if(!can(p) && p!=="dashboard" && p!=="more"){toast("لا تملك صلاحية الدخول لهذه الصفحة");return;}
+  document.querySelectorAll("#bottomNav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
+  $("topTitle").textContent = p==="dashboard"?"الرئيسية":p==="new"?"تسجيل عينة جديدة":p==="samples"?"قائمة العينات":p==="transferred"?"العينات المحولة للمديرية":p==="approvals"?"التقارير":p==="settings"?"الإعدادات":p==="staff"?"الموظفون":p==="more"?"المزيد":"";
+  ({dashboard:renderDashboard,samples:renderSamples,new:renderWizard,transferred:renderTransferred,approvals:renderApprovals,staff:renderStaff,settings:renderSettings,more:renderMore})[p]();
 }
 
-/* ---------- لوحة المتابعة ---------- */
+/* ===== الرئيسية ===== */
 async function renderDashboard(){
-  $("main").innerHTML = `<div class="page-head"><h1>لوحة المتابعة</h1></div><div id="dashBody">جارٍ التحميل...</div>`;
-  const snap = await db.collection("samples").get();
-  const samples = snap.docs.map(d=>({id:d.id,...d.data()}));
-  const byStage = {}; STAGE_ORDER.forEach(s=>byStage[s]=0);
+  $("main").innerHTML="جارٍ التحميل...";
+  const snap=await db.collection("samples").get();
+  const samples=snap.docs.map(d=>({id:d.id,...d.data()}));
+  const byStage={};STAGE_ORDER.forEach(s=>byStage[s]=0);
   samples.forEach(s=>byStage[s.stage]=(byStage[s.stage]||0)+1);
-  const monthly = {};
-  samples.forEach(s=>{ const m=(s.receivedAt||"").slice(0,7); if(m) monthly[m]=(monthly[m]||0)+1; });
-  const months = Object.keys(monthly).sort().slice(-12);
-  const maxM = Math.max(1,...months.map(m=>monthly[m]));
-  const pend = await db.collection("reports").where("status","==","pending").get();
-  pendBadge.textContent = pend.size; pendBadge.classList.toggle("hidden", pend.size===0);
-  pendBadgeM.textContent = pend.size; pendBadgeM.classList.toggle("hidden", pend.size===0);
+  const monthly={};
+  samples.forEach(s=>{const m=(s.receivedAt||"").slice(0,7);if(m)monthly[m]=(monthly[m]||0)+1;});
+  const months=Object.keys(monthly).sort().slice(-12);
+  const maxM=Math.max(1,...months.map(m=>monthly[m]));
+  const pend=await db.collection("reports").where("status","==","pending").get();
+  pendBadgeM.textContent=pend.size;pendBadgeM.classList.toggle("hidden",pend.size===0);
+  const tsnap=await db.collection("transfers").get();
 
-  $("dashBody").innerHTML = `
+  $("main").innerHTML=`
+    <div class="hello">
+      <div style="flex:1"><span>مرحباً</span><b>${esc(me.name)}</b><span>${ROLES[me.role]||""}</span></div>
+      <div class="av">👤</div>
+    </div>
     ${canApprove()&&pend.size>0?`<div class="alert purple">📋 لديك <b>${pend.size}</b> تقرير بانتظار موافقتك — <a href="#" onclick="showPage('approvals');return false"><b>مراجعتها الآن</b></a></div>`:""}
-    <div class="grid5" style="margin-bottom:18px">
+    <div class="homegrid" style="margin-bottom:14px">
+      <div class="tile" onclick="showPage('new')"><div class="ico">📝</div><b>تسجيل عينة جديدة</b></div>
+      <div class="tile" onclick="showPage('samples')"><div class="ico">🗂️</div><b>قائمة العينات</b><small>${samples.length} عينة</small></div>
+      <div class="tile" onclick="showPage('transferred')"><div class="ico">🚚</div><b>العينات المحولة للمديرية</b><small>${tsnap.size} عينة</small></div>
+      <div class="tile" onclick="showPage('approvals')"><div class="ico">📊</div><b>التقارير</b><small>${pend.size} بانتظار الموافقة</small></div>
+    </div>
+    ${me.role==="admin"?`<div class="homegrid" style="margin-bottom:14px"><div class="tile" onclick="showPage('settings')"><div class="ico">⚙️</div><b>الإعدادات</b><small>القوائم المنسدلة</small></div><div class="tile" onclick="showPage('staff')"><div class="ico">👥</div><b>الموظفون</b><small>الصلاحيات والحسابات</small></div></div>`:""}
+    <div class="grid5" style="margin-bottom:14px">
       <div class="stat"><div class="t">📥 إجمالي العينات</div><div class="n">${samples.length}</div></div>
       <div class="stat"><div class="t">🧪 قيد الفحص</div><div class="n">${byStage.received+byStage.in_progress}</div></div>
       <div class="stat"><div class="t">⏳ بانتظار الموافقة</div><div class="n">${byStage.pending_approval}</div></div>
@@ -416,168 +439,234 @@ async function renderDashboard(){
       <div class="stat"><div class="t">📤 أُرسلت لصاحب العينة</div><div class="n">${byStage.sent}</div></div>
     </div>
     <div class="card"><h3>العينات حسب الشهر</h3>
-      <div class="chart">${months.map(m=>{
-        const [y,mo]=m.split("-");
-        return `<div class="col"><div class="bar-v" style="height:${Math.max(3,Math.round(monthly[m]/maxM*100))}%"><span>${monthly[m]}</span></div><div class="lbl">${MONTHS[+mo-1]}<br>${y}</div></div>`;
-      }).join("")||'<p style="color:var(--muted)">لا توجد بيانات بعد</p>'}</div>
+      <div class="chart">${months.map(m=>{const[y,mo]=m.split("-");
+        return `<div class="col"><div class="bar-v" style="height:${Math.max(3,Math.round(monthly[m]/maxM*100))}%"><span>${monthly[m]}</span></div><div class="lbl">${MONTHS[+mo-1]}<br>${y}</div></div>`;}).join("")||'<p style="color:var(--muted)">لا توجد بيانات بعد</p>'}</div>
     </div>
     <div class="card"><h3>مراحل العينات</h3>
       ${STAGE_ORDER.map(s=>{const c=byStage[s];const pct=samples.length?Math.round(c/samples.length*100):0;
-        return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+        return `<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
         <span class="badge b-${s}">${STAGES[s]}</span><b>${c}</b></div>
-        <div style="height:8px;background:#f1f5f9;border-radius:99px"><div style="height:100%;width:${pct}%;background:var(--green);border-radius:99px"></div></div></div>`;}).join("")}
+        <div style="height:8px;background:#f1f5f9;border-radius:99px"><div style="height:100%;width:${pct}%;background:var(--g);border-radius:99px"></div></div></div>`;}).join("")}
     </div>
     <div class="card"><h3>أحدث العينات</h3>
-      ${samples.sort((a,b)=>(b.createdAtSec||0)-(a.createdAtSec||0)).slice(0,6).map(s=>`
-        <div class="log-item" style="cursor:pointer;align-items:center" onclick="openSample('${s.id}')">
-          <span class="mono">${esc(s.sampleNo)}</span>
-          <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.farmerName||s.source)}</span>
+      ${samples.sort((a,b)=>(b.createdAtSec||0)-(a.createdAtSec||0)).slice(0,5).map(s=>`
+        <div class="sample-item" onclick="openSample('${s.id}')" style="cursor:pointer">
+          ${s.imageData?`<img src="${s.imageData}">`:""}
+          <div class="info"><b class="mono">${esc(s.sampleNo)}</b> — ${esc(s.crop||"")}<br>تاريخ الاستلام: ${esc(s.receivedAt)}</div>
           <span class="badge b-${s.stage}">${STAGES[s.stage]}</span>
-        </div>`).join("")||'<p style="color:var(--muted);text-align:center;padding:20px">لا توجد عينات بعد — ابدأ بتسجيل أول عينة</p>'}
+        </div>`).join("")||'<p style="color:var(--muted);text-align:center;padding:16px">لا توجد عينات بعد</p>'}
     </div>`;
 }
 
-/* ---------- سجل العينات ---------- */
+/* ===== المزيد ===== */
+function renderMore(){
+  $("main").innerHTML=`
+    <div class="page-head"><h1>المزيد</h1></div>
+    <div class="card" style="text-align:center;padding:26px">
+      <div class="av" style="margin:0 auto 10px;width:64px;height:64px;font-size:32px">👤</div>
+      <b>${esc(me.name)}</b>
+      <div style="color:var(--muted);font-size:12.5px;margin:4px 0">${esc(me.email||"")}</div>
+      <span class="badge b-approved">${ROLES[me.role]||me.role}</span>
+    </div>
+    <div class="homegrid">
+      <div class="tile" onclick="openProfile()"><div class="ico">👤</div><b>حسابي</b></div>
+      <div class="tile" onclick="showPage('transferred')"><div class="ico">🚚</div><b>العينات المحولة</b></div>
+      ${me.role==="admin"?`<div class="tile" onclick="showPage('staff')"><div class="ico">👥</div><b>الموظفون</b></div>
+      <div class="tile" onclick="showPage('settings')"><div class="ico">⚙️</div><b>الإعدادات</b></div>`:""}
+    </div>
+    <button class="btn danger" style="width:100%;margin-top:14px" onclick="doLogout()">تسجيل الخروج</button>`;
+}
+function openProfile(){
+  document.querySelectorAll("#bottomNav button").forEach(b=>b.classList.remove("active"));
+  $("topTitle").textContent="حسابي";
+  $("main").innerHTML=`
+    <div class="card" style="text-align:center;padding:30px">
+      <div style="font-size:52px">👤</div>
+      <h3 style="margin:10px 0 4px">${esc(me.name)}</h3>
+      <p style="color:var(--muted);font-size:13px;margin:0 0 6px">${esc(me.email||"")}</p>
+      <span class="badge b-approved">${ROLES[me.role]||me.role}</span>
+      <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px">
+        <button class="btn outline" onclick="auth.sendPasswordResetEmail('${esc(me.email||"")}').then(()=>toast('أرسلنا رابط تغيير كلمة المرور لبريدك'))">🔑 تغيير كلمة المرور</button>
+        <button class="btn danger" onclick="doLogout()">🚪 تسجيل الخروج</button>
+      </div>
+    </div>`;
+}
+
+/* ===== قائمة العينات ===== */
 async function renderSamples(){
-  $("main").innerHTML = `
-    <div class="page-head"><h1>سجل العينات</h1>
-      <button class="btn" onclick="showPage('new')">➕ تسجيل عينة</button></div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-      <input id="q" placeholder="بحث برقم العينة / المزارع / المصدر..." style="flex:1;min-width:200px" oninput="loadSamples()">
-      <select id="fstage" style="max-width:180px" onchange="loadSamples()">
-        <option value="">كل المراحل</option>
-        ${STAGE_ORDER.map(s=>`<option value="${s}">${STAGES[s]}</option>`).join("")}
+  $("main").innerHTML=`
+    <div class="page-head"><h1>قائمة العينات</h1>
+      <button class="btn sm" onclick="showPage('new')">➕ عينة جديدة</button></div>
+    <div style="display:flex;gap:8px;margin-bottom:12px">
+      <input id="q" placeholder="🔍 بحث برقم العينة / المزارع / المحصول..." style="flex:1" oninput="loadSamples()">
+      <select id="fstage" style="width:130px" onchange="loadSamples()">
+        <option value="">كل المراحل</option>${STAGE_ORDER.map(s=>`<option value="${s}">${STAGES[s]}</option>`).join("")}
       </select>
     </div>
-    <div class="card" style="padding:0;overflow:auto"><table class="list">
-      <thead><tr><th>رقم العينة</th><th>تاريخ الوصول</th><th>صاحب العينة / المصدر</th><th>النوع</th><th>المحصول</th><th>قيد المراسلة</th><th>المرحلة</th></tr></thead>
-      <tbody id="rows"><tr><td colspan="7" style="text-align:center;padding:30px">جارٍ التحميل...</td></tr></tbody>
-    </table></div>`;
+    <div id="rows">جارٍ التحميل...</div>`;
   loadSamples();
 }
 async function loadSamples(){
-  const q = ($("q").value||"").trim();
-  const st = $("fstage").value;
-  const snap = await db.collection("samples").get();
-  let rows = snap.docs.map(d=>({id:d.id,...d.data()}));
-  if(st) rows = rows.filter(r=>r.stage===st);
-  if(q) rows = rows.filter(r=>(r.sampleNo||"").includes(q)||(r.farmerName||"").includes(q)||(r.source||"").includes(q));
+  const q=($("q").value||"").trim(),st=$("fstage").value;
+  const snap=await db.collection("samples").get();
+  let rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+  if(st)rows=rows.filter(r=>r.stage===st);
+  if(q)rows=rows.filter(r=>(r.sampleNo||"").includes(q)||(r.farmerName||"").includes(q)||(r.source||"").includes(q)||(r.crop||"").includes(q));
   rows.sort((a,b)=>(b.createdAtSec||0)-(a.createdAtSec||0));
-  $("rows").innerHTML = rows.map(s=>`
-    <tr class="clickable" onclick="openSample('${s.id}')">
-      <td class="mono">${esc(s.sampleNo)}</td><td>${esc(s.receivedAt)}</td>
-      <td>${esc(s.farmerName||s.source)}</td><td>${esc(s.sampleType)}</td>
-      <td>${esc(s.crop||"—")}</td><td>${esc(s.contactRef||"—")}</td>
-      <td><span class="badge b-${s.stage}">${STAGES[s.stage]}</span></td>
-    </tr>`).join("") || '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">لا توجد عينات مطابقة</td></tr>';
-}
-
-/* ---------- تسجيل عينة ---------- */
-let newImg = null;
-function renderNew(){
-  newImg = null;
-  $("main").innerHTML = `
-    <div class="page-head"><h1>تسجيل عينة جديدة</h1></div>
-    <div class="card" style="max-width:760px"><h3>بيانات استلام العينة</h3>
-      <div class="grid2">
-        <div><label>تاريخ وصول العينة *</label><input type="date" id="f_received" value="${today()}"></div>
-        <div><label>رقم التواصل / قيد المراسلة</label><input id="f_ref" placeholder="مثال: 1234/2025"></div>
-        <div><label>اسم صاحب العينة (المزارع)</label><input id="f_farmer"></div>
-        <div><label>مصدر العينة *</label><input id="f_source" placeholder="مثال: عينة مسحوبة من قبل المزارع"></div>
-        <div><label>نوع العينة *</label><select id="f_type"><option value="">اختر...</option>${SAMPLE_TYPES.map(t=>`<option>${t}</option>`).join("")}</select></div>
-        <div><label>المحصول</label><input id="f_crop" placeholder="عنب، نخيل، ليمون..."></div>
-      </div>
-      <div style="margin-top:14px"><label>ملاحظات</label><textarea id="f_notes" rows="2"></textarea></div>
-      <div style="margin-top:14px"><label>صورة العينة</label>
-        <div id="imgArea"><label class="img-drop">📷 اضغط لإرفاق صورة من العينة<input type="file" accept="image/*" class="hidden" onchange="pickImg(this,'new')"></label></div>
-      </div>
-      <button class="btn" style="width:100%;margin-top:18px" onclick="saveSample(this)">تسجيل العينة</button>
-    </div>`;
-}
-async function pickImg(inp, mode){
-  const f = inp.files[0]; if(!f) return;
-  const data = await fileToDataUrl(f);
-  if(mode==="new"){ newImg = data;
-    $("imgArea").innerHTML = `<div class="imgbox"><img src="${data}"></div>`;
-  } else {
-    await db.collection("samples").doc(mode).update({imageData:data});
-    toast("تم حفظ الصورة"); openSample(mode);
-  }
-}
-async function saveSample(btn){
-  const source=$("f_source").value.trim(), type=$("f_type").value, received=$("f_received").value;
-  if(!source||!type||!received) return toast("أكمل الحقول المطلوبة (*)");
-  btn.disabled=true;
-  const sampleNo = await nextNo("sample","ع");
-  const ref = await db.collection("samples").add({
-    sampleNo, receivedAt:received, source, contactRef:$("f_ref").value.trim()||"",
-    sampleType:type, crop:$("f_crop").value.trim()||"", farmerName:$("f_farmer").value.trim()||"",
-    notes:$("f_notes").value.trim()||"", imageData:newImg||"",
-    stage:"received", createdBy:me.name, createdAtSec:Date.now()
-  });
-  await logStage(ref.id,"received","تم استلام العينة وتسجيلها");
-  toast(`تم تسجيل العينة برقم ${sampleNo}`);
-  openSample(ref.id);
+  $("rows").innerHTML=rows.map(s=>`
+    <div class="sample-item" onclick="openSample('${s.id}')" style="cursor:pointer">
+      ${s.imageData?`<img src="${s.imageData}">`:`<div style="width:64px;height:64px;border-radius:10px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">🌿</div>`}
+      <div class="info"><b class="mono">${esc(s.sampleNo)}</b> — ${esc(s.crop||s.sampleType||"")}<br>${esc(s.farmerName||s.source||"")}<br>تاريخ الاستلام: ${esc(s.receivedAt)}</div>
+      <span class="badge b-${s.stage}">${STAGES[s.stage]}</span>
+    </div>`).join("")||'<div class="card" style="text-align:center;color:var(--muted);padding:34px">لا توجد عينات مطابقة</div>';
 }
 </script>
 <script>
-/* ---------- صفحة العينة (ترتيب عمودي) ---------- */
-async function openSample(id){
-  document.querySelectorAll("#sideNav button,#bottomNav button").forEach(b=>b.classList.remove("active"));
-  $("main").innerHTML = "جارٍ التحميل...";
-  const d = await db.collection("samples").doc(id).get();
-  if(!d.exists){toast("العينة غير موجودة");return showPage("samples");}
-  const s = {id:d.id,...d.data()};
-  const logsSnap = await db.collection("samples").doc(id).collection("logs").get();
-  const logs = logsSnap.docs.map(x=>x.data()).sort((a,b)=>(a.at?.seconds||0)-(b.at?.seconds||0));
-  const reps = await db.collection("reports").where("sampleId","==",id).get();
-  const report = reps.empty?null:{id:reps.docs[0].id,...reps.docs[0].data()};
-  const cur = STAGE_ORDER.indexOf(s.stage);
-  const editable = !report || ["pending","rejected"].includes(report.status);
+/* ===== معالج تسجيل العينة (3 خطوات) ===== */
+let W = {};
+function renderWizard(){
+  W = {step:1, sampleNo:"", receivedAt:today(), crop:"", location:"", fieldNotes:"", imageData:"", part:"", symptom:"", visualNotes:"", microNotes:"", resultDays:"", pathogen:""};
+  nextNo("sample","ع").then(n=>{W.sampleNo=n;$("w_no").value=n;});
+  drawWizard();
+}
+function stepsbar(){
+  return `<div class="stepsbar">${[1,2,3].map(n=>`<div data-n="${n}" class="${W.step===n?"on":W.step>n?"done":""}">${["الاستلام","الفحص الظاهري","الفحص المجهري"][n-1]}</div>`).join("")}</div>`;
+}
+function drawWizard(){
+  let body="";
+  if(W.step===1){
+    body=`
+    <div class="card"><h3>1. استلام العينة وتسجيلها</h3>
+      <div class="field" style="margin-bottom:12px"><label>رقم العينة</label><input id="w_no" value="${esc(W.sampleNo)}" readonly style="background:#f8fafc"></div>
+      <div class="field" style="margin-bottom:12px"><label>تاريخ الاستلام</label><input type="date" id="w_received" value="${esc(W.receivedAt)}"></div>
+      <div class="field" style="margin-bottom:12px"><label>اسم المحصول</label><select id="w_crop"><option value="">اختر...</option>${opts("crops")}</select></div>
+      <div class="field" style="margin-bottom:12px"><label>موقع أخذ العينة</label><input id="w_loc" value="${esc(W.location)}" placeholder="مثال: مزرعة الروضة - بهلا"></div>
+      <div class="field" style="margin-bottom:12px"><label>الأعراض والملاحظات الميدانية</label><textarea id="w_notes" rows="3" placeholder="مثال: وجود بقع بنية على الأوراق">${esc(W.fieldNotes)}</textarea></div>
+      <div class="field"><label>صورة العينة</label>
+        <div id="w_imgArea">${W.imageData?`<div class="imgbox"><img src="${W.imageData}"></div>`:`<label class="img-drop">📷 اختر صورة<input type="file" accept="image/*" class="hidden" onchange="wizImg(this)"></label>`}</div>
+        <p style="font-size:11px;color:var(--muted);margin:6px 0 0">ملاحظة: سيتم عرض نفس الصورة في خطوة الفحص الظاهري وفي التقرير</p>
+      </div>
+    </div>
+    <button class="btn" style="width:100%" onclick="wizNext1()">التالي</button>`;
+  }
+  if(W.step===2){
+    body=`
+    <div class="card"><h3>2. الفحص الظاهري</h3>
+      <div class="field" style="margin-bottom:12px"><label>الجزء المصاب</label><select id="w_part"><option value="">اختر...</option>${opts("parts")}</select></div>
+      <div class="field" style="margin-bottom:12px"><label>نوع الأعراض</label><select id="w_sym"><option value="">اختر...</option>${opts("symptoms")}</select></div>
+      <div class="field" style="margin-bottom:12px"><label>ملاحظات إضافية</label><textarea id="w_vnotes" rows="3">${esc(W.visualNotes)}</textarea></div>
+      <div class="field"><label>صورة العينة</label>
+        ${W.imageData?`<div class="imgbox"><img src="${W.imageData}"></div>`:'<p style="color:var(--muted);font-size:12px">لم تُرفق صورة في الخطوة الأولى</p>'}
+      </div>
+    </div>
+    <div class="btnrow"><button class="btn gray" onclick="W.step=1;drawWizard()">السابق</button><button class="btn" onclick="wizNext2()">التالي</button></div>`;
+  }
+  if(W.step===3){
+    body=`
+    <div class="card"><h3>3. الفحص المجهري</h3>
+      <div class="field" style="margin-bottom:12px"><label>ملاحظات الفحص المجهري</label><textarea id="w_micro" rows="3" placeholder="مثال: تم مشاهدة الأبواغ الفطرية تحت المجهر">${esc(W.microNotes)}</textarea></div>
+      <div class="field" style="margin-bottom:12px"><label>مدة ظهور نتيجة العينة</label><select id="w_days"><option value="">اختر...</option>${DURATIONS.map(d=>`<option>${d}</option>`).join("")}</select></div>
+      <div class="field"><label>السبب المرضي</label><select id="w_path"><option value="">اختر...</option>${opts("pathogens")}</select></div>
+    </div>
+    <div class="btnrow"><button class="btn gray" onclick="W.step=2;drawWizard()">السابق</button><button class="btn" onclick="wizSave(this)">حفظ</button></div>`;
+  }
+  $("main").innerHTML = stepsbar()+body;
+  if(W.step===2){$("w_part").value=W.part;$("w_sym").value=W.symptom;}
+  if(W.step===3){$("w_days").value=W.resultDays;$("w_path").value=W.pathogen;}
+  if(W.step===1){$("w_crop").value=W.crop;}
+}
+async function wizImg(inp){
+  const f=inp.files[0];if(!f)return;
+  W.imageData=await fileToDataUrl(f);
+  $("w_imgArea").innerHTML=`<div class="imgbox"><img src="${W.imageData}"></div>`;
+}
+function wizNext1(){
+  W.receivedAt=$("w_received").value;W.crop=$("w_crop").value;W.location=$("w_loc").value.trim();W.fieldNotes=$("w_notes").value.trim();
+  if(!W.crop)return toast("اختر اسم المحصول");
+  W.step=2;drawWizard();
+}
+function wizNext2(){
+  W.part=$("w_part").value;W.symptom=$("w_sym").value;W.visualNotes=$("w_vnotes").value.trim();
+  if(!W.part)return toast("اختر الجزء المصاب");
+  W.step=3;drawWizard();
+}
+async function wizSave(btn){
+  W.microNotes=$("w_micro").value.trim();W.resultDays=$("w_days").value;W.pathogen=$("w_path").value;
+  btn.disabled=true;
+  try{
+    const ref=await db.collection("samples").add({
+      sampleNo:W.sampleNo,receivedAt:W.receivedAt,crop:W.crop,location:W.location,fieldNotes:W.fieldNotes,
+      imageData:W.imageData,part:W.part,symptom:W.symptom,visualNotes:W.visualNotes,
+      microNotes:W.microNotes,resultDays:W.resultDays,pathogen:W.pathogen,
+      sampleType:W.part,source:W.location,examStartedAt:today(),examinerName:me.name,
+      stage:"completed",createdBy:me.name,createdAtSec:Date.now()
+    });
+    await logStage(ref.id,"received","تم استلام العينة وتسجيلها");
+    await logStage(ref.id,"in_progress","بدأ الفحص (ظاهري ومجهري)");
+    await logStage(ref.id,"completed","اكتمل الفحص وتم تسجيل النتائج");
+    toast("تم تسجيل العينة برقم "+W.sampleNo);
+    openSample(ref.id);
+  }catch(e){btn.disabled=false;toast("خطأ: "+e.message);}
+}
 
-  $("main").innerHTML = `
+/* ===== صفحة العينة ===== */
+async function openSample(id){
+  document.querySelectorAll("#bottomNav button").forEach(b=>b.classList.remove("active"));
+  $("topTitle").textContent="تقرير العينة";
+  $("main").innerHTML="جارٍ التحميل...";
+  const d=await db.collection("samples").doc(id).get();
+  if(!d.exists){toast("العينة غير موجودة");return showPage("samples");}
+  const s={id:d.id,...d.data()};
+  const logsSnap=await db.collection("samples").doc(id).collection("logs").get();
+  const logs=logsSnap.docs.map(x=>x.data()).sort((a,b)=>(a.at?.seconds||0)-(b.at?.seconds||0));
+  const reps=await db.collection("reports").where("sampleId","==",id).get();
+  const report=reps.empty?null:{id:reps.docs[0].id,...reps.docs[0].data()};
+  const cur=STAGE_ORDER.indexOf(s.stage);
+  const editable=!report||["pending","rejected"].includes(report.status);
+
+  $("main").innerHTML=`
     <div class="page-head">
-      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
         <h1 class="mono">${esc(s.sampleNo)}</h1>
         <span class="badge b-${s.stage}">${STAGES[s.stage]}</span>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         ${report?`<button class="btn outline sm" onclick="openReport('${report.id}')">🖨️ طباعة التقرير</button>`:""}
-        ${report&&report.status==="approved"?`<button class="btn teal sm" onclick="markSent('${report.id}','${id}')">📤 تم الإرسال لصاحب العينة</button>`:""}
+        ${report&&report.status==="approved"?`<button class="btn sm" style="background:#0f766e" onclick="markSent('${report.id}','${id}')">📤 تم الإرسال لصاحب العينة</button>`:""}
       </div>
     </div>
 
     <div class="card"><h3>مراحل العينة</h3>
       <div class="stages">${STAGE_ORDER.map((st,i)=>{
-        const lg=[...logs].reverse().find(l=>l.stage===st);
-        return `<div class="stg ${i<=cur?"done":""}"><div class="bar"></div>${STAGES[st]}${lg?`<div class="d">${fmtDate(lg.at)}</div>`:""}</div>`;
-      }).join("")}</div>
+        return `<div class="stg ${i<=cur?"done":""}"><div class="bar"></div>${STAGES[st]}</div>`;}).join("")}</div>
     </div>
 
-    <div class="card"><h3>بيانات الاستلام</h3>
-      <table style="font-size:13.5px;width:100%">
-        <tr><td style="color:var(--muted);padding:5px 0;width:130px">تاريخ الوصول</td><td><b>${esc(s.receivedAt)}</b></td></tr>
-        <tr><td style="color:var(--muted);padding:5px 0">مصدر العينة</td><td><b>${esc(s.source)}</b></td></tr>
-        <tr><td style="color:var(--muted);padding:5px 0">قيد المراسلة</td><td><b>${esc(s.contactRef||"—")}</b></td></tr>
-        <tr><td style="color:var(--muted);padding:5px 0">نوع العينة</td><td><b>${esc(s.sampleType)}</b></td></tr>
-        <tr><td style="color:var(--muted);padding:5px 0">المحصول</td><td><b>${esc(s.crop||"—")}</b></td></tr>
-        <tr><td style="color:var(--muted);padding:5px 0">صاحب العينة</td><td><b>${esc(s.farmerName||"—")}</b></td></tr>
-      </table>
-      <div style="margin-top:12px"><label>صورة العينة</label>
-        ${s.imageData?`<div class="imgbox"><img src="${s.imageData}"></div>`
-          :`<label class="img-drop">📷 إرفاق صورة<input type="file" accept="image/*" class="hidden" onchange="pickImg(this,'${id}')"></label>`}
+    <div class="card">
+      <h3>1. استلام العينة وتسجيلها</h3>
+      ${s.imageData?`<div class="imgbox" style="margin-bottom:10px"><img src="${s.imageData}" style="max-height:140px"></div>`:""}
+      <div style="font-size:13px;line-height:2">
+        <div><b>رقم العينة:</b> <span class="mono">${esc(s.sampleNo)}</span></div>
+        <div><b>تاريخ الاستلام:</b> ${esc(s.receivedAt)}</div>
+        <div><b>اسم المحصول:</b> ${esc(s.crop||"—")}</div>
+        <div><b>موقع أخذ العينة:</b> ${esc(s.location||s.source||"—")}</div>
+        <div><b>الأعراض والملاحظات الميدانية:</b> ${esc(s.fieldNotes||"—")}</div>
       </div>
     </div>
 
-    <div class="card"><h3>بيانات الفحص والنتيجة</h3>
-      <div class="grid2">
-        <div><label>تاريخ بدء الفحص</label><input type="date" id="e_start" value="${esc(s.examStartedAt||"")}"></div>
-        <div><label>فاحص العينة</label><input id="e_examiner" value="${esc(s.examinerName||"")}"></div>
+    <div class="card"><h3>2. الفحص الظاهري</h3>
+      <div style="font-size:13px;line-height:2">
+        <div><b>الجزء المصاب:</b> ${esc(s.part||"—")}</div>
+        <div><b>نوع الأعراض:</b> ${esc(s.symptom||"—")}</div>
+        <div><b>ملاحظات:</b> ${esc(s.visualNotes||"—")}</div>
       </div>
-      <div style="margin-top:12px"><label>الإصابة / الآفة المشخّصة</label><input id="e_infection" value="${esc(s.infection||"")}" placeholder="مثال: نيماتودا تعقد الجذور — بدون إصابة"></div>
-      <div style="margin-top:12px"><label>النتيجة</label><textarea id="e_result" rows="3">${esc(s.result||"")}</textarea></div>
-      <div style="margin-top:12px"><label>ملاحظات</label><textarea id="e_notes" rows="2">${esc(s.notes||"")}</textarea></div>
-      <button class="btn outline" style="width:100%;margin-top:14px" onclick="saveExam('${id}')">حفظ بيانات الفحص</button>
+    </div>
+
+    <div class="card"><h3>3. الفحص المجهري</h3>
+      <div style="font-size:13px;line-height:2">
+        <div><b>ملاحظات الفحص:</b> ${esc(s.microNotes||"—")}</div>
+        <div><b>مدة ظهور النتيجة:</b> ${esc(s.resultDays||"—")}</div>
+        <div><b>السبب المرضي:</b> ${esc(s.pathogen||"—")}</div>
+      </div>
     </div>
 
     <div class="card">
@@ -586,10 +675,10 @@ async function openSample(id){
         ${report?`<span class="badge ${report.status==="approved"?"b-approved":report.status==="rejected"?"b-suspended":"b-pending_approval"}">${REPORT_STATUS[report.status]} — ${esc(report.reportNo)}</span>`:""}
       </div>
       ${report&&report.status==="rejected"&&report.reviewerNote?`<div class="alert red">ملاحظة المدير: ${esc(report.reviewerNote)}</div>`:""}
-      <div><label>التشخيص</label><textarea id="r_diag" rows="4" ${editable?"":"disabled"} placeholder="بعد فحص عينات الجذور والتربة أظهرت النتائج ما يلي...">${esc(report?report.diagnosis:(s.result||""))}</textarea></div>
-      <div style="margin-top:12px"><label>التوصيات (سطر لكل توصية)</label><textarea id="r_rec" rows="5" ${editable?"":"disabled"} placeholder="التخلص من عقل العنب في حالة الإصابة الشديدة.&#10;معاملة التربة بالتعقيم الحراري إن أمكن...">${esc(report?report.recommendations:"")}</textarea></div>
-      ${editable?`<button class="btn" style="margin-top:14px" onclick="saveReport('${id}','${report?report.id:""}')">📨 ${report&&report.status==="rejected"?"إعادة إرسال لموافقة المدير":"إرسال لموافقة المدير"}</button>`:""}
-      ${report&&report.status==="pending"?`<div class="alert purple" style="margin-top:12px">التقرير بانتظار موافقة المدير — لا يمكن إرساله رسمياً لصاحب العينة قبل الاعتماد.</div>`:""}
+      <div style="margin-bottom:12px"><label>التوصيات (سطر لكل توصية)</label>
+        <textarea id="r_rec" rows="5" ${editable?"":"disabled"} placeholder="التخلص من الأجزاء المصابة.&#10;معاملة التربة بالتعقيم الحراري إن أمكن...">${esc(report?report.recommendations:"")}</textarea></div>
+      ${editable?`<button class="btn" style="width:100%" onclick="saveReport('${id}','${report?report.id:""}')">📨 ${report&&report.status==="rejected"?"إعادة إرسال لموافقة المدير":"إرسال التقرير لموافقة المدير"}</button>`:""}
+      ${report&&report.status==="pending"?`<div class="alert purple" style="margin-top:12px;margin-bottom:0">التقرير بانتظار موافقة المدير — لا يمكن إرساله رسمياً لصاحب العينة قبل الاعتماد.</div>`:""}
     </div>
 
     <div class="card"><h3>سجل الحركة</h3>
@@ -598,94 +687,135 @@ async function openSample(id){
         <small>${l.at?new Date(l.at.seconds*1000).toLocaleString("ar"):""} ${l.by?"• "+esc(l.by):""}</small></div></div>`).join("")}
     </div>`;
 }
-
-async function saveExam(id){
-  const patch = {
-    examStartedAt: $("e_start").value, examinerName: $("e_examiner").value.trim(),
-    infection: $("e_infection").value.trim(), result: $("e_result").value.trim(), notes: $("e_notes").value.trim()
-  };
-  const d = await db.collection("samples").doc(id).get();
-  const cur = d.data().stage;
-  if(patch.examStartedAt && cur==="received"){ patch.stage="in_progress"; }
-  if(patch.result && ["received","in_progress"].includes(cur)){ patch.stage="completed"; }
-  await db.collection("samples").doc(id).update(patch);
-  if(patch.stage==="in_progress") await logStage(id,"in_progress","بدأ الفحص المخبري");
-  if(patch.stage==="completed") await logStage(id,"completed","اكتمل الفحص وتم تسجيل النتيجة");
-  toast("تم حفظ بيانات الفحص"); openSample(id);
-}
-
-async function saveReport(sampleId, reportId){
-  const diagnosis=$("r_diag").value.trim(), recommendations=$("r_rec").value.trim();
-  if(!diagnosis||!recommendations) return toast("أكمل التشخيص والتوصيات");
-  const data = {sampleId, diagnosis, recommendations, status:"pending", reviewerNote:"", reportDate:today(), createdBy:me.name};
-  if(reportId){
-    await db.collection("reports").doc(reportId).update(data);
-  } else {
-    data.reportNo = await nextNo("report","ت");
-    const ref = await db.collection("reports").add(data);
-    reportId = ref.id;
-  }
+async function saveReport(sampleId,reportId){
+  const recommendations=$("r_rec").value.trim();
+  if(!recommendations)return toast("اكتب التوصيات");
+  const d=await db.collection("samples").doc(sampleId).get();const s=d.data();
+  const diagnosis=`بعد فحص عينة ${s.crop||""} (${s.part||""}) ظاهرياً ومجهرياً أظهرت النتائج ما يلي:\nالأعراض: ${s.symptom||"—"}${s.fieldNotes?" — "+s.fieldNotes:""}\nالفحص المجهري: ${s.microNotes||"—"}${s.resultDays?" (مدة ظهور النتيجة: "+s.resultDays+")":""}\nالسبب المرضي: ${s.pathogen||"—"}`;
+  const data={sampleId,diagnosis,recommendations,status:"pending",reviewerNote:"",reportDate:today(),createdBy:me.name};
+  if(reportId){await db.collection("reports").doc(reportId).update(data);}
+  else{data.reportNo=await nextNo("report","ت");await db.collection("reports").add(data);}
   await db.collection("samples").doc(sampleId).update({stage:"pending_approval"});
   await logStage(sampleId,"pending_approval","تم إرسال التقرير الفني لموافقة المدير");
-  toast("تم إرسال التقرير لموافقة المدير"); openSample(sampleId);
+  toast("تم إرسال التقرير لموافقة المدير");openSample(sampleId);
 }
-
-async function markSent(reportId, sampleId){
+async function markSent(reportId,sampleId){
   await db.collection("reports").doc(reportId).update({status:"sent"});
   await db.collection("samples").doc(sampleId).update({stage:"sent"});
   await logStage(sampleId,"sent","تم تسليم/إرسال التقرير لصاحب العينة");
-  toast("تم التعليم كمُرسل"); openSample(sampleId);
+  toast("تم التعليم كمُرسل");openSample(sampleId);
 }
 </script>
 <script>
-/* ---------- موافقات التقارير ---------- */
+/* ===== العينات المحولة للمديرية ===== */
+async function renderTransferred(){
+  $("main").innerHTML=`
+    <div class="page-head"><h1>العينات المحولة للمديرية</h1>
+      <button class="btn sm" onclick="transferForm()">➕ إضافة عينة محولة</button></div>
+    <input id="tq" placeholder="🔍 بحث عن رقم العينة..." style="margin-bottom:12px" oninput="loadTransfers()">
+    <div id="trows">جارٍ التحميل...</div>`;
+  loadTransfers();
+}
+async function loadTransfers(){
+  const q=($("tq").value||"").trim();
+  const snap=await db.collection("transfers").get();
+  let rows=snap.docs.map(d=>({id:d.id,...d.data()}));
+  if(q)rows=rows.filter(r=>(r.sampleNo||"").includes(q));
+  rows.sort((a,b)=>(b.createdAtSec||0)-(a.createdAtSec||0));
+  $("trows").innerHTML=rows.map(t=>`
+    <div class="card" style="cursor:pointer" onclick="transferForm('${t.id}')">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <span class="mono" style="font-size:15px">${esc(t.sampleNo)}</span>
+        <span class="badge ${t.replyDate?"b-replied":"b-waiting"}">${t.replyDate?"تم الرد":"قيد الانتظار"}</span>
+      </div>
+      <div style="font-size:12.5px;color:var(--muted);line-height:1.9">
+        تاريخ التحويل: ${esc(t.transferDate)}<br>
+        المديرية: ${esc(t.directorate)}<br>
+        تاريخ الرد: ${esc(t.replyDate||"—")}
+        ${t.pdfName?`<br>📎 ${esc(t.pdfName)}`:''}
+      </div>
+    </div>`).join("")||'<div class="card" style="text-align:center;color:var(--muted);padding:34px">لا توجد عينات محولة</div>';
+}
+function transferForm(tid){
+  openModal(`
+    <h3>${tid?"تعديل عينة محولة":"إضافة عينة محولة"}</h3>
+    <div style="display:flex;flex-direction:column;gap:12px">
+      <div><label>رقم العينة</label><input id="t_no" placeholder="ع-2025-001"></div>
+      <div><label>تاريخ التحويل</label><input type="date" id="t_date" value="${today()}"></div>
+      <div><label>المديرية</label><select id="t_dir"><option value="">اختر...</option>${opts("directorates")}</select></div>
+      <div><label>تاريخ الرد</label><input type="date" id="t_reply"></div>
+      <div><label>إرفاق ملف تقرير العينة (PDF)</label>
+        <input type="file" id="t_pdf" accept="application/pdf">
+        <div id="t_pdfName" style="font-size:12px;color:var(--muted);margin-top:4px"></div></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn outline sm" onclick="closeModal()">إلغاء</button>
+      <button class="btn sm" onclick="saveTransfer('${tid||""}')">حفظ</button>
+    </div>`);
+  $("t_pdf").onchange=()=>{$("t_pdfName").textContent=$("t_pdf").files[0]?$("t_pdf").files[0].name:"";};
+  if(tid){db.collection("transfers").doc(tid).get().then(d=>{const t=d.data();
+    $("t_no").value=t.sampleNo;$("t_date").value=t.transferDate;$("t_dir").value=t.directorate;$("t_reply").value=t.replyDate||"";
+    if(t.pdfName)$("t_pdfName").textContent="📎 "+t.pdfName;});}
+}
+async function saveTransfer(tid){
+  const no=$("t_no").value.trim(),date=$("t_date").value,dir=$("t_dir").value,reply=$("t_reply").value;
+  if(!no||!date||!dir)return toast("أكمل رقم العينة والتاريخ والمديرية");
+  let pdfData="",pdfName="";
+  const f=$("t_pdf").files[0];
+  if(f){
+    if(f.size>700*1024)return toast("حجم ملف PDF كبير — الحد 700KB تقريباً");
+    pdfData=await new Promise(r=>{const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f);});
+    pdfName=f.name;
+  }
+  const data={sampleNo:no,transferDate:date,directorate:dir,replyDate:reply||"",createdBy:me.name};
+  if(pdfData){data.pdfData=pdfData;data.pdfName=pdfName;}
+  if(tid){await db.collection("transfers").doc(tid).update(data);}
+  else{data.createdAtSec=Date.now();await db.collection("transfers").add(data);}
+  closeModal();toast("تم الحفظ");loadTransfers();
+}
+
+/* ===== موافقات التقارير ===== */
 async function renderApprovals(){
   if(!canApprove()){
-    $("main").innerHTML = `<div class="page-head"><h1>موافقات التقارير</h1></div>
-      <div class="card" style="text-align:center;padding:50px 20px">
-        <div style="font-size:46px">🔒</div>
-        <h3>لا تملك صلاحية الموافقة</h3>
-        <p style="color:var(--muted);font-size:13.5px">اعتماد التقارير متاح للمدير فقط.<br>إذا كنت تحتاج هذه الصلاحية راجع المسؤول.</p>
-      </div>`;
-    toast("لا تملك صلاحية — الموافقة للمدير فقط");
-    return;
+    $("main").innerHTML=`<div class="page-head"><h1>التقارير</h1></div>
+      <div class="card" style="text-align:center;padding:46px 20px">
+        <div style="font-size:46px">🔒</div><h3>لا تملك صلاحية الموافقة</h3>
+        <p style="color:var(--muted);font-size:13.5px">اعتماد التقارير متاح للمدير فقط.<br>إذا كنت تحتاج هذه الصلاحية راجع المسؤول.</p></div>`;
+    toast("لا تملك صلاحية — الموافقة للمدير فقط");return;
   }
-  $("main").innerHTML = `<div class="page-head"><h1>التقارير بانتظار الموافقة</h1></div>
-    <p style="color:var(--muted);font-size:13px">راجع التقرير الفني قبل اعتماده — لا يُرسل رسمياً لصاحب العينة إلا بعد موافقتك.</p>
-    <div id="apprBody">جارٍ التحميل...</div>`;
-  const snap = await db.collection("reports").where("status","==","pending").get();
-  const items = [];
+  $("main").innerHTML=`<div class="page-head"><h1>التقارير بانتظار الموافقة</h1></div><div id="apprBody">جارٍ التحميل...</div>`;
+  const snap=await db.collection("reports").where("status","==","pending").get();
+  const items=[];
   for(const d of snap.docs){
-    const r = {id:d.id,...d.data()};
-    const sd = await db.collection("samples").doc(r.sampleId).get();
-    items.push({r, s: sd.exists?sd.data():{}});
+    const r={id:d.id,...d.data()};
+    const sd=await db.collection("samples").doc(r.sampleId).get();
+    items.push({r,s:sd.exists?sd.data():{}});
   }
-  $("apprBody").innerHTML = items.map(({r,s})=>`
+  $("apprBody").innerHTML=items.map(({r,s})=>`
     <div class="card">
       <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px">
-        <div><span class="mono">${esc(r.reportNo)}</span> <span style="color:var(--muted);font-size:13px">للعينة ${esc(s.sampleNo)}</span></div>
-        <span class="badge b-pending_approval">بانتظار الموافقة — ${esc(r.reportDate)}</span>
-      </div>
-      <div style="font-size:13px;color:var(--muted);margin-bottom:10px">${esc(s.farmerName||"—")} • ${esc(s.crop||s.sampleType||"")} • الفاحص: ${esc(r.createdBy||"—")}</div>
-      <div style="background:#f8fafc;border-radius:10px;padding:14px;font-size:13.5px">
-        <b>التشخيص:</b><p style="white-space:pre-line;margin:6px 0 12px">${esc(r.diagnosis)}</p>
+        <div><span class="mono">${esc(r.reportNo)}</span> <span style="color:var(--muted);font-size:12.5px">للعينة ${esc(s.sampleNo)}</span></div>
+        <span class="badge b-pending_approval">بانتظار الموافقة — ${esc(r.reportDate)}</span></div>
+      <div style="font-size:12.5px;color:var(--muted);margin-bottom:10px">${esc(s.crop||"")} • ${esc(s.location||s.source||"")} • الفاحص: ${esc(r.createdBy||"—")}</div>
+      <div style="background:#f8fafc;border-radius:12px;padding:13px;font-size:13px">
+        <b>التشخيص:</b><p style="white-space:pre-line;margin:6px 0 10px">${esc(r.diagnosis)}</p>
         <b>التوصيات:</b><ul style="margin:6px 0;line-height:1.9">${r.recommendations.split("\n").filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
       </div>
-      <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
+      <div class="btnrow" style="margin-top:12px">
         <button class="btn outline sm" onclick="openReport('${r.id}')">🖨️ معاينة</button>
-        <button class="btn teal sm" onclick="approveReport('${r.id}','${r.sampleId}')">✅ موافقة واعتماد</button>
-        <button class="btn danger sm" onclick="rejectModal('${r.id}','${r.sampleId}')">↩️ إعادة للمراجعة</button>
+        <button class="btn sm" style="background:#0f766e" onclick="approveReport('${r.id}','${r.sampleId}')">✅ موافقة</button>
+        <button class="btn danger sm" onclick="rejectModal('${r.id}','${r.sampleId}')">↩️ إعادة</button>
       </div>
-    </div>`).join("") || '<div class="card" style="text-align:center;color:var(--muted);padding:40px">لا توجد تقارير بانتظار الموافقة</div>';
+    </div>`).join("")||'<div class="card" style="text-align:center;color:var(--muted);padding:40px">لا توجد تقارير بانتظار الموافقة</div>';
 }
-async function approveReport(rid, sid){
-  if(!canApprove()) return toast("لا تملك صلاحية — الموافقة للمدير فقط");
-  await db.collection("reports").doc(rid).update({status:"approved", approvedBy:me.name, approvedAt:today()});
+async function approveReport(rid,sid){
+  if(!canApprove())return toast("لا تملك صلاحية — الموافقة للمدير فقط");
+  await db.collection("reports").doc(rid).update({status:"approved",approvedBy:me.name,approvedAt:today()});
   await db.collection("samples").doc(sid).update({stage:"approved"});
   await logStage(sid,"approved","وافق "+ROLES[me.role]+" على التقرير الفني");
-  toast("تمت الموافقة على التقرير"); renderApprovals();
+  toast("تمت الموافقة على التقرير");renderApprovals();
 }
-function rejectModal(rid, sid){
+function rejectModal(rid,sid){
   openModal(`
     <h3>↩️ إعادة التقرير للمراجعة</h3>
     <label>التعليق / سبب الإعادة (يظهر للفاحص)</label>
@@ -695,107 +825,124 @@ function rejectModal(rid, sid){
       <button class="btn danger sm" onclick="confirmReject('${rid}','${sid}')">تأكيد الإعادة</button>
     </div>`);
 }
-async function confirmReject(rid, sid){
-  const note = $("rejectNote").value.trim();
-  await db.collection("reports").doc(rid).update({status:"rejected", reviewerNote:note});
+async function confirmReject(rid,sid){
+  const note=$("rejectNote").value.trim();
+  await db.collection("reports").doc(rid).update({status:"rejected",reviewerNote:note});
   await db.collection("samples").doc(sid).update({stage:"completed"});
   await logStage(sid,"completed","أعاد "+ROLES[me.role]+" التقرير للمراجعة"+(note?": "+note:""));
-  closeModal();
-  toast("تمت إعادة التقرير للمراجعة");
-  renderApprovals();
+  closeModal();toast("تمت إعادة التقرير للمراجعة");renderApprovals();
 }
 
-/* ---------- إدارة الموظفين (المسؤول فقط) ---------- */
+/* ===== الموظفون ===== */
 async function renderStaff(){
   if(me.role!=="admin"){
-    $("main").innerHTML = `<div class="page-head"><h1>الموظفون</h1></div>
-      <div class="card" style="text-align:center;padding:50px"><div style="font-size:46px">🔒</div><h3>هذه الصفحة للمسؤول فقط</h3></div>`;
-    return;
+    $("main").innerHTML=`<div class="page-head"><h1>الموظفون</h1></div><div class="card" style="text-align:center;padding:46px"><div style="font-size:46px">🔒</div><h3>هذه الصفحة للمسؤول فقط</h3></div>`;return;
   }
-  $("main").innerHTML = `<div class="page-head"><h1>إدارة الموظفين</h1></div><div id="staffBody">جارٍ التحميل...</div>`;
-  const snap = await db.collection("users").get();
-  const users = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.createdAt||"")<(b.createdAt||"")?-1:1);
-  $("staffBody").innerHTML = `
-    <div class="card" style="padding:0;overflow:auto"><table class="list">
-      <thead><tr><th>الاسم</th><th>البريد</th><th>الصلاحية</th><th>الحالة</th><th>إجراءات</th></tr></thead>
-      <tbody>${users.map(u=>`
-        <tr>
-          <td><b>${esc(u.name)}</b>${u.id===me.uid?' <span class="badge b-approved">أنت</span>':""}</td>
-          <td style="font-size:12px">${esc(u.email||"")}</td>
-          <td>${u.id===me.uid?ROLES[u.role]:`
-            <select style="padding:5px 8px;font-size:12.5px;min-width:150px" onchange="setRole('${u.id}',this.value)">
-              ${["pending","user","approver","admin"].map(r=>`<option value="${r}" ${u.role===r?"selected":""}>${ROLES[r]}</option>`).join("")}
-            </select>`}</td>
-          <td>${u.status==="suspended"
-            ?`<span class="badge b-suspended">موقوف</span>${u.suspendReason?`<div style="font-size:11px;color:#b91c1c">${esc(u.suspendReason)}</div>`:""}`
-            :u.role==="pending"?'<span class="badge b-pending">بانتظار الموافقة</span>':'<span class="badge b-approved">نشط</span>'}</td>
-          <td>${u.id===me.uid?"—":`
-            <div style="display:flex;gap:5px;flex-wrap:wrap">
-              <button class="btn outline sm" onclick="resetPass('${esc(u.email||"")}')">🔑 كلمة المرور</button>
-              ${u.status==="suspended"
-                ?`<button class="btn teal sm" onclick="unsuspend('${u.id}')">▶️ إلغاء الإيقاف</button>`
-                :`<button class="btn outline sm" onclick="suspendModal('${u.id}','${esc(u.name)}')">⛔ إيقاف</button>`}
-              <button class="btn danger sm" onclick="deleteUser('${u.id}','${esc(u.name)}')">🗑️</button>
-            </div>`}</td>
-        </tr>`).join("")}
-      </tbody></table></div>
-    <div class="alert purple">💡 تغيير الصلاحية من القائمة يُطبق فوراً. «بانتظار الموافقة» = حساب مفعّل لكنه لم يُمنح صلاحية بعد ولا يستطيع دخول النظام.</div>`;
+  $("main").innerHTML=`<div class="page-head"><h1>إدارة الموظفين</h1></div><div id="staffBody">جارٍ التحميل...</div>`;
+  const snap=await db.collection("users").get();
+  const users=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.createdAt||"")<(b.createdAt||"")?-1:1);
+  $("staffBody").innerHTML=users.map(u=>`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div><b>${esc(u.name)}</b>${u.id===me.uid?' <span class="badge b-approved">أنت</span>':""}<div style="font-size:11.5px;color:var(--muted)">${esc(u.email||"")}</div></div>
+        ${u.status==="suspended"?'<span class="badge b-suspended">موقوف</span>':u.role==="pending"?'<span class="badge b-pending">بانتظار الموافقة</span>':'<span class="badge b-approved">نشط</span>'}
+      </div>
+      ${u.suspendReason&&u.status==="suspended"?`<div class="alert red" style="margin-bottom:8px">سبب الإيقاف: ${esc(u.suspendReason)}</div>`:""}
+      ${u.id===me.uid?"":`
+      <div style="margin-bottom:8px"><label>الصلاحية</label>
+        <select onchange="setRole('${u.id}',this.value)">
+          ${["pending","user","approver","admin"].map(r=>`<option value="${r}" ${u.role===r?"selected":""}>${ROLES[r]}</option>`).join("")}
+        </select></div>
+      <div style="margin-bottom:10px"><label>الصفحات المسموحة</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          ${Object.entries(PAGES).map(([k,v])=>`<label style="display:flex;align-items:center;gap:5px;font-size:12px;font-weight:400;background:#f8fafc;border:1px solid var(--border);border-radius:8px;padding:6px 9px">
+            <input type="checkbox" style="width:auto" ${((u.pages&&u.pages.length?u.pages:(u.role==="approver"?["dashboard","samples","new","transferred","approvals"]:["dashboard","samples","new","transferred"]))).includes(k)?"checked":""} onchange="togglePage('${u.id}','${k}',this.checked,'${esc((u.pages||[]).join(","))}')"> ${v}</label>`).join("")}
+        </div></div>
+      <div class="btnrow">
+        <button class="btn outline sm" onclick="resetPass('${esc(u.email||"")}')">🔑 إعادة كلمة المرور</button>
+        ${u.status==="suspended"?`<button class="btn sm" style="background:#0f766e" onclick="unsuspend('${u.id}')">▶️ إلغاء الإيقاف</button>`:`<button class="btn gray sm" onclick="suspendModal('${u.id}','${esc(u.name)}')">⛔ إيقاف</button>`}
+        <button class="btn danger sm" onclick="deleteUser('${u.id}','${esc(u.name)}')">🗑️</button>
+      </div>`}
+    </div>`).join("");
 }
-async function setRole(uid, role){
-  await db.collection("users").doc(uid).update({role, status:"active"});
-  toast("تم تحديث الصلاحية"); renderStaff();
+async function setRole(uid,role){await db.collection("users").doc(uid).update({role,status:"active"});toast("تم تحديث الصلاحية");renderStaff();}
+async function togglePage(uid,page,checked,current){
+  let pages=current?current.split(",").filter(Boolean):[];
+  if(checked&&!pages.includes(page))pages.push(page);
+  if(!checked)pages=pages.filter(p=>p!==page);
+  await db.collection("users").doc(uid).update({pages});
+  toast("تم تحديث الصفحات المسموحة");
 }
 async function resetPass(email){
-  if(!email) return toast("لا يوجد بريد لهذا الحساب");
-  try{ await auth.sendPasswordResetEmail(email); toast("أُرسل رابط إعادة تعيين كلمة المرور إلى "+email); }
-  catch(e){ toast("خطأ: "+e.message); }
+  if(!email)return toast("لا يوجد بريد لهذا الحساب");
+  try{await auth.sendPasswordResetEmail(email);toast("أُرسل رابط إعادة التعيين إلى "+email);}catch(e){toast("خطأ: "+e.message);}
 }
-function suspendModal(uid, name){
-  openModal(`
-    <h3>⛔ إيقاف حساب: ${name}</h3>
+function suspendModal(uid,name){
+  openModal(`<h3>⛔ إيقاف حساب: ${name}</h3>
     <label>سبب الإيقاف (يظهر للموظف عند دخوله)</label>
     <textarea id="suspendReason" rows="3" placeholder="مثال: إجازة طويلة / مخالفة إدارية..."></textarea>
-    <div class="modal-actions">
-      <button class="btn outline sm" onclick="closeModal()">إلغاء</button>
-      <button class="btn danger sm" onclick="confirmSuspend('${uid}')">تأكيد الإيقاف</button>
-    </div>`);
+    <div class="modal-actions"><button class="btn outline sm" onclick="closeModal()">إلغاء</button>
+    <button class="btn danger sm" onclick="confirmSuspend('${uid}')">تأكيد الإيقاف</button></div>`);
 }
 async function confirmSuspend(uid){
-  const reason = $("suspendReason").value.trim();
-  if(!reason) return toast("اكتب سبب الإيقاف");
-  await db.collection("users").doc(uid).update({status:"suspended", suspendReason:reason});
-  closeModal(); toast("تم إيقاف الحساب"); renderStaff();
+  const reason=$("suspendReason").value.trim();
+  if(!reason)return toast("اكتب سبب الإيقاف");
+  await db.collection("users").doc(uid).update({status:"suspended",suspendReason:reason});
+  closeModal();toast("تم إيقاف الحساب");renderStaff();
 }
-async function unsuspend(uid){
-  await db.collection("users").doc(uid).update({status:"active", suspendReason:""});
-  toast("تم إلغاء الإيقاف"); renderStaff();
+async function unsuspend(uid){await db.collection("users").doc(uid).update({status:"active",suspendReason:""});toast("تم إلغاء الإيقاف");renderStaff();}
+function deleteUser(uid,name){
+  openModal(`<h3>🗑️ حذف الحساب</h3>
+    <p style="font-size:13.5px;color:var(--muted)">سيتم حذف حساب <b>${name}</b> من النظام نهائياً.</p>
+    <div class="modal-actions"><button class="btn outline sm" onclick="closeModal()">إلغاء</button>
+    <button class="btn danger sm" onclick="confirmDelete('${uid}')">تأكيد الحذف</button></div>`);
 }
-function deleteUser(uid, name){
-  openModal(`
-    <h3>🗑️ حذف الحساب</h3>
-    <p style="font-size:13.5px;color:var(--muted)">سيتم حذف حساب <b>${name}</b> من النظام نهائياً ولن يستطيع الدخول مرة أخرى.</p>
-    <div class="modal-actions">
-      <button class="btn outline sm" onclick="closeModal()">إلغاء</button>
-      <button class="btn danger sm" onclick="confirmDelete('${uid}')">تأكيد الحذف</button>
-    </div>`);
+async function confirmDelete(uid){await db.collection("users").doc(uid).delete();closeModal();toast("تم حذف الحساب");renderStaff();}
+
+/* ===== الإعدادات: القوائم المنسدلة ===== */
+async function renderSettings(){
+  if(me.role!=="admin"){
+    $("main").innerHTML=`<div class="page-head"><h1>الإعدادات</h1></div><div class="card" style="text-align:center;padding:46px"><div style="font-size:46px">🔒</div><h3>هذه الصفحة للمسؤول فقط</h3></div>`;return;
+  }
+  await loadLists();
+  $("main").innerHTML=`<div class="page-head"><h1>الإعدادات — القوائم المنسدلة</h1></div>
+    <div class="alert green">أضف أو احذف عناصر القوائم المنسدلة — تظهر فوراً لجميع الموظفين في شاشات التسجيل والفحص والتحويل.</div>
+    ${Object.keys(LIST_NAMES).map(k=>`
+      <div class="card"><h3>${LIST_NAMES[k]}</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px">
+          ${LISTS[k].map((x,i)=>`<span class="badge b-completed" style="display:flex;align-items:center;gap:6px;padding:6px 12px">${esc(x)} <b style="cursor:pointer" onclick="delListItem('${k}',${i})">✕</b></span>`).join("")||'<span style="color:var(--muted);font-size:12px">فارغة</span>'}
+        </div>
+        <div style="display:flex;gap:8px">
+          <input id="add_${k}" placeholder="إضافة عنصر جديد..." style="flex:1">
+          <button class="btn sm" onclick="addListItem('${k}')">إضافة</button>
+        </div>
+      </div>`).join("")}`;
 }
-async function confirmDelete(uid){
-  await db.collection("users").doc(uid).delete();
-  closeModal(); toast("تم حذف الحساب"); renderStaff();
+async function addListItem(k){
+  const v=$("add_"+k).value.trim();
+  if(!v)return;
+  if(LISTS[k].includes(v))return toast("العنصر موجود مسبقاً");
+  LISTS[k].push(v);
+  await db.collection("settings").doc("lists").set(LISTS);
+  toast("تمت الإضافة");renderSettings();
+}
+async function delListItem(k,i){
+  LISTS[k].splice(i,1);
+  await db.collection("settings").doc("lists").set(LISTS);
+  toast("تم الحذف");renderSettings();
 }
 
-/* ---------- التقرير للطباعة ---------- */
+/* ===== التقرير للطباعة ===== */
 async function openReport(rid){
-  const d = await db.collection("reports").doc(rid).get();
-  if(!d.exists) return toast("التقرير غير موجود");
-  const r = {id:d.id,...d.data()};
-  const sd = await db.collection("samples").doc(r.sampleId).get();
-  const s = sd.data();
+  const d=await db.collection("reports").doc(rid).get();
+  if(!d.exists)return toast("التقرير غير موجود");
+  const r={id:d.id,...d.data()};
+  const sd=await db.collection("samples").doc(r.sampleId).get();
+  const s=sd.data();
   $("appScreen").classList.add("hidden");
-  const rp = $("reportPage");
-  rp.classList.remove("hidden");
-  rp.innerHTML = `
-    <div class="report-toolbar no-print" style="padding:0 16px">
+  const rp=$("reportPage");rp.classList.remove("hidden");
+  rp.innerHTML=`
+    <div class="report-toolbar no-print">
       <button class="btn" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
       <button class="btn outline" onclick="closeReport('${r.sampleId}')">→ رجوع</button>
     </div>
@@ -803,33 +950,33 @@ async function openReport(rid){
       <table><tr class="head">
         <td style="width:33%">المديرية العامة<br>للبحوث الزراعية والحيوانية</td>
         <td style="width:34%;font-size:18px">تقرير فني</td>
-        <td style="width:33%">مركز بحوث وقاية النبات<br><span style="font-weight:400">قسم بحوث أمراض النبات</span></td>
-      </tr>
+        <td style="width:33%">مركز بحوث وقاية النبات<br><span style="font-weight:400">قسم بحوث أمراض النبات</span></td></tr>
       <tr><td class="head">التاريخ: <span style="font-weight:400">${esc(r.reportDate)}</span></td>
-          <td colspan="2" style="text-align:right"><b>مصدر العينة: </b>${esc(s.source)}${s.contactRef?` <span style="color:#64748b">— قيد المراسلة: ${esc(s.contactRef)}</span>`:""}</td></tr>
+          <td colspan="2" style="text-align:right"><b>رقم العينة: </b>${esc(s.sampleNo)} &nbsp; <b>موقع أخذ العينة: </b>${esc(s.location||s.source||"—")}</td></tr>
       <tr><td class="head">رقم التقرير: <span style="font-weight:400">${esc(r.reportNo)}</span></td>
-          <td colspan="2" style="text-align:right"><b>فاحص العينة: </b>${esc(s.examinerName||"—")} &nbsp;&nbsp; <b>نوع العينة: </b>${esc(s.sampleType)}</td></tr>
+          <td colspan="2" style="text-align:right"><b>فاحص العينة: </b>${esc(s.examinerName||r.createdBy||"—")} &nbsp; <b>تاريخ الاستلام: </b>${esc(s.receivedAt)}</td></tr>
       </table>
 
-      <h2>1. التشخيص:</h2>
+      <h2>1. استلام العينة وتسجيلها:</h2>
+      <p style="line-height:1.9">المحصول: <b>${esc(s.crop||"—")}</b> — الأعراض والملاحظات الميدانية: ${esc(s.fieldNotes||"—")}</p>
+
+      <h2>2. الفحص الظاهري:</h2>
+      <p style="line-height:1.9">الجزء المصاب: <b>${esc(s.part||"—")}</b> — نوع الأعراض: <b>${esc(s.symptom||"—")}</b>${s.visualNotes?"<br>ملاحظات: "+esc(s.visualNotes):""}</p>
+
+      <h2>3. الفحص المجهري:</h2>
+      <p style="line-height:1.9">${esc(s.microNotes||"—")}<br>مدة ظهور نتيجة العينة: <b>${esc(s.resultDays||"—")}</b> — السبب المرضي: <b>${esc(s.pathogen||"—")}</b></p>
+
+      <h2>4. التشخيص:</h2>
       <p style="white-space:pre-line;line-height:1.9">${esc(r.diagnosis)}</p>
 
-      <table>
-        <tr class="head"><td style="width:40px">م</td><td>اسم صاحب العينة</td><td>المحصول</td><td>نوع العينة</td><td>الإصابة</td></tr>
-        <tr><td>1</td><td>${esc(s.farmerName||"—")}</td><td>${esc(s.crop||"—")}</td><td>${esc(s.sampleType)}</td>
-            <td style="font-weight:700;color:#b91c1c">${esc(s.infection||s.result||"—")}</td></tr>
-      </table>
+      ${s.imageData?`<div style="margin-bottom:16px"><b>صورة العينة:</b><br><img src="${s.imageData}" style="max-height:230px;max-width:100%;border-radius:8px;border:1px solid #cbd5e1;margin-top:8px"></div>`:""}
 
-      ${s.imageData?`<div style="margin-bottom:16px"><b>صورة العينة:</b><br><img src="${s.imageData}" style="max-height:240px;max-width:100%;border-radius:8px;border:1px solid #cbd5e1;margin-top:8px"></div>`:""}
-
-      <h2>2. التوصيات:</h2>
+      <h2>5. التوصيات:</h2>
       <ul>${r.recommendations.split("\n").filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
 
-      ${s.notes?`<h2>ملاحظات:</h2><p style="font-size:13px;color:#475569;white-space:pre-line">${esc(s.notes)}</p>`:""}
-
       <div class="sig">
-        <div><b>فاحص العينة</b><br>${esc(s.examinerName||"................")}</div>
-        <div><b>اعتماد المدير</b><br>${r.status==="approved"||r.status==="sent" ? esc(r.approvedBy||"المدير")+" — "+esc(r.approvedAt||"") : "بانتظار الاعتماد"}</div>
+        <div><b>فاحص العينة</b><br>${esc(s.examinerName||r.createdBy||"................")}</div>
+        <div><b>اعتماد المدير</b><br>${r.status==="approved"||r.status==="sent"?esc(r.approvedBy||"المدير")+" — "+esc(r.approvedAt||""):"بانتظار الاعتماد"}</div>
       </div>
     </div>`;
 }
