@@ -13,22 +13,28 @@ input,select,textarea{font-family:inherit;font-size:14px;padding:9px 12px;border
 textarea{resize:vertical}
 label{font-size:13px;font-weight:600;display:block;margin-bottom:5px}
 .hidden{display:none!important}
+a{color:var(--green-d)}
 /* تسجيل الدخول */
 #authScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.auth-card{background:#fff;border-radius:16px;padding:36px;max-width:400px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.auth-card{background:#fff;border-radius:16px;padding:32px;max-width:400px;width:100%;box-shadow:0 10px 30px rgba(0,0,0,.08)}
 .auth-card h1{font-size:20px;text-align:center;color:var(--green-d);margin:0 0 6px}
 .auth-card p.sub{text-align:center;color:var(--muted);font-size:13px;margin:0 0 22px}
 .auth-card .field{margin-bottom:14px}
+.auth-links{display:flex;justify-content:space-between;margin-top:12px;font-size:13px}
+/* شاشات الحالة */
+.status-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.status-card{background:#fff;border-radius:16px;padding:36px;max-width:420px;width:100%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+.status-card .ico{font-size:52px;margin-bottom:12px}
 /* الهيكل */
 #appScreen{display:flex;min-height:100vh}
-aside{width:230px;background:#fff;border-inline-start:1px solid var(--border);padding:18px 12px;position:sticky;top:0;height:100vh;flex-shrink:0}
+aside{width:230px;background:#fff;border-inline-start:1px solid var(--border);padding:18px 12px;position:sticky;top:0;height:100vh;flex-shrink:0;display:flex;flex-direction:column}
 aside h2{font-size:15px;color:var(--green-d);margin:0 8px 18px;display:flex;align-items:center;gap:8px}
 nav button{display:flex;align-items:center;gap:10px;width:100%;padding:11px 14px;border:none;background:none;border-radius:10px;font-size:14px;margin-bottom:4px;color:#334155;text-align:right}
 nav button:hover{background:#f1f5f9}
 nav button.active{background:#ecfdf5;color:var(--green-d);font-weight:700}
 .userbox{margin-top:auto;padding:12px;border-top:1px solid var(--border);font-size:13px}
 .userbox .role{color:var(--muted);font-size:12px}
-main{flex:1;padding:26px;max-width:1100px;margin:0 auto;width:100%}
+main{flex:1;padding:26px;max-width:1100px;margin:0 auto;width:100%;min-width:0}
 .page-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:18px}
 .page-head h1{font-size:22px;margin:0}
 .btn{background:var(--green);color:#fff;border:none;padding:10px 18px;border-radius:10px;font-size:14px;font-weight:600}
@@ -36,6 +42,7 @@ main{flex:1;padding:26px;max-width:1100px;margin:0 auto;width:100%}
 .btn.outline{background:#fff;color:#0f172a;border:1px solid var(--border)}
 .btn.danger{background:#dc2626}
 .btn.teal{background:#0f766e}
+.btn.sm{padding:6px 12px;font-size:12.5px}
 .btn:disabled{opacity:.55;cursor:not-allowed}
 .card{background:#fff;border-radius:14px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.06);margin-bottom:18px}
 .card h3{margin:0 0 14px;font-size:16px}
@@ -48,29 +55,30 @@ main{flex:1;padding:26px;max-width:1100px;margin:0 auto;width:100%}
 table.list{width:100%;border-collapse:collapse;font-size:13.5px}
 table.list th,table.list td{padding:11px 10px;text-align:right;border-bottom:1px solid var(--border)}
 table.list th{color:var(--muted);font-size:12px;background:#f8fafc}
-table.list tbody tr{cursor:pointer}
 table.list tbody tr:hover{background:#f8fafc}
+table.list tbody tr.clickable{cursor:pointer}
 .badge{display:inline-block;padding:3px 11px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
 .b-received{background:#dbeafe;color:#1e40af}.b-in_progress{background:#fef3c7;color:#92400e}
 .b-completed{background:#d1fae5;color:#065f46}.b-pending_approval{background:#ede9fe;color:#5b21b6}
 .b-approved{background:#ccfbf1;color:#115e59}.b-sent{background:#e2e8f0;color:#334155}
+.b-suspended{background:#fee2e2;color:#b91c1c}.b-pending{background:#fef3c7;color:#92400e}
 .mono{font-family:Consolas,monospace;font-weight:700;color:var(--green-d)}
 /* خط المراحل */
-.stages{display:flex;justify-content:space-between;margin:6px 0}
-.stg{flex:1;text-align:center;position:relative;font-size:11.5px}
-.stg::before{content:"";display:block;width:26px;height:26px;border-radius:50%;margin:0 auto 5px;background:#e2e8f0;border:3px solid #fff;box-shadow:0 0 0 2px #e2e8f0;z-index:1;position:relative}
+.stages{display:flex;justify-content:space-between;margin:6px 0;overflow:hidden}
+.stg{flex:1;text-align:center;position:relative;font-size:11.5px;min-width:0}
+.stg::before{content:"";display:block;width:22px;height:22px;border-radius:50%;margin:0 auto 5px;background:#e2e8f0;border:2px solid #fff;box-shadow:0 0 0 2px #e2e8f0;z-index:1;position:relative}
 .stg.done::before{background:var(--green);box-shadow:0 0 0 2px var(--green)}
 .stg .d{font-size:10px;color:var(--muted)}
-.stg .bar{position:absolute;top:16px;right:50%;width:100%;height:3px;background:#e2e8f0}
+.stg .bar{position:absolute;top:13px;right:50%;width:100%;height:3px;background:#e2e8f0}
 .stg.done .bar{background:var(--green)}
 .stg:first-child .bar{display:none}
 /* صورة */
-.imgbox img{max-height:220px;border-radius:10px;border:1px solid var(--border)}
-.img-drop{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;color:var(--muted);cursor:pointer;font-size:13px}
+.imgbox img{max-height:220px;max-width:100%;border-radius:10px;border:1px solid var(--border)}
+.img-drop{border:2px dashed var(--border);border-radius:10px;padding:24px;text-align:center;color:var(--muted);cursor:pointer;font-size:13px;display:block}
 .img-drop:hover{background:#f8fafc}
 /* رسم شهري */
-.chart{display:flex;align-items:flex-end;gap:10px;height:180px;padding-top:10px}
-.chart .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}
+.chart{display:flex;align-items:flex-end;gap:8px;height:180px;padding-top:24px}
+.chart .col{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;min-width:0}
 .chart .bar-v{background:var(--green);width:70%;border-radius:6px 6px 0 0;min-height:3px;position:relative}
 .chart .bar-v span{position:absolute;top:-20px;right:50%;transform:translateX(50%);font-size:12px;font-weight:700}
 .chart .lbl{font-size:10.5px;color:var(--muted);text-align:center}
@@ -78,11 +86,16 @@ table.list tbody tr:hover{background:#f8fafc}
 .alert{padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:12px}
 .alert.purple{background:#f5f3ff;color:#5b21b6;border:1px solid #ddd6fe}
 .alert.red{background:#fef2f2;color:#b91c1c;border:1px solid #fecaca}
-#toast{position:fixed;bottom:22px;right:50%;transform:translateX(50%);background:#0f172a;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+#toast{position:fixed;bottom:90px;right:50%;transform:translateX(50%);background:#0f172a;color:#fff;padding:12px 22px;border-radius:10px;font-size:14px;z-index:99;box-shadow:0 8px 24px rgba(0,0,0,.25);max-width:90vw;text-align:center}
 /* سجل الحركة */
 .log-item{display:flex;gap:10px;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--border)}
 .log-item .dot{width:9px;height:9px;border-radius:50%;background:var(--green);margin-top:5px;flex-shrink:0}
 .log-item small{color:var(--muted);display:block}
+/* نافذة منبثقة */
+#modal{position:fixed;inset:0;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;z-index:80;padding:16px}
+.modal-card{background:#fff;border-radius:14px;padding:22px;max-width:440px;width:100%}
+.modal-card h3{margin:0 0 12px}
+.modal-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
 /* التقرير للطباعة */
 #reportPage{background:#f1f5f9;padding:26px 0;min-height:100vh}
 .sheet{background:#fff;max-width:820px;margin:0 auto;padding:44px 48px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
@@ -92,62 +105,77 @@ table.list tbody tr:hover{background:#f8fafc}
 .sheet h2{font-size:16px;text-decoration:underline;margin:18px 0 8px}
 .sheet ul{line-height:2}
 .sheet .sig{display:flex;justify-content:space-between;margin-top:50px;font-size:13px}
-.report-toolbar{max-width:820px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center}
+.report-toolbar{max-width:820px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+/* الشريط العلوي للجوال */
+#topBar{display:none}
+#bottomNav{display:none}
+@media(max-width:700px){
+  aside{display:none}
+  main{padding:14px;padding-top:70px;padding-bottom:90px;max-width:100%}
+  .grid2,.grid5{grid-template-columns:1fr 1fr}
+  .page-head h1{font-size:19px}
+  .card{padding:14px}
+  .stg{font-size:9.5px}
+  .stg::before{width:16px;height:16px}
+  .stg .bar{top:9px}
+  .stg .d{display:none}
+  .chart{height:150px}
+  table.list{font-size:12px;min-width:620px}
+  .sheet{padding:22px 16px}
+  #topBar{display:flex;position:fixed;top:0;left:0;right:0;z-index:50;background:#fff;border-bottom:1px solid var(--border);padding:10px 14px;align-items:center;justify-content:space-between}
+  #topBar b{color:var(--green-d);font-size:15px}
+  #topBar button{background:none;border:none;font-size:20px;padding:4px}
+  #bottomNav{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;background:#fff;border-top:1px solid var(--border);padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(0,0,0,.06)}
+  #bottomNav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;font-size:10.5px;color:var(--muted);padding:6px 2px;border-radius:10px;position:relative}
+  #bottomNav button .ico{font-size:21px}
+  #bottomNav button.active{color:var(--green-d);font-weight:700}
+  #bottomNav .b-dot{position:absolute;top:0;left:20%;background:#7c3aed;color:#fff;font-size:10px;border-radius:99px;padding:1px 6px}
+}
 @media print{
   body{background:#fff}
   .no-print{display:none!important}
   .sheet{box-shadow:none;max-width:100%;padding:0}
 }
-/* شريط سفلي للجوال */
-#bottomNav{display:none}
-@media(max-width:700px){
-  aside{display:none}
-  main{padding:14px;padding-bottom:86px;max-width:100%}
-  .grid2,.grid5{grid-template-columns:1fr 1fr}
-  .page-head h1{font-size:19px}
-  #bottomNav{
-    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;
-    background:#fff;border-top:1px solid var(--border);
-    padding:6px 4px calc(6px + env(safe-area-inset-bottom));
-    box-shadow:0 -2px 12px rgba(0,0,0,.06);
-  }
-  #bottomNav button{
-    flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
-    background:none;border:none;font-size:10.5px;color:var(--muted);padding:6px 2px;border-radius:10px;
-  }
-  #bottomNav button .ico{font-size:21px}
-  #bottomNav button.active{color:var(--green-d);font-weight:700}
-  #bottomNav button .b-dot{position:absolute;top:2px;left:22%;background:#7c3aed;color:#fff;font-size:10px;border-radius:99px;padding:1px 6px}
-  table.list{font-size:12px;min-width:640px}
-  .chart{height:150px}
-}
 </style>
 </head>
 <body>
 
-<!-- ======== شاشة تسجيل الدخول ======== -->
+<!-- ======== شاشة الدخول ======== -->
 <div id="authScreen">
   <div class="auth-card">
     <h1>🌱 نظام فحص عينات النباتات</h1>
     <p class="sub">قسم بحوث أمراض النبات — مركز بحوث وقاية النبات</p>
+    <div class="field hidden" id="nameField"><label>الاسم الكامل</label><input id="authName" type="text" placeholder="الاسم الكامل"></div>
     <div class="field"><label>البريد الإلكتروني</label><input id="authEmail" type="email" placeholder="name@example.com"></div>
     <div class="field"><label>كلمة المرور</label><input id="authPass" type="password" placeholder="••••••••"></div>
-    <div class="field"><label>الاسم (للتسجيل الأول فقط)</label><input id="authName" type="text" placeholder="الاسم الكامل"></div>
-    <button class="btn" style="width:100%;margin-bottom:8px" onclick="doLogin()">تسجيل الدخول</button>
-    <button class="btn outline" style="width:100%" onclick="doRegister()">إنشاء حساب جديد</button>
-    <p class="sub" style="margin-top:14px">أول حساب يُنشأ يصبح «المسؤول» تلقائياً، والحسابات التالية «فاحص».</p>
+    <button class="btn" id="authMainBtn" style="width:100%" onclick="doLogin()">تسجيل الدخول</button>
+    <div class="auth-links">
+      <a href="#" onclick="toggleRegister();return false" id="regLink">إنشاء حساب جديد</a>
+      <a href="#" onclick="forgotPass();return false">نسيت كلمة المرور؟</a>
+    </div>
   </div>
 </div>
 
+<!-- ======== شاشة الحالة (انتظار / موقوف / تفعيل) ======== -->
+<div id="statusScreen" class="hidden"></div>
+
 <!-- ======== التطبيق ======== -->
 <div id="appScreen" class="hidden">
+  <div id="topBar" class="no-print">
+    <b>🌱 فحص العينات</b>
+    <div>
+      <button onclick="openProfile()" title="حسابي">👤</button>
+      <button onclick="doLogout()" title="تسجيل الخروج">🚪</button>
+    </div>
+  </div>
   <aside>
     <h2>🌱 <span>فحص العينات</span></h2>
-    <nav>
+    <nav id="sideNav">
       <button data-page="dashboard" onclick="showPage('dashboard')">📊 <span>لوحة المتابعة</span></button>
       <button data-page="samples" onclick="showPage('samples')">🧪 <span>سجل العينات</span></button>
       <button data-page="new" onclick="showPage('new')">➕ <span>تسجيل عينة</span></button>
       <button data-page="approvals" id="navApprovals" class="hidden" onclick="showPage('approvals')">✅ <span>موافقات التقارير</span> <b id="pendBadge" class="badge b-pending_approval hidden" style="margin-inline-start:auto"></b></button>
+      <button data-page="staff" id="navStaff" class="hidden" onclick="showPage('staff')">👥 <span>الموظفون</span></button>
     </nav>
     <div class="userbox">
       <b id="userName"></b>
@@ -156,28 +184,24 @@ table.list tbody tr:hover{background:#f8fafc}
     </div>
   </aside>
   <main id="main"></main>
-  <!-- شريط التنقل السفلي (يظهر في الجوال فقط) -->
   <nav id="bottomNav">
     <button data-page="dashboard" onclick="showPage('dashboard')"><span class="ico">📊</span>المتابعة</button>
     <button data-page="samples" onclick="showPage('samples')"><span class="ico">🧪</span>العينات</button>
     <button data-page="new" onclick="showPage('new')"><span class="ico">➕</span>تسجيل</button>
-    <button data-page="approvals" id="navApprovalsM" class="hidden" onclick="showPage('approvals')" style="position:relative"><span class="ico">✅</span>الموافقات<span id="pendBadgeM" class="b-dot hidden"></span></button>
-    <button onclick="openProfile()"><span class="ico">👤</span>حسابي</button>
+    <button data-page="approvals" id="navApprovalsM" class="hidden" onclick="showPage('approvals')"><span class="ico">✅</span>الموافقات<span id="pendBadgeM" class="b-dot hidden"></span></button>
+    <button data-page="staff" id="navStaffM" class="hidden" onclick="showPage('staff')"><span class="ico">👥</span>الموظفون</button>
   </nav>
 </div>
 
-<!-- ======== صفحة التقرير (طباعة) ======== -->
 <div id="reportPage" class="hidden"></div>
+<div id="modal" class="hidden no-print"></div>
 <div id="toast" class="hidden"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script>
-/* ══════════════════════════════════════════════════════
-   ⚙️ إعداد Firebase — ضع بيانات مشروعك هنا
-   (من لوحة Firebase: Project settings → Your apps → Web app)
-   ══════════════════════════════════════════════════════ */
+/* ═══════ إعدادات Firebase ═══════ */
 const firebaseConfig = {
   apiKey: "AIzaSyCiLxa2mg7JlT1Z_6OGbnnDGXAmMoPL5QI",
   authDomain: "bahla-plant-center.firebaseapp.com",
@@ -186,7 +210,7 @@ const firebaseConfig = {
   messagingSenderId: "916346827518",
   appId: "1:916346827518:web:7b45b514af5464e32aabaf"
 };
-/* ══════════════════════════════════════════════════════ */
+/* ═══════════════════════════════ */
 
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
@@ -197,50 +221,119 @@ const STAGE_ORDER = ["received","in_progress","completed","pending_approval","ap
 const REPORT_STATUS = {pending:"بانتظار الموافقة",approved:"معتمد",rejected:"معاد للمراجعة",sent:"مُرسل"};
 const SAMPLE_TYPES = ["تربة وجذور","جذور","تربة","أوراق","أغصان","ثمار","بذور","شتلات","عينة كاملة","أخرى"];
 const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+const ROLES = {admin:"المسؤول",approver:"المدير",user:"فاحص",pending:"بانتظار الموافقة"};
 
-let me = null; // {uid, name, role}
+let me = null;
+let isRegisterMode = false;
+const $ = id => document.getElementById(id);
 const esc = s => String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const today = () => new Date().toISOString().slice(0,10);
-function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.remove("hidden");setTimeout(()=>t.classList.add("hidden"),3000);}
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.remove("hidden");clearTimeout(t._h);t._h=setTimeout(()=>t.classList.add("hidden"),3200);}
+function fmtDate(ts){if(!ts)return"";const d=ts.toDate?ts.toDate():new Date(ts);return d.toLocaleDateString("ar");}
+const canApprove = () => me && (me.role==="admin"||me.role==="approver");
 
-/* ---------- الدخول ---------- */
+/* ---------- شاشات الحالة ---------- */
+function showStatus(icon, title, body, extraBtn){
+  $("authScreen").classList.add("hidden");
+  $("appScreen").classList.add("hidden");
+  $("statusScreen").classList.remove("hidden");
+  $("statusScreen").innerHTML = `<div class="status-card">
+    <div class="ico">${icon}</div><h2 style="margin:0 0 10px">${title}</h2>
+    <p style="color:var(--muted);font-size:14px;line-height:1.9">${body}</p>
+    ${extraBtn||""}
+    <button class="btn outline" style="width:100%;margin-top:10px" onclick="doLogout()">تسجيل الخروج</button>
+  </div>`;
+}
+function hideAll(){["authScreen","statusScreen","appScreen","reportPage"].forEach(i=>$(i).classList.add("hidden"));}
+
+/* ---------- الدخول والتسجيل ---------- */
+function toggleRegister(){
+  isRegisterMode = !isRegisterMode;
+  $("nameField").classList.toggle("hidden", !isRegisterMode);
+  $("authMainBtn").textContent = isRegisterMode ? "إنشاء الحساب" : "تسجيل الدخول";
+  $("authMainBtn").onclick = isRegisterMode ? doRegister : doLogin;
+  $("regLink").textContent = isRegisterMode ? "لدي حساب — تسجيل الدخول" : "إنشاء حساب جديد";
+}
 async function doLogin(){
   try{
-    await auth.signInWithEmailAndPassword(authEmail.value.trim(), authPass.value);
-  }catch(e){toast("خطأ في الدخول: "+e.message);}
+    const cred = await auth.signInWithEmailAndPassword($("authEmail").value.trim(), $("authPass").value);
+    await cred.user.reload();
+  }catch(e){
+    const msgs={"auth/user-not-found":"لا يوجد حساب بهذا البريد","auth/wrong-password":"كلمة المرور غير صحيحة","auth/invalid-credential":"بيانات الدخول غير صحيحة","auth/invalid-email":"البريد غير صحيح","auth/too-many-requests":"محاولات كثيرة — حاول لاحقاً"};
+    toast(msgs[e.code]||("خطأ: "+e.message));
+  }
 }
 async function doRegister(){
+  const name=$("authName").value.trim(), email=$("authEmail").value.trim(), pass=$("authPass").value;
+  if(!name) return toast("اكتب اسمك الكامل");
+  if(pass.length<6) return toast("كلمة المرور 6 أحرف على الأقل");
   try{
-    const name = authName.value.trim();
-    if(!name) return toast("اكتب اسمك");
-    const cred = await auth.createUserWithEmailAndPassword(authEmail.value.trim(), authPass.value);
-    // أول مستخدم = مسؤول
+    const cred = await auth.createUserWithEmailAndPassword(email, pass);
     const admins = await db.collection("users").where("role","==","admin").limit(1).get();
-    const role = admins.empty ? "admin" : "user";
-    await db.collection("users").doc(cred.user.uid).set({name, role, email: authEmail.value.trim(), createdAt: today()});
-    toast(role==="admin" ? "تم إنشاء حسابك كمسؤول" : "تم إنشاء حسابك كفاحص");
-  }catch(e){toast("خطأ: "+e.message);}
+    const isFirst = admins.empty;
+    await db.collection("users").doc(cred.user.uid).set({
+      name, email, role: isFirst?"admin":"pending", status:"active", suspendReason:"", createdAt: today()
+    });
+    await cred.user.sendEmailVerification();
+    await auth.signOut();
+    toggleRegister();
+    hideAll(); $("authScreen").classList.remove("hidden");
+    showStatus("📧","تحقق من بريدك الإلكتروني",
+      "أرسلنا رابط تفعيل إلى <b>"+esc(email)+"</b>.<br>افتح الرابط ثم سجّل الدخول.<br>"+
+      (isFirst?"<b>حسابك هو حساب المسؤول.</b>":"بعد التفعيل سيراجع المسؤول حسابك ويمنحك الصلاحيات."),
+      `<button class="btn" style="width:100%" onclick="backToLogin()">الذهاب لتسجيل الدخول</button>`);
+  }catch(e){
+    const msgs={"auth/email-already-in-use":"البريد مستخدم مسبقاً — سجّل الدخول","auth/weak-password":"كلمة المرور ضعيفة","auth/invalid-email":"البريد غير صحيح"};
+    toast(msgs[e.code]||("خطأ: "+e.message));
+  }
+}
+function backToLogin(){hideAll();$("authScreen").classList.remove("hidden");}
+async function forgotPass(){
+  const email=$("authEmail").value.trim();
+  if(!email) return toast("اكتب بريدك أولاً ثم اضغط «نسيت كلمة المرور»");
+  try{ await auth.sendPasswordResetEmail(email); toast("أرسلنا رابط إعادة التعيين إلى بريدك"); }
+  catch(e){ toast(e.code==="auth/user-not-found"?"لا يوجد حساب بهذا البريد":"خطأ: "+e.message); }
 }
 function doLogout(){auth.signOut();}
 
 auth.onAuthStateChanged(async u=>{
-  if(!u){
-    me=null;
-    document.getElementById("appScreen").classList.add("hidden");
-    document.getElementById("reportPage").classList.add("hidden");
-    document.getElementById("authScreen").classList.remove("hidden");
+  if(!u){ me=null; hideAll(); $("authScreen").classList.remove("hidden"); return; }
+  await u.reload();
+  if(!u.emailVerified){
+    showStatus("📧","بريدك غير مفعّل",
+      "فعّل حسابك من الرابط المرسل إلى <b>"+esc(u.email)+"</b> ثم سجّل الدخول.",
+      `<button class="btn outline" style="width:100%" onclick="resendVerify()">إعادة إرسال رابط التفعيل</button>`);
     return;
   }
   const doc = await db.collection("users").doc(u.uid).get();
-  me = {uid:u.uid, ...(doc.exists?doc.data():{name:u.email,role:"user"})};
-  document.getElementById("authScreen").classList.add("hidden");
-  document.getElementById("appScreen").classList.remove("hidden");
+  if(!doc.exists){
+    showStatus("🚫","الحساب محذوف","تم حذف حسابك من قبل الإدارة. راجع المسؤول.");
+    return;
+  }
+  me = {uid:u.uid, ...doc.data()};
+  [navApprovals,navApprovalsM,navStaff,navStaffM].forEach(e=>e.classList.add("hidden"));
+  if(me.status==="suspended"){
+    showStatus("⛔","حسابك موقوف","تم إيقاف حسابك من قبل الإدارة."+(me.suspendReason?`<br><b>السبب:</b> ${esc(me.suspendReason)}`:""));
+    return;
+  }
+  if(me.role==="pending"){
+    showStatus("⏳","حسابك في انتظار الموافقة من الإدارة",
+      "تم تفعيل حسابك بنجاح.<br>سيقوم المسؤول بمراجعة حسابك ومنحك الصلاحيات المناسبة، بعدها تستطيع استخدام النظام.");
+    return;
+  }
+  // دخول ناجح
+  hideAll(); $("appScreen").classList.remove("hidden");
   userName.textContent = me.name;
-  userRole.textContent = me.role==="admin" ? "المسؤول" : "فاحص";
-  if(me.role==="admin"){ navApprovals.classList.remove("hidden"); navApprovalsM.classList.remove("hidden"); }
+  userRole.textContent = ROLES[me.role]||me.role;
+  if(canApprove()){ navApprovals.classList.remove("hidden"); navApprovalsM.classList.remove("hidden"); }
+  if(me.role==="admin"){ navStaff.classList.remove("hidden"); navStaffM.classList.remove("hidden"); }
   showPage("dashboard");
 });
-
+async function resendVerify(){
+  try{ await auth.currentUser.sendEmailVerification(); toast("أُعيد إرسال الرابط"); }catch(e){ toast("انتظر قليلاً ثم حاول"); }
+}
+</script>
+<script>
 /* ---------- أدوات عامة ---------- */
 async function nextNo(name, prefix){
   const ref = db.collection("counters").doc(name);
@@ -270,81 +363,88 @@ function fileToDataUrl(file, maxSize=900, quality=0.7){
     r.onerror=rej;r.readAsDataURL(file);
   });
 }
-function fmtDate(ts){ if(!ts) return ""; const d = ts.toDate? ts.toDate(): new Date(ts); return d.toLocaleDateString("ar"); }
+function openModal(html){ $("modal").innerHTML = `<div class="modal-card">${html}</div>`; $("modal").classList.remove("hidden"); }
+function closeModal(){ $("modal").classList.add("hidden"); $("modal").innerHTML=""; }
 
 /* ---------- التنقل ---------- */
 function showPage(p){
-  document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active", b.dataset.page===p));
+  document.querySelectorAll("#sideNav button,#bottomNav button").forEach(b=>b.classList.toggle("active", b.dataset.page===p));
   if(p==="dashboard") renderDashboard();
   if(p==="samples") renderSamples();
   if(p==="new") renderNew();
   if(p==="approvals") renderApprovals();
+  if(p==="staff") renderStaff();
 }
-</script>
-<script>
+function openProfile(){
+  document.querySelectorAll("#sideNav button,#bottomNav button").forEach(b=>b.classList.remove("active"));
+  $("main").innerHTML = `
+    <div class="page-head"><h1>حسابي</h1></div>
+    <div class="card" style="max-width:420px;text-align:center;padding:36px">
+      <div style="font-size:52px">👤</div>
+      <h3 style="margin:10px 0 4px">${esc(me.name)}</h3>
+      <p style="color:var(--muted);font-size:13px;margin:0 0 4px">${esc(me.email||"")}</p>
+      <span class="badge b-approved">${ROLES[me.role]||me.role}</span>
+      <div style="margin-top:20px;display:flex;flex-direction:column;gap:8px">
+        <button class="btn outline" onclick="auth.sendPasswordResetEmail('${esc(me.email||"")}').then(()=>toast('أرسلنا رابط تغيير كلمة المرور لبريدك'))">تغيير كلمة المرور</button>
+        <button class="btn danger" onclick="doLogout()">تسجيل الخروج</button>
+      </div>
+    </div>`;
+}
+
 /* ---------- لوحة المتابعة ---------- */
 async function renderDashboard(){
-  const main = document.getElementById("main");
-  main.innerHTML = `<div class="page-head"><h1>لوحة المتابعة</h1></div><div id="dashBody">جارٍ التحميل...</div>`;
+  $("main").innerHTML = `<div class="page-head"><h1>لوحة المتابعة</h1></div><div id="dashBody">جارٍ التحميل...</div>`;
   const snap = await db.collection("samples").get();
   const samples = snap.docs.map(d=>({id:d.id,...d.data()}));
   const byStage = {}; STAGE_ORDER.forEach(s=>byStage[s]=0);
   samples.forEach(s=>byStage[s.stage]=(byStage[s.stage]||0)+1);
-  // شهري
   const monthly = {};
   samples.forEach(s=>{ const m=(s.receivedAt||"").slice(0,7); if(m) monthly[m]=(monthly[m]||0)+1; });
   const months = Object.keys(monthly).sort().slice(-12);
   const maxM = Math.max(1,...months.map(m=>monthly[m]));
-  // بانتظار الموافقة
   const pend = await db.collection("reports").where("status","==","pending").get();
-  pendBadge.textContent = pend.size;
-  pendBadge.classList.toggle("hidden", pend.size===0);
-  pendBadgeM.textContent = pend.size;
-  pendBadgeM.classList.toggle("hidden", pend.size===0);
+  pendBadge.textContent = pend.size; pendBadge.classList.toggle("hidden", pend.size===0);
+  pendBadgeM.textContent = pend.size; pendBadgeM.classList.toggle("hidden", pend.size===0);
 
-  document.getElementById("dashBody").innerHTML = `
-    ${me.role==="admin"&&pend.size>0?`<div class="alert purple">📋 لديك <b>${pend.size}</b> تقرير بانتظار موافقتك — <a href="#" onclick="showPage('approvals');return false" style="color:#5b21b6;font-weight:700">مراجعتها الآن</a></div>`:""}
+  $("dashBody").innerHTML = `
+    ${canApprove()&&pend.size>0?`<div class="alert purple">📋 لديك <b>${pend.size}</b> تقرير بانتظار موافقتك — <a href="#" onclick="showPage('approvals');return false"><b>مراجعتها الآن</b></a></div>`:""}
     <div class="grid5" style="margin-bottom:18px">
       <div class="stat"><div class="t">📥 إجمالي العينات</div><div class="n">${samples.length}</div></div>
-      <div class="stat"><div class="t">🧪 قيد الاستلام/الفحص</div><div class="n">${byStage.received+byStage.in_progress}</div></div>
+      <div class="stat"><div class="t">🧪 قيد الفحص</div><div class="n">${byStage.received+byStage.in_progress}</div></div>
       <div class="stat"><div class="t">⏳ بانتظار الموافقة</div><div class="n">${byStage.pending_approval}</div></div>
       <div class="stat"><div class="t">✅ تقارير معتمدة</div><div class="n">${byStage.approved}</div></div>
-      <div class="stat"><div class="t">📤 أُرسلت لأصحابها</div><div class="n">${byStage.sent}</div></div>
+      <div class="stat"><div class="t">📤 أُرسلت لصاحب العينة</div><div class="n">${byStage.sent}</div></div>
     </div>
-    <div class="grid2">
-      <div class="card"><h3>العينات حسب الشهر</h3>
-        <div class="chart">${months.map(m=>{
-          const [y,mo]=m.split("-");
-          return `<div class="col"><div class="bar-v" style="height:${Math.round(monthly[m]/maxM*100)}%"><span>${monthly[m]}</span></div><div class="lbl">${MONTHS[+mo-1]}<br>${y}</div></div>`;
-        }).join("")||'<p style="color:var(--muted)">لا توجد بيانات بعد</p>'}</div>
-      </div>
-      <div class="card"><h3>مراحل العينات</h3>
-        ${STAGE_ORDER.map(s=>{const c=byStage[s];const pct=samples.length?Math.round(c/samples.length*100):0;
-          return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
-          <span class="badge b-${s}">${STAGES[s]}</span><b>${c}</b></div>
-          <div style="height:8px;background:#f1f5f9;border-radius:99px"><div style="height:100%;width:${pct}%;background:var(--green);border-radius:99px"></div></div></div>`;}).join("")}
-      </div>
+    <div class="card"><h3>العينات حسب الشهر</h3>
+      <div class="chart">${months.map(m=>{
+        const [y,mo]=m.split("-");
+        return `<div class="col"><div class="bar-v" style="height:${Math.max(3,Math.round(monthly[m]/maxM*100))}%"><span>${monthly[m]}</span></div><div class="lbl">${MONTHS[+mo-1]}<br>${y}</div></div>`;
+      }).join("")||'<p style="color:var(--muted)">لا توجد بيانات بعد</p>'}</div>
+    </div>
+    <div class="card"><h3>مراحل العينات</h3>
+      ${STAGE_ORDER.map(s=>{const c=byStage[s];const pct=samples.length?Math.round(c/samples.length*100):0;
+        return `<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
+        <span class="badge b-${s}">${STAGES[s]}</span><b>${c}</b></div>
+        <div style="height:8px;background:#f1f5f9;border-radius:99px"><div style="height:100%;width:${pct}%;background:var(--green);border-radius:99px"></div></div></div>`;}).join("")}
     </div>
     <div class="card"><h3>أحدث العينات</h3>
       ${samples.sort((a,b)=>(b.createdAtSec||0)-(a.createdAtSec||0)).slice(0,6).map(s=>`
         <div class="log-item" style="cursor:pointer;align-items:center" onclick="openSample('${s.id}')">
           <span class="mono">${esc(s.sampleNo)}</span>
-          <span>${esc(s.farmerName||s.source)}</span>
-          <span style="color:var(--muted);font-size:12px">${esc(s.crop||s.sampleType)}</span>
-          <span style="margin-inline-start:auto" class="badge b-${s.stage}">${STAGES[s.stage]}</span>
+          <span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(s.farmerName||s.source)}</span>
+          <span class="badge b-${s.stage}">${STAGES[s.stage]}</span>
         </div>`).join("")||'<p style="color:var(--muted);text-align:center;padding:20px">لا توجد عينات بعد — ابدأ بتسجيل أول عينة</p>'}
     </div>`;
 }
 
 /* ---------- سجل العينات ---------- */
 async function renderSamples(){
-  const main = document.getElementById("main");
-  main.innerHTML = `
+  $("main").innerHTML = `
     <div class="page-head"><h1>سجل العينات</h1>
-      <button class="btn" onclick="showPage('new')">➕ تسجيل عينة جديدة</button></div>
+      <button class="btn" onclick="showPage('new')">➕ تسجيل عينة</button></div>
     <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px">
-      <input id="q" placeholder="بحث برقم العينة / المزارع / المصدر..." style="max-width:320px" oninput="loadSamples()">
-      <select id="fstage" style="max-width:200px" onchange="loadSamples()">
+      <input id="q" placeholder="بحث برقم العينة / المزارع / المصدر..." style="flex:1;min-width:200px" oninput="loadSamples()">
+      <select id="fstage" style="max-width:180px" onchange="loadSamples()">
         <option value="">كل المراحل</option>
         ${STAGE_ORDER.map(s=>`<option value="${s}">${STAGES[s]}</option>`).join("")}
       </select>
@@ -356,15 +456,15 @@ async function renderSamples(){
   loadSamples();
 }
 async function loadSamples(){
-  const q = (document.getElementById("q").value||"").trim();
-  const st = document.getElementById("fstage").value;
+  const q = ($("q").value||"").trim();
+  const st = $("fstage").value;
   const snap = await db.collection("samples").get();
   let rows = snap.docs.map(d=>({id:d.id,...d.data()}));
   if(st) rows = rows.filter(r=>r.stage===st);
   if(q) rows = rows.filter(r=>(r.sampleNo||"").includes(q)||(r.farmerName||"").includes(q)||(r.source||"").includes(q));
   rows.sort((a,b)=>(b.createdAtSec||0)-(a.createdAtSec||0));
-  document.getElementById("rows").innerHTML = rows.map(s=>`
-    <tr onclick="openSample('${s.id}')">
+  $("rows").innerHTML = rows.map(s=>`
+    <tr class="clickable" onclick="openSample('${s.id}')">
       <td class="mono">${esc(s.sampleNo)}</td><td>${esc(s.receivedAt)}</td>
       <td>${esc(s.farmerName||s.source)}</td><td>${esc(s.sampleType)}</td>
       <td>${esc(s.crop||"—")}</td><td>${esc(s.contactRef||"—")}</td>
@@ -376,7 +476,7 @@ async function loadSamples(){
 let newImg = null;
 function renderNew(){
   newImg = null;
-  document.getElementById("main").innerHTML = `
+  $("main").innerHTML = `
     <div class="page-head"><h1>تسجيل عينة جديدة</h1></div>
     <div class="card" style="max-width:760px"><h3>بيانات استلام العينة</h3>
       <div class="grid2">
@@ -398,21 +498,21 @@ async function pickImg(inp, mode){
   const f = inp.files[0]; if(!f) return;
   const data = await fileToDataUrl(f);
   if(mode==="new"){ newImg = data;
-    document.getElementById("imgArea").innerHTML = `<div class="imgbox"><img src="${data}"></div>`;
+    $("imgArea").innerHTML = `<div class="imgbox"><img src="${data}"></div>`;
   } else {
     await db.collection("samples").doc(mode).update({imageData:data});
     toast("تم حفظ الصورة"); openSample(mode);
   }
 }
 async function saveSample(btn){
-  const source=f_source.value.trim(), type=f_type.value, received=f_received.value;
+  const source=$("f_source").value.trim(), type=$("f_type").value, received=$("f_received").value;
   if(!source||!type||!received) return toast("أكمل الحقول المطلوبة (*)");
   btn.disabled=true;
   const sampleNo = await nextNo("sample","ع");
   const ref = await db.collection("samples").add({
-    sampleNo, receivedAt:received, source, contactRef:f_ref.value.trim()||"",
-    sampleType:type, crop:f_crop.value.trim()||"", farmerName:f_farmer.value.trim()||"",
-    notes:f_notes.value.trim()||"", imageData:newImg||"",
+    sampleNo, receivedAt:received, source, contactRef:$("f_ref").value.trim()||"",
+    sampleType:type, crop:$("f_crop").value.trim()||"", farmerName:$("f_farmer").value.trim()||"",
+    notes:$("f_notes").value.trim()||"", imageData:newImg||"",
     stage:"received", createdBy:me.name, createdAtSec:Date.now()
   });
   await logStage(ref.id,"received","تم استلام العينة وتسجيلها");
@@ -421,11 +521,10 @@ async function saveSample(btn){
 }
 </script>
 <script>
-/* ---------- صفحة العينة ---------- */
+/* ---------- صفحة العينة (ترتيب عمودي) ---------- */
 async function openSample(id){
-  document.querySelectorAll("nav button").forEach(b=>b.classList.remove("active"));
-  const main = document.getElementById("main");
-  main.innerHTML = "جارٍ التحميل...";
+  document.querySelectorAll("#sideNav button,#bottomNav button").forEach(b=>b.classList.remove("active"));
+  $("main").innerHTML = "جارٍ التحميل...";
   const d = await db.collection("samples").doc(id).get();
   if(!d.exists){toast("العينة غير موجودة");return showPage("samples");}
   const s = {id:d.id,...d.data()};
@@ -436,15 +535,15 @@ async function openSample(id){
   const cur = STAGE_ORDER.indexOf(s.stage);
   const editable = !report || ["pending","rejected"].includes(report.status);
 
-  main.innerHTML = `
+  $("main").innerHTML = `
     <div class="page-head">
-      <div style="display:flex;align-items:center;gap:10px">
+      <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
         <h1 class="mono">${esc(s.sampleNo)}</h1>
         <span class="badge b-${s.stage}">${STAGES[s.stage]}</span>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        ${report?`<button class="btn outline" onclick="openReport('${report.id}')">🖨️ عرض / طباعة التقرير</button>`:""}
-        ${report&&report.status==="approved"?`<button class="btn teal" onclick="markSent('${report.id}','${id}')">📤 تم الإرسال لصاحب العينة</button>`:""}
+        ${report?`<button class="btn outline sm" onclick="openReport('${report.id}')">🖨️ طباعة التقرير</button>`:""}
+        ${report&&report.status==="approved"?`<button class="btn teal sm" onclick="markSent('${report.id}','${id}')">📤 تم الإرسال لصاحب العينة</button>`:""}
       </div>
     </div>
 
@@ -455,44 +554,42 @@ async function openSample(id){
       }).join("")}</div>
     </div>
 
-    <div class="grid2">
-      <div class="card"><h3>بيانات الاستلام</h3>
-        <table style="font-size:13.5px;width:100%">
-          <tr><td style="color:var(--muted);padding:5px 0">تاريخ الوصول</td><td><b>${esc(s.receivedAt)}</b></td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0">مصدر العينة</td><td><b>${esc(s.source)}</b></td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0">قيد المراسلة</td><td><b>${esc(s.contactRef||"—")}</b></td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0">نوع العينة</td><td><b>${esc(s.sampleType)}</b></td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0">المحصول</td><td><b>${esc(s.crop||"—")}</b></td></tr>
-          <tr><td style="color:var(--muted);padding:5px 0">صاحب العينة</td><td><b>${esc(s.farmerName||"—")}</b></td></tr>
-        </table>
-        <div style="margin-top:12px"><label>صورة العينة</label>
-          ${s.imageData?`<div class="imgbox"><img src="${s.imageData}"></div>`
-            :`<label class="img-drop">📷 إرفاق صورة<input type="file" accept="image/*" class="hidden" onchange="pickImg(this,'${id}')"></label>`}
-        </div>
-      </div>
-
-      <div class="card"><h3>بيانات الفحص والنتيجة</h3>
-        <div class="grid2">
-          <div><label>تاريخ بدء الفحص</label><input type="date" id="e_start" value="${esc(s.examStartedAt||"")}"></div>
-          <div><label>فاحص العينة</label><input id="e_examiner" value="${esc(s.examinerName||"")}"></div>
-        </div>
-        <div style="margin-top:12px"><label>الإصابة / الآفة المشخّصة</label><input id="e_infection" value="${esc(s.infection||"")}" placeholder="مثال: نيماتودا تعقد الجذور — بدون إصابة"></div>
-        <div style="margin-top:12px"><label>النتيجة</label><textarea id="e_result" rows="3">${esc(s.result||"")}</textarea></div>
-        <div style="margin-top:12px"><label>ملاحظات</label><textarea id="e_notes" rows="2">${esc(s.notes||"")}</textarea></div>
-        <button class="btn outline" style="width:100%;margin-top:14px" onclick="saveExam('${id}')">حفظ بيانات الفحص</button>
+    <div class="card"><h3>بيانات الاستلام</h3>
+      <table style="font-size:13.5px;width:100%">
+        <tr><td style="color:var(--muted);padding:5px 0;width:130px">تاريخ الوصول</td><td><b>${esc(s.receivedAt)}</b></td></tr>
+        <tr><td style="color:var(--muted);padding:5px 0">مصدر العينة</td><td><b>${esc(s.source)}</b></td></tr>
+        <tr><td style="color:var(--muted);padding:5px 0">قيد المراسلة</td><td><b>${esc(s.contactRef||"—")}</b></td></tr>
+        <tr><td style="color:var(--muted);padding:5px 0">نوع العينة</td><td><b>${esc(s.sampleType)}</b></td></tr>
+        <tr><td style="color:var(--muted);padding:5px 0">المحصول</td><td><b>${esc(s.crop||"—")}</b></td></tr>
+        <tr><td style="color:var(--muted);padding:5px 0">صاحب العينة</td><td><b>${esc(s.farmerName||"—")}</b></td></tr>
+      </table>
+      <div style="margin-top:12px"><label>صورة العينة</label>
+        ${s.imageData?`<div class="imgbox"><img src="${s.imageData}"></div>`
+          :`<label class="img-drop">📷 إرفاق صورة<input type="file" accept="image/*" class="hidden" onchange="pickImg(this,'${id}')"></label>`}
       </div>
     </div>
 
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-        <h3 style="margin:0">📄 التقرير الفني</h3>
-        ${report?`<span class="badge ${report.status==="approved"?"b-approved":report.status==="rejected"?"b-received":"b-pending_approval"}">${REPORT_STATUS[report.status]} — ${esc(report.reportNo)}</span>`:""}
+    <div class="card"><h3>بيانات الفحص والنتيجة</h3>
+      <div class="grid2">
+        <div><label>تاريخ بدء الفحص</label><input type="date" id="e_start" value="${esc(s.examStartedAt||"")}"></div>
+        <div><label>فاحص العينة</label><input id="e_examiner" value="${esc(s.examinerName||"")}"></div>
       </div>
-      ${report&&report.status==="rejected"&&report.reviewerNote?`<div class="alert red">ملاحظة المسؤول: ${esc(report.reviewerNote)}</div>`:""}
+      <div style="margin-top:12px"><label>الإصابة / الآفة المشخّصة</label><input id="e_infection" value="${esc(s.infection||"")}" placeholder="مثال: نيماتودا تعقد الجذور — بدون إصابة"></div>
+      <div style="margin-top:12px"><label>النتيجة</label><textarea id="e_result" rows="3">${esc(s.result||"")}</textarea></div>
+      <div style="margin-top:12px"><label>ملاحظات</label><textarea id="e_notes" rows="2">${esc(s.notes||"")}</textarea></div>
+      <button class="btn outline" style="width:100%;margin-top:14px" onclick="saveExam('${id}')">حفظ بيانات الفحص</button>
+    </div>
+
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+        <h3 style="margin:0">📄 التقرير الفني</h3>
+        ${report?`<span class="badge ${report.status==="approved"?"b-approved":report.status==="rejected"?"b-suspended":"b-pending_approval"}">${REPORT_STATUS[report.status]} — ${esc(report.reportNo)}</span>`:""}
+      </div>
+      ${report&&report.status==="rejected"&&report.reviewerNote?`<div class="alert red">ملاحظة المدير: ${esc(report.reviewerNote)}</div>`:""}
       <div><label>التشخيص</label><textarea id="r_diag" rows="4" ${editable?"":"disabled"} placeholder="بعد فحص عينات الجذور والتربة أظهرت النتائج ما يلي...">${esc(report?report.diagnosis:(s.result||""))}</textarea></div>
       <div style="margin-top:12px"><label>التوصيات (سطر لكل توصية)</label><textarea id="r_rec" rows="5" ${editable?"":"disabled"} placeholder="التخلص من عقل العنب في حالة الإصابة الشديدة.&#10;معاملة التربة بالتعقيم الحراري إن أمكن...">${esc(report?report.recommendations:"")}</textarea></div>
-      ${editable?`<button class="btn" style="margin-top:14px" onclick="saveReport('${id}','${report?report.id:""}')">📨 ${report&&report.status==="rejected"?"إعادة إرسال لموافقة المسؤول":"إرسال لموافقة المسؤول"}</button>`:""}
-      ${report&&report.status==="pending"?`<div class="alert purple" style="margin-top:12px">التقرير بانتظار موافقة المسؤول — لا يمكن إرساله رسمياً لصاحب العينة قبل الاعتماد.</div>`:""}
+      ${editable?`<button class="btn" style="margin-top:14px" onclick="saveReport('${id}','${report?report.id:""}')">📨 ${report&&report.status==="rejected"?"إعادة إرسال لموافقة المدير":"إرسال لموافقة المدير"}</button>`:""}
+      ${report&&report.status==="pending"?`<div class="alert purple" style="margin-top:12px">التقرير بانتظار موافقة المدير — لا يمكن إرساله رسمياً لصاحب العينة قبل الاعتماد.</div>`:""}
     </div>
 
     <div class="card"><h3>سجل الحركة</h3>
@@ -504,8 +601,8 @@ async function openSample(id){
 
 async function saveExam(id){
   const patch = {
-    examStartedAt: e_start.value, examinerName: e_examiner.value.trim(),
-    infection: e_infection.value.trim(), result: e_result.value.trim(), notes: e_notes.value.trim()
+    examStartedAt: $("e_start").value, examinerName: $("e_examiner").value.trim(),
+    infection: $("e_infection").value.trim(), result: $("e_result").value.trim(), notes: $("e_notes").value.trim()
   };
   const d = await db.collection("samples").doc(id).get();
   const cur = d.data().stage;
@@ -518,7 +615,7 @@ async function saveExam(id){
 }
 
 async function saveReport(sampleId, reportId){
-  const diagnosis=r_diag.value.trim(), recommendations=r_rec.value.trim();
+  const diagnosis=$("r_diag").value.trim(), recommendations=$("r_rec").value.trim();
   if(!diagnosis||!recommendations) return toast("أكمل التشخيص والتوصيات");
   const data = {sampleId, diagnosis, recommendations, status:"pending", reviewerNote:"", reportDate:today(), createdBy:me.name};
   if(reportId){
@@ -529,8 +626,8 @@ async function saveReport(sampleId, reportId){
     reportId = ref.id;
   }
   await db.collection("samples").doc(sampleId).update({stage:"pending_approval"});
-  await logStage(sampleId,"pending_approval","تم إرسال التقرير الفني لموافقة المسؤول");
-  toast("تم إرسال التقرير لموافقة المسؤول"); openSample(sampleId);
+  await logStage(sampleId,"pending_approval","تم إرسال التقرير الفني لموافقة المدير");
+  toast("تم إرسال التقرير لموافقة المدير"); openSample(sampleId);
 }
 
 async function markSent(reportId, sampleId){
@@ -541,10 +638,19 @@ async function markSent(reportId, sampleId){
 }
 </script>
 <script>
-/* ---------- موافقات المسؤول ---------- */
+/* ---------- موافقات التقارير ---------- */
 async function renderApprovals(){
-  const main = document.getElementById("main");
-  main.innerHTML = `<div class="page-head"><h1>التقارير بانتظار الموافقة</h1></div>
+  if(!canApprove()){
+    $("main").innerHTML = `<div class="page-head"><h1>موافقات التقارير</h1></div>
+      <div class="card" style="text-align:center;padding:50px 20px">
+        <div style="font-size:46px">🔒</div>
+        <h3>لا تملك صلاحية الموافقة</h3>
+        <p style="color:var(--muted);font-size:13.5px">اعتماد التقارير متاح للمدير فقط.<br>إذا كنت تحتاج هذه الصلاحية راجع المسؤول.</p>
+      </div>`;
+    toast("لا تملك صلاحية — الموافقة للمدير فقط");
+    return;
+  }
+  $("main").innerHTML = `<div class="page-head"><h1>التقارير بانتظار الموافقة</h1></div>
     <p style="color:var(--muted);font-size:13px">راجع التقرير الفني قبل اعتماده — لا يُرسل رسمياً لصاحب العينة إلا بعد موافقتك.</p>
     <div id="apprBody">جارٍ التحميل...</div>`;
   const snap = await db.collection("reports").where("status","==","pending").get();
@@ -554,36 +660,128 @@ async function renderApprovals(){
     const sd = await db.collection("samples").doc(r.sampleId).get();
     items.push({r, s: sd.exists?sd.data():{}});
   }
-  document.getElementById("apprBody").innerHTML = items.map(({r,s})=>`
+  $("apprBody").innerHTML = items.map(({r,s})=>`
     <div class="card">
       <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-bottom:8px">
         <div><span class="mono">${esc(r.reportNo)}</span> <span style="color:var(--muted);font-size:13px">للعينة ${esc(s.sampleNo)}</span></div>
         <span class="badge b-pending_approval">بانتظار الموافقة — ${esc(r.reportDate)}</span>
       </div>
-      <div style="font-size:13px;color:var(--muted);margin-bottom:10px">${esc(s.farmerName||"—")} • ${esc(s.crop||s.sampleType||"")}</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:10px">${esc(s.farmerName||"—")} • ${esc(s.crop||s.sampleType||"")} • الفاحص: ${esc(r.createdBy||"—")}</div>
       <div style="background:#f8fafc;border-radius:10px;padding:14px;font-size:13.5px">
         <b>التشخيص:</b><p style="white-space:pre-line;margin:6px 0 12px">${esc(r.diagnosis)}</p>
         <b>التوصيات:</b><ul style="margin:6px 0;line-height:1.9">${r.recommendations.split("\n").filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
       </div>
       <div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap">
-        <button class="btn outline" onclick="openReport('${r.id}')">🖨️ معاينة التقرير</button>
-        <button class="btn teal" onclick="approveReport('${r.id}','${r.sampleId}')">✅ موافقة واعتماد</button>
-        <button class="btn danger" onclick="rejectReport('${r.id}','${r.sampleId}')">↩️ إعادة للمراجعة</button>
+        <button class="btn outline sm" onclick="openReport('${r.id}')">🖨️ معاينة</button>
+        <button class="btn teal sm" onclick="approveReport('${r.id}','${r.sampleId}')">✅ موافقة واعتماد</button>
+        <button class="btn danger sm" onclick="rejectModal('${r.id}','${r.sampleId}')">↩️ إعادة للمراجعة</button>
       </div>
     </div>`).join("") || '<div class="card" style="text-align:center;color:var(--muted);padding:40px">لا توجد تقارير بانتظار الموافقة</div>';
 }
 async function approveReport(rid, sid){
+  if(!canApprove()) return toast("لا تملك صلاحية — الموافقة للمدير فقط");
   await db.collection("reports").doc(rid).update({status:"approved", approvedBy:me.name, approvedAt:today()});
   await db.collection("samples").doc(sid).update({stage:"approved"});
-  await logStage(sid,"approved","وافق المسؤول على التقرير الفني");
+  await logStage(sid,"approved","وافق "+ROLES[me.role]+" على التقرير الفني");
   toast("تمت الموافقة على التقرير"); renderApprovals();
 }
-async function rejectReport(rid, sid){
-  const note = prompt("سبب الإعادة / ملاحظات للفاحص (اختياري):") || "";
+function rejectModal(rid, sid){
+  openModal(`
+    <h3>↩️ إعادة التقرير للمراجعة</h3>
+    <label>التعليق / سبب الإعادة (يظهر للفاحص)</label>
+    <textarea id="rejectNote" rows="3" placeholder="مثال: عدّل صياغة التوصية الثانية..."></textarea>
+    <div class="modal-actions">
+      <button class="btn outline sm" onclick="closeModal()">إلغاء</button>
+      <button class="btn danger sm" onclick="confirmReject('${rid}','${sid}')">تأكيد الإعادة</button>
+    </div>`);
+}
+async function confirmReject(rid, sid){
+  const note = $("rejectNote").value.trim();
   await db.collection("reports").doc(rid).update({status:"rejected", reviewerNote:note});
   await db.collection("samples").doc(sid).update({stage:"completed"});
-  await logStage(sid,"completed","أعاد المسؤول التقرير للمراجعة"+(note?": "+note:""));
-  toast("تمت إعادة التقرير للمراجعة"); renderApprovals();
+  await logStage(sid,"completed","أعاد "+ROLES[me.role]+" التقرير للمراجعة"+(note?": "+note:""));
+  closeModal();
+  toast("تمت إعادة التقرير للمراجعة");
+  renderApprovals();
+}
+
+/* ---------- إدارة الموظفين (المسؤول فقط) ---------- */
+async function renderStaff(){
+  if(me.role!=="admin"){
+    $("main").innerHTML = `<div class="page-head"><h1>الموظفون</h1></div>
+      <div class="card" style="text-align:center;padding:50px"><div style="font-size:46px">🔒</div><h3>هذه الصفحة للمسؤول فقط</h3></div>`;
+    return;
+  }
+  $("main").innerHTML = `<div class="page-head"><h1>إدارة الموظفين</h1></div><div id="staffBody">جارٍ التحميل...</div>`;
+  const snap = await db.collection("users").get();
+  const users = snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(a.createdAt||"")<(b.createdAt||"")?-1:1);
+  $("staffBody").innerHTML = `
+    <div class="card" style="padding:0;overflow:auto"><table class="list">
+      <thead><tr><th>الاسم</th><th>البريد</th><th>الصلاحية</th><th>الحالة</th><th>إجراءات</th></tr></thead>
+      <tbody>${users.map(u=>`
+        <tr>
+          <td><b>${esc(u.name)}</b>${u.id===me.uid?' <span class="badge b-approved">أنت</span>':""}</td>
+          <td style="font-size:12px">${esc(u.email||"")}</td>
+          <td>${u.id===me.uid?ROLES[u.role]:`
+            <select style="padding:5px 8px;font-size:12.5px;min-width:150px" onchange="setRole('${u.id}',this.value)">
+              ${["pending","user","approver","admin"].map(r=>`<option value="${r}" ${u.role===r?"selected":""}>${ROLES[r]}</option>`).join("")}
+            </select>`}</td>
+          <td>${u.status==="suspended"
+            ?`<span class="badge b-suspended">موقوف</span>${u.suspendReason?`<div style="font-size:11px;color:#b91c1c">${esc(u.suspendReason)}</div>`:""}`
+            :u.role==="pending"?'<span class="badge b-pending">بانتظار الموافقة</span>':'<span class="badge b-approved">نشط</span>'}</td>
+          <td>${u.id===me.uid?"—":`
+            <div style="display:flex;gap:5px;flex-wrap:wrap">
+              <button class="btn outline sm" onclick="resetPass('${esc(u.email||"")}')">🔑 كلمة المرور</button>
+              ${u.status==="suspended"
+                ?`<button class="btn teal sm" onclick="unsuspend('${u.id}')">▶️ إلغاء الإيقاف</button>`
+                :`<button class="btn outline sm" onclick="suspendModal('${u.id}','${esc(u.name)}')">⛔ إيقاف</button>`}
+              <button class="btn danger sm" onclick="deleteUser('${u.id}','${esc(u.name)}')">🗑️</button>
+            </div>`}</td>
+        </tr>`).join("")}
+      </tbody></table></div>
+    <div class="alert purple">💡 تغيير الصلاحية من القائمة يُطبق فوراً. «بانتظار الموافقة» = حساب مفعّل لكنه لم يُمنح صلاحية بعد ولا يستطيع دخول النظام.</div>`;
+}
+async function setRole(uid, role){
+  await db.collection("users").doc(uid).update({role, status:"active"});
+  toast("تم تحديث الصلاحية"); renderStaff();
+}
+async function resetPass(email){
+  if(!email) return toast("لا يوجد بريد لهذا الحساب");
+  try{ await auth.sendPasswordResetEmail(email); toast("أُرسل رابط إعادة تعيين كلمة المرور إلى "+email); }
+  catch(e){ toast("خطأ: "+e.message); }
+}
+function suspendModal(uid, name){
+  openModal(`
+    <h3>⛔ إيقاف حساب: ${name}</h3>
+    <label>سبب الإيقاف (يظهر للموظف عند دخوله)</label>
+    <textarea id="suspendReason" rows="3" placeholder="مثال: إجازة طويلة / مخالفة إدارية..."></textarea>
+    <div class="modal-actions">
+      <button class="btn outline sm" onclick="closeModal()">إلغاء</button>
+      <button class="btn danger sm" onclick="confirmSuspend('${uid}')">تأكيد الإيقاف</button>
+    </div>`);
+}
+async function confirmSuspend(uid){
+  const reason = $("suspendReason").value.trim();
+  if(!reason) return toast("اكتب سبب الإيقاف");
+  await db.collection("users").doc(uid).update({status:"suspended", suspendReason:reason});
+  closeModal(); toast("تم إيقاف الحساب"); renderStaff();
+}
+async function unsuspend(uid){
+  await db.collection("users").doc(uid).update({status:"active", suspendReason:""});
+  toast("تم إلغاء الإيقاف"); renderStaff();
+}
+function deleteUser(uid, name){
+  openModal(`
+    <h3>🗑️ حذف الحساب</h3>
+    <p style="font-size:13.5px;color:var(--muted)">سيتم حذف حساب <b>${name}</b> من النظام نهائياً ولن يستطيع الدخول مرة أخرى.</p>
+    <div class="modal-actions">
+      <button class="btn outline sm" onclick="closeModal()">إلغاء</button>
+      <button class="btn danger sm" onclick="confirmDelete('${uid}')">تأكيد الحذف</button>
+    </div>`);
+}
+async function confirmDelete(uid){
+  await db.collection("users").doc(uid).delete();
+  closeModal(); toast("تم حذف الحساب"); renderStaff();
 }
 
 /* ---------- التقرير للطباعة ---------- */
@@ -593,13 +791,13 @@ async function openReport(rid){
   const r = {id:d.id,...d.data()};
   const sd = await db.collection("samples").doc(r.sampleId).get();
   const s = sd.data();
-  document.getElementById("appScreen").classList.add("hidden");
-  const rp = document.getElementById("reportPage");
+  $("appScreen").classList.add("hidden");
+  const rp = $("reportPage");
   rp.classList.remove("hidden");
   rp.innerHTML = `
     <div class="report-toolbar no-print" style="padding:0 16px">
       <button class="btn" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
-      <button class="btn outline" onclick="closeReport('${r.sampleId}')">→ رجوع للعينة</button>
+      <button class="btn outline" onclick="closeReport('${r.sampleId}')">→ رجوع</button>
     </div>
     <div class="sheet">
       <table><tr class="head">
@@ -622,7 +820,7 @@ async function openReport(rid){
             <td style="font-weight:700;color:#b91c1c">${esc(s.infection||s.result||"—")}</td></tr>
       </table>
 
-      ${s.imageData?`<div style="margin-bottom:16px"><b>صورة العينة:</b><br><img src="${s.imageData}" style="max-height:240px;border-radius:8px;border:1px solid #cbd5e1;margin-top:8px"></div>`:""}
+      ${s.imageData?`<div style="margin-bottom:16px"><b>صورة العينة:</b><br><img src="${s.imageData}" style="max-height:240px;max-width:100%;border-radius:8px;border:1px solid #cbd5e1;margin-top:8px"></div>`:""}
 
       <h2>2. التوصيات:</h2>
       <ul>${r.recommendations.split("\n").filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
@@ -631,13 +829,13 @@ async function openReport(rid){
 
       <div class="sig">
         <div><b>فاحص العينة</b><br>${esc(s.examinerName||"................")}</div>
-        <div><b>اعتماد المسؤول</b><br>${r.status==="approved"||r.status==="sent" ? esc(r.approvedBy||"المسؤول")+" — "+esc(r.approvedAt||"") : "بانتظار الاعتماد"}</div>
+        <div><b>اعتماد المدير</b><br>${r.status==="approved"||r.status==="sent" ? esc(r.approvedBy||"المدير")+" — "+esc(r.approvedAt||"") : "بانتظار الاعتماد"}</div>
       </div>
     </div>`;
 }
 function closeReport(sid){
-  document.getElementById("reportPage").classList.add("hidden");
-  document.getElementById("appScreen").classList.remove("hidden");
+  $("reportPage").classList.add("hidden");
+  $("appScreen").classList.remove("hidden");
   openSample(sid);
 }
 </script>
