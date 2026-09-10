@@ -98,11 +98,28 @@ table.list tbody tr:hover{background:#f8fafc}
   .no-print{display:none!important}
   .sheet{box-shadow:none;max-width:100%;padding:0}
 }
+/* شريط سفلي للجوال */
+#bottomNav{display:none}
 @media(max-width:700px){
-  aside{width:64px;padding:12px 6px}
-  aside h2 span,nav button span,.userbox{display:none}
-  nav button{justify-content:center;padding:12px}
-  main{padding:16px}
+  aside{display:none}
+  main{padding:14px;padding-bottom:86px;max-width:100%}
+  .grid2,.grid5{grid-template-columns:1fr 1fr}
+  .page-head h1{font-size:19px}
+  #bottomNav{
+    display:flex;position:fixed;bottom:0;left:0;right:0;z-index:50;
+    background:#fff;border-top:1px solid var(--border);
+    padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+    box-shadow:0 -2px 12px rgba(0,0,0,.06);
+  }
+  #bottomNav button{
+    flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+    background:none;border:none;font-size:10.5px;color:var(--muted);padding:6px 2px;border-radius:10px;
+  }
+  #bottomNav button .ico{font-size:21px}
+  #bottomNav button.active{color:var(--green-d);font-weight:700}
+  #bottomNav button .b-dot{position:absolute;top:2px;left:22%;background:#7c3aed;color:#fff;font-size:10px;border-radius:99px;padding:1px 6px}
+  table.list{font-size:12px;min-width:640px}
+  .chart{height:150px}
 }
 </style>
 </head>
@@ -139,6 +156,14 @@ table.list tbody tr:hover{background:#f8fafc}
     </div>
   </aside>
   <main id="main"></main>
+  <!-- شريط التنقل السفلي (يظهر في الجوال فقط) -->
+  <nav id="bottomNav">
+    <button data-page="dashboard" onclick="showPage('dashboard')"><span class="ico">📊</span>المتابعة</button>
+    <button data-page="samples" onclick="showPage('samples')"><span class="ico">🧪</span>العينات</button>
+    <button data-page="new" onclick="showPage('new')"><span class="ico">➕</span>تسجيل</button>
+    <button data-page="approvals" id="navApprovalsM" class="hidden" onclick="showPage('approvals')" style="position:relative"><span class="ico">✅</span>الموافقات<span id="pendBadgeM" class="b-dot hidden"></span></button>
+    <button onclick="openProfile()"><span class="ico">👤</span>حسابي</button>
+  </nav>
 </div>
 
 <!-- ======== صفحة التقرير (طباعة) ======== -->
@@ -212,7 +237,7 @@ auth.onAuthStateChanged(async u=>{
   document.getElementById("appScreen").classList.remove("hidden");
   userName.textContent = me.name;
   userRole.textContent = me.role==="admin" ? "المسؤول" : "فاحص";
-  if(me.role==="admin") navApprovals.classList.remove("hidden");
+  if(me.role==="admin"){ navApprovals.classList.remove("hidden"); navApprovalsM.classList.remove("hidden"); }
   showPage("dashboard");
 });
 
@@ -274,6 +299,8 @@ async function renderDashboard(){
   const pend = await db.collection("reports").where("status","==","pending").get();
   pendBadge.textContent = pend.size;
   pendBadge.classList.toggle("hidden", pend.size===0);
+  pendBadgeM.textContent = pend.size;
+  pendBadgeM.classList.toggle("hidden", pend.size===0);
 
   document.getElementById("dashBody").innerHTML = `
     ${me.role==="admin"&&pend.size>0?`<div class="alert purple">📋 لديك <b>${pend.size}</b> تقرير بانتظار موافقتك — <a href="#" onclick="showPage('approvals');return false" style="color:#5b21b6;font-weight:700">مراجعتها الآن</a></div>`:""}
