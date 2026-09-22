@@ -526,7 +526,6 @@ async function loadSamples(){
 let W = {};
 function renderWizard(){
   W = {step:1, sampleNo:"", receivedAt:today(), crop:"", location:"", fieldNotes:"", imageData:"", part:"", symptom:"", visualNotes:"", microNotes:"", resultDays:"", pathogen:""};
-  nextNo("sample","ع").then(n=>{W.sampleNo=n;$("w_no").value=n;});
   drawWizard();
 }
 function stepsbar(){
@@ -537,9 +536,9 @@ function drawWizard(){
   if(W.step===1){
     body=`
     <div class="card"><h3>1. استلام العينة وتسجيلها</h3>
-      <div class="field" style="margin-bottom:12px"><label>رقم العينة</label><input id="w_no" value="${esc(W.sampleNo)}" readonly style="background:#f8fafc"></div>
+      <div class="field" style="margin-bottom:12px"><label>رقم العينة</label><input id="w_no" value="${esc(W.sampleNo)}" placeholder="أدخل رقم العينة"></div>
       <div class="field" style="margin-bottom:12px"><label>تاريخ الاستلام</label><input type="date" id="w_received" value="${esc(W.receivedAt)}"></div>
-      <div class="field" style="margin-bottom:12px"><label>اسم المحصول</label><select id="w_crop"><option value="">اختر...</option>${opts("crops")}</select></div>
+      <div class="field" style="margin-bottom:12px"><label>نوع العينة</label><input id="w_crop" value="${esc(W.crop)}" placeholder="مثال: عنب، تربة وجذور، أوراق..."></div>
       <div class="field" style="margin-bottom:12px"><label>موقع أخذ العينة</label><input id="w_loc" value="${esc(W.location)}" placeholder="مثال: مزرعة الروضة - بهلا"></div>
       <div class="field" style="margin-bottom:12px"><label>الأعراض والملاحظات الميدانية</label><textarea id="w_notes" rows="3" placeholder="مثال: وجود بقع بنية على الأوراق">${esc(W.fieldNotes)}</textarea></div>
       <div class="field"><label>صورة العينة</label>
@@ -552,8 +551,8 @@ function drawWizard(){
   if(W.step===2){
     body=`
     <div class="card"><h3>2. الفحص الظاهري</h3>
-      <div class="field" style="margin-bottom:12px"><label>الجزء المصاب</label><select id="w_part"><option value="">اختر...</option>${opts("parts")}</select></div>
-      <div class="field" style="margin-bottom:12px"><label>نوع الأعراض</label><select id="w_sym"><option value="">اختر...</option>${opts("symptoms")}</select></div>
+      <div class="field" style="margin-bottom:12px"><label>الجزء المصاب</label><input id="w_part" value="${esc(W.part)}" placeholder="مثال: الأوراق، الجذور، الثمار..."></div>
+      <div class="field" style="margin-bottom:12px"><label>الأعراض</label><select id="w_sym"><option value="">اختر...</option>${opts("symptoms")}</select></div>
       <div class="field" style="margin-bottom:12px"><label>ملاحظات إضافية</label><textarea id="w_vnotes" rows="3">${esc(W.visualNotes)}</textarea></div>
       <div class="field"><label>صورة العينة</label>
         ${W.imageData?`<div class="imgbox"><img src="${W.imageData}"></div>`:'<p style="color:var(--muted);font-size:12px">لم تُرفق صورة في الخطوة الأولى</p>'}
@@ -581,13 +580,13 @@ async function wizImg(inp){
   $("w_imgArea").innerHTML=`<div class="imgbox"><img src="${W.imageData}"></div>`;
 }
 function wizNext1(){
-  W.receivedAt=$("w_received").value;W.crop=$("w_crop").value;W.location=$("w_loc").value.trim();W.fieldNotes=$("w_notes").value.trim();
-  if(!W.crop)return toast("اختر اسم المحصول");
+  W.sampleNo=$("w_no").value.trim();W.receivedAt=$("w_received").value;W.crop=$("w_crop").value.trim();W.location=$("w_loc").value.trim();W.fieldNotes=$("w_notes").value.trim();
+  if(!W.sampleNo)return toast("أدخل رقم العينة");
+  if(!W.crop)return toast("أدخل نوع العينة");
   W.step=2;drawWizard();
 }
 function wizNext2(){
-  W.part=$("w_part").value;W.symptom=$("w_sym").value;W.visualNotes=$("w_vnotes").value.trim();
-  if(!W.part)return toast("اختر الجزء المصاب");
+  W.part=$("w_part").value.trim();W.symptom=$("w_sym").value;W.visualNotes=$("w_vnotes").value.trim();
   W.step=3;drawWizard();
 }
 async function wizSave(btn){
@@ -647,7 +646,7 @@ async function openSample(id){
       <div style="font-size:13px;line-height:2">
         <div><b>رقم العينة:</b> <span class="mono">${esc(s.sampleNo)}</span></div>
         <div><b>تاريخ الاستلام:</b> ${esc(s.receivedAt)}</div>
-        <div><b>اسم المحصول:</b> ${esc(s.crop||"—")}</div>
+        <div><b>نوع العينة:</b> ${esc(s.crop||"—")}</div>
         <div><b>موقع أخذ العينة:</b> ${esc(s.location||s.source||"—")}</div>
         <div><b>الأعراض والملاحظات الميدانية:</b> ${esc(s.fieldNotes||"—")}</div>
       </div>
@@ -656,7 +655,7 @@ async function openSample(id){
     <div class="card"><h3>2. الفحص الظاهري</h3>
       <div style="font-size:13px;line-height:2">
         <div><b>الجزء المصاب:</b> ${esc(s.part||"—")}</div>
-        <div><b>نوع الأعراض:</b> ${esc(s.symptom||"—")}</div>
+        <div><b>الأعراض:</b> ${esc(s.symptom||"—")}</div>
         <div><b>ملاحظات:</b> ${esc(s.visualNotes||"—")}</div>
       </div>
     </div>
@@ -958,7 +957,7 @@ async function openReport(rid){
       </table>
 
       <h2>1. استلام العينة وتسجيلها:</h2>
-      <p style="line-height:1.9">المحصول: <b>${esc(s.crop||"—")}</b> — الأعراض والملاحظات الميدانية: ${esc(s.fieldNotes||"—")}</p>
+      <p style="line-height:1.9">نوع العينة: <b>${esc(s.crop||"—")}</b> — الأعراض والملاحظات الميدانية: ${esc(s.fieldNotes||"—")}</p>
 
       <h2>2. الفحص الظاهري:</h2>
       <p style="line-height:1.9">الجزء المصاب: <b>${esc(s.part||"—")}</b> — نوع الأعراض: <b>${esc(s.symptom||"—")}</b>${s.visualNotes?"<br>ملاحظات: "+esc(s.visualNotes):""}</p>
