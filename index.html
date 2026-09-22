@@ -540,6 +540,7 @@ function drawWizard(){
       <div class="field" style="margin-bottom:12px"><label>تاريخ الاستلام</label><input type="date" id="w_received" value="${esc(W.receivedAt)}"></div>
       <div class="field" style="margin-bottom:12px"><label>نوع العينة</label><input id="w_crop" value="${esc(W.crop)}" placeholder="مثال: عنب، تربة وجذور، أوراق..."></div>
       <div class="field" style="margin-bottom:12px"><label>موقع أخذ العينة</label><input id="w_loc" value="${esc(W.location)}" placeholder="مثال: مزرعة الروضة - بهلا"></div>
+      <div class="field" style="margin-bottom:12px"><label>فاحص العينة</label><input id="w_examiner" value="${esc(W.examiner||me.name)}" placeholder="اسم فاحص العينة"></div>
       <div class="field" style="margin-bottom:12px"><label>الأعراض والملاحظات الميدانية</label><textarea id="w_notes" rows="3" placeholder="مثال: وجود بقع بنية على الأوراق">${esc(W.fieldNotes)}</textarea></div>
       <div class="field"><label>صورة العينة</label>
         <div id="w_imgArea">${W.imageData?`<div class="imgbox"><img src="${W.imageData}"></div>`:`<label class="img-drop">📷 اختر صورة<input type="file" accept="image/*" class="hidden" onchange="wizImg(this)"></label>`}</div>
@@ -580,7 +581,7 @@ async function wizImg(inp){
   $("w_imgArea").innerHTML=`<div class="imgbox"><img src="${W.imageData}"></div>`;
 }
 function wizNext1(){
-  W.sampleNo=$("w_no").value.trim();W.receivedAt=$("w_received").value;W.crop=$("w_crop").value.trim();W.location=$("w_loc").value.trim();W.fieldNotes=$("w_notes").value.trim();
+  W.sampleNo=$("w_no").value.trim();W.receivedAt=$("w_received").value;W.crop=$("w_crop").value.trim();W.location=$("w_loc").value.trim();W.fieldNotes=$("w_notes").value.trim();W.examiner=$("w_examiner").value.trim();
   if(!W.sampleNo)return toast("أدخل رقم العينة");
   if(!W.crop)return toast("أدخل نوع العينة");
   W.step=2;drawWizard();
@@ -597,7 +598,7 @@ async function wizSave(btn){
       sampleNo:W.sampleNo,receivedAt:W.receivedAt,crop:W.crop,location:W.location,fieldNotes:W.fieldNotes,
       imageData:W.imageData,part:W.part,symptom:W.symptom,visualNotes:W.visualNotes,
       microNotes:W.microNotes,resultDays:W.resultDays,pathogen:W.pathogen,
-      sampleType:W.part,source:W.location,examStartedAt:today(),examinerName:me.name,
+      sampleType:W.part,source:W.location,examStartedAt:today(),examinerName:W.examiner||me.name,
       stage:"completed",createdBy:me.name,createdAtSec:Date.now()
     });
     await logStage(ref.id,"received","تم استلام العينة وتسجيلها");
@@ -648,6 +649,7 @@ async function openSample(id){
         <div><b>تاريخ الاستلام:</b> ${esc(s.receivedAt)}</div>
         <div><b>نوع العينة:</b> ${esc(s.crop||"—")}</div>
         <div><b>موقع أخذ العينة:</b> ${esc(s.location||s.source||"—")}</div>
+        <div><b>فاحص العينة:</b> ${esc(s.examinerName||"—")}</div>
         <div><b>الأعراض والملاحظات الميدانية:</b> ${esc(s.fieldNotes||"—")}</div>
       </div>
     </div>
