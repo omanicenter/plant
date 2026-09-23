@@ -477,18 +477,37 @@ async function loadSamples(){
 <script>
 /* ===== معالج تسجيل العينة (3 خطوات — يحفظ كل مرحلة) ===== */
 let W = {};
-function renderWizard(){
-  W = {step:1, id:"", sampleNo:"", receivedAt:today(), crop:"", location:"", examiner:"", fieldNotes:"", imageData:"", part:"", symptom:"", visualNotes:"", microNotes:"", resultDays:"", pathogen:"", microImage:""};
-  drawWizard();
+function blankW(){return {view:"hub",id:"",sampleNo:"",receivedAt:today(),crop:"",location:"",examiner:"",fieldNotes:"",imageData:"",part:"",symptom:"",visualNotes:"",microNotes:"",resultDays:"",pathogen:"",microImage:"",pickList:[],pickedStage:""};}
+function renderWizard(){ W=blankW(); drawWizard(); }
+
+/* شريط مراحل مصغّر (الاستلام/الظاهري/المجهري) يتحدّث بعد كل حفظ */
+function miniStages(stage){
+  const order=["received","visual","micro"];
+  const cur=order.indexOf(stage);
+  return `<div class="card" style="padding:10px 12px"><div class="stages">${order.map((st,i)=>`<div class="stg ${i<=cur?"done":""}"><div class="bar"></div>${STAGES[st]}</div>`).join("")}</div></div>`;
 }
-function stepsbar(){
-  return `<div class="stepsbar">${[1,2,3].map(n=>`<div data-n="${n}" class="${W.step===n?"on":W.step>n?"done":""}">${["الاستلام","الفحص الظاهري","الفحص المجهري"][n-1]}</div>`).join("")}</div>`;
-}
+
 function drawWizard(){
   let body="";
-  if(W.step===1){
+  if(W.view==="hub"){
     body=`
-    <div class="card"><h3>1. استلام العينة وتسجيلها</h3>
+    <div class="card" style="text-align:center;padding:22px 16px">
+      <div style="font-size:42px;margin-bottom:6px">🌿</div>
+      <h3 style="margin:0 0 4px">تسجيل معاملة عينة</h3>
+      <p style="color:var(--muted);font-size:13px;margin:0 0 18px">اختر القسم الذي تريد تعبئته — كل قسم يحدّث شريط مراحل العينة تلقائياً</p>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <button class="btn" style="width:100%;padding:16px;font-size:15px;text-align:right;display:flex;align-items:center;gap:12px" onclick="wizGo('receive')"><span style="font-size:26px">📝</span><span><b>1. أضف استلام عينة</b><br><small style="opacity:.8">تسجيل بيانات الاستلام والعينة</small></span></button>
+        <button class="btn" style="width:100%;padding:16px;font-size:15px;text-align:right;display:flex;align-items:center;gap:12px;background:#7c3aed" onclick="wizGo('visual')"><span style="font-size:26px">🔍</span><span><b>2. أضف الفحص الظاهري</b><br><small style="opacity:.8">تسجيل نتائج الفحص الظاهري لعينة مستلمة</small></span></button>
+        <button class="btn" style="width:100%;padding:16px;font-size:15px;text-align:right;display:flex;align-items:center;gap:12px;background:#0f766e" onclick="wizGo('micro')"><span style="font-size:26px">🔬</span><span><b>3. أضف الفحص المجهري</b><br><small style="opacity:.8">تسجيل نتائج الفحص المجهري + صورة المجهر</small></span></button>
+      </div>
+      ${W.sampleNo?`<p style="margin:14px 0 0;font-size:12px;color:var(--muted)">آخر عينة عُدّلت: <b class="mono">${esc(W.sampleNo)}</b></p>`:""}
+    </div>`;
+  }
+
+  if(W.view==="receive"){
+    body=`
+    ${W.id?miniStages("received"):""}
+    <div class="card"><h3>📝 1. استلام العينة وتسجيلها</h3>
       <div class="field" style="margin-bottom:12px"><label>رقم العينة</label><input id="w_no" value="${esc(W.sampleNo)}" placeholder="أدخل رقم العينة"></div>
       <div class="field" style="margin-bottom:12px"><label>تاريخ الاستلام</label><input type="date" id="w_received" value="${esc(W.receivedAt)}"></div>
       <div class="field" style="margin-bottom:12px"><label>نوع العينة</label><input id="w_crop" value="${esc(W.crop)}" placeholder="مثال: عنب، تربة وجذور، أوراق..."></div>
@@ -499,53 +518,114 @@ function drawWizard(){
         <div id="w_imgArea">${W.imageData?`<div class="imgbox"><img src="${W.imageData}"></div>`:`<label class="img-drop">📷 اختر صورة<input type="file" accept="image/*" class="hidden" onchange="wizImg(this)"></label>`}</div>
       </div>
     </div>
-    <button class="btn" style="width:100%" onclick="wizNext1(this)">التالي</button>`;
+    <button class="btn" style="width:100%" onclick="wizSaveReceive(this)">💾 حفظ الاستلام</button>
+    ${W.id?`<div class="btnrow" style="margin-top:10px"><button class="btn outline" style="flex:1" onclick="wizGo('visual')">التالي: الفحص الظاهري ←</button><button class="btn gray" onclick="wizGo('hub')">رجوع</button></div>`:`<button class="btn gray" style="width:100%;margin-top:10px" onclick="wizGo('hub')">رجوع</button>`}`;
   }
-  if(W.step===2){
+
+  if(W.view==="visual"){
     body=`
-    <div class="card"><h3>2. الفحص الظاهري</h3>
+    <div class="card"><h3>🔍 2. الفحص الظاهري</h3>
+      <div class="field"><label>اختر رقم العينة (المعاملة الواحدة تظهر بجميع بياناتها)</label>
+        <select id="w_pick" onchange="wizPick(this)"><option value="">اختر رقم العينة...</option>${W.pickList.map(p=>`<option value="${p.id}" ${p.id===W.id?"selected":""}>${esc(p.sampleNo)} — ${esc(p.crop||"")}</option>`).join("")}</select></div>
+    </div>
+    ${W.id?`
+    ${miniStages(W.pickedStage)}
+    <div class="card" style="text-align:center;padding:12px"><div style="font-size:12px;color:var(--muted)">العينة رقم</div><div class="mono" style="font-size:24px;font-weight:800">${esc(W.sampleNo)}</div></div>
+    <div class="card">
       <div class="field" style="margin-bottom:12px"><label>الجزء المصاب</label><input id="w_part" value="${esc(W.part)}" placeholder="مثال: الأوراق، الجذور، الثمار..."></div>
       <div class="field" style="margin-bottom:12px"><label>الأعراض</label><select id="w_sym"><option value="">اختر...</option>${opts("symptoms")}</select></div>
       <div class="field" style="margin-bottom:12px"><label>ملاحظات</label><textarea id="w_vnotes" rows="3">${esc(W.visualNotes)}</textarea></div>
-      <div class="field"><label>صورة العينة</label>
-        ${W.imageData?`<div class="imgbox"><img src="${W.imageData}"></div>`:'<p style="color:var(--muted);font-size:12px">لم تُرفق صورة في الخطوة الأولى</p>'}
+      <div class="field"><label>صورة العينة (من الاستلام)</label>
+        ${W.imageData?`<div class="imgbox"><img src="${W.imageData}" style="max-height:140px"></div>`:'<p style="color:var(--muted);font-size:12px">لم تُرفق صورة في الاستلام</p>'}
       </div>
     </div>
-    <div class="btnrow"><button class="btn gray" onclick="W.step=1;drawWizard()">السابق</button><button class="btn" onclick="wizNext2(this)">التالي</button></div>`;
-    setTimeout(()=>{$("w_sym").value=W.symptom;},0);
+    <button class="btn" style="width:100%;background:#7c3aed" onclick="wizSaveVisual(this)">💾 حفظ الفحص الظاهري</button>
+    <div class="btnrow" style="margin-top:10px"><button class="btn outline" style="flex:1" onclick="wizGo('micro')">التالي: الفحص المجهري ←</button><button class="btn gray" onclick="wizGo('hub')">رجوع</button></div>`
+    :`<button class="btn gray" style="width:100%" onclick="wizGo('hub')">رجوع</button>`}`;
+    if(W.id)setTimeout(()=>{$("w_sym").value=W.symptom;},0);
   }
-  if(W.step===3){
+
+  if(W.view==="micro"){
     body=`
-    <div class="card"><h3>3. الفحص المجهري</h3>
+    <div class="card"><h3>🔬 3. الفحص المجهري</h3>
+      <div class="field"><label>اختر رقم العينة (المعاملة الواحدة تظهر بجميع بياناتها)</label>
+        <select id="w_pick" onchange="wizPick(this)"><option value="">اختر رقم العينة...</option>${W.pickList.map(p=>`<option value="${p.id}" ${p.id===W.id?"selected":""}>${esc(p.sampleNo)} — ${esc(p.crop||"")}</option>`).join("")}</select></div>
+    </div>
+    ${W.id?`
+    ${miniStages(W.pickedStage)}
+    <div class="card" style="text-align:center;padding:12px"><div style="font-size:12px;color:var(--muted)">العينة رقم</div><div class="mono" style="font-size:24px;font-weight:800">${esc(W.sampleNo)}</div></div>
+    <div class="card">
       <div class="field" style="margin-bottom:12px"><label>ملاحظات الفحص المجهري</label><textarea id="w_micro" rows="3" placeholder="مثال: تم مشاهدة الأبواغ الفطرية تحت المجهر">${esc(W.microNotes)}</textarea></div>
       <div class="field" style="margin-bottom:12px"><label>مدة ظهور نتيجة العينة</label><select id="w_days"><option value="">اختر...</option>${DURATIONS.map(d=>`<option>${d}</option>`).join("")}</select></div>
       <div class="field" style="margin-bottom:12px"><label>السبب المرضي</label><select id="w_path"><option value="">اختر...</option>${opts("pathogens")}</select></div>
       <div class="field"><label>صورة الفحص المجهري <span style="font-weight:400;color:var(--muted);font-size:11px">(تُحفظ في التطبيق فقط — لا تظهر في التقرير)</span></label>
-        <div id="w_microArea">${W.microImage?`<div class="imgbox"><img src="${W.microImage}"></div>`:`<label class="img-drop">🔬 اختر صورة<input type="file" accept="image/*" class="hidden" onchange="wizMicroImg(this)"></label>`}</div>
+        <div id="w_microArea">${W.microImage?`<div class="imgbox"><img src="${W.microImage}"></div>`:`<label class="img-drop">🔬 اختر صورة المجهر<input type="file" accept="image/*" class="hidden" onchange="wizMicroImg(this)"></label>`}</div>
       </div>
     </div>
-    <div class="btnrow"><button class="btn gray" onclick="W.step=2;drawWizard()">السابق</button><button class="btn" onclick="wizSave(this)">حفظ</button></div>`;
-    setTimeout(()=>{$("w_days").value=W.resultDays;$("w_path").value=W.pathogen;},0);
+    <button class="btn" style="width:100%;background:#0f766e" onclick="wizSaveMicro(this)">💾 حفظ الفحص المجهري</button>
+    <div class="btnrow" style="margin-top:10px"><button class="btn outline" style="flex:1" onclick="openSample('${W.id}')">عرض ملف العينة 📄</button><button class="btn gray" onclick="wizGo('hub')">رجوع</button></div>`
+    :`<button class="btn gray" style="width:100%" onclick="wizGo('hub')">رجوع</button>`}`;
+    if(W.id)setTimeout(()=>{$("w_days").value=W.resultDays;$("w_path").value=W.pathogen;},0);
   }
-  $("main").innerHTML = stepsbar()+body;
+  $("main").innerHTML=body;
+  window.scrollTo(0,0);
 }
+
+async function wizGo(view){
+  W.view=view;
+  if(view==="visual"||view==="micro"){
+    $("main").innerHTML="جارٍ التحميل...";
+    try{
+      const snap=await db.collection("samples").orderBy("createdAtSec","desc").get();
+      const allowed=view==="visual"?["received","visual"]:["received","visual","micro"];
+      W.pickList=snap.docs.map(d=>({id:d.id,...d.data()})).filter(x=>allowed.includes(x.stage));
+      if(W.sampleNo){const pre=W.pickList.find(p=>p.sampleNo===W.sampleNo);if(pre&&!W.id)await wizLoad(pre.id);}
+    }catch(e){toast("خطأ في تحميل العينات: "+e.message);}
+  }
+  drawWizard();
+}
+
+async function wizPick(sel){
+  const id=sel.value;
+  if(!id){W.id="";W.sampleNo="";drawWizard();return;}
+  $("main").innerHTML="جارٍ التحميل...";
+  await wizLoad(id);
+  drawWizard();
+}
+
+async function wizLoad(id){
+  const d=await db.collection("samples").doc(id).get();
+  if(!d.exists)return toast("العينة غير موجودة");
+  const s=d.data();
+  Object.assign(W,{id:id,sampleNo:s.sampleNo||"",receivedAt:s.receivedAt||today(),crop:s.crop||"",location:s.location||s.source||"",examiner:s.examinerName||"",fieldNotes:s.fieldNotes||"",imageData:s.imageData||"",part:s.part||"",symptom:s.symptom||"",visualNotes:s.visualNotes||"",microNotes:s.microNotes||"",resultDays:s.resultDays||"",pathogen:s.pathogen||"",microImage:s.microImage||"",pickedStage:s.stage||"received"});
+}
+
 async function wizImg(inp){
   const f=inp.files[0];if(!f)return;
   W.imageData=await fileToDataUrl(f);
-  $("w_imgArea").innerHTML=`<div class="imgbox"><img src="${W.imageData}"></div>`;
+  $("w_imgArea").innerHTML=`<div class="imgbox"><img src="${W.imageData}"></div><label class="img-drop" style="margin-top:8px">🔄 تغيير الصورة<input type="file" accept="image/*" class="hidden" onchange="wizImg(this)"></label>`;
 }
 async function wizMicroImg(inp){
   const f=inp.files[0];if(!f)return;
   W.microImage=await fileToDataUrl(f);
-  $("w_microArea").innerHTML=`<div class="imgbox"><img src="${W.microImage}"></div>`;
+  $("w_microArea").innerHTML=`<div class="imgbox"><img src="${W.microImage}"></div><label class="img-drop" style="margin-top:8px">🔄 تغيير الصورة<input type="file" accept="image/*" class="hidden" onchange="wizMicroImg(this)"></label>`;
 }
-async function wizNext1(btn){
+
+async function wizSaveReceive(btn){
   W.sampleNo=$("w_no").value.trim();W.receivedAt=$("w_received").value;W.crop=$("w_crop").value.trim();W.location=$("w_loc").value.trim();W.fieldNotes=$("w_notes").value.trim();W.examiner=$("w_examiner").value.trim();
   if(!W.sampleNo)return toast("أدخل رقم العينة");
   if(!W.crop)return toast("أدخل نوع العينة");
   btn.disabled=true;
   try{
     if(!W.id){
+      const dup=await db.collection("samples").where("sampleNo","==",W.sampleNo).limit(1).get();
+      if(!dup.empty){W.id=dup.docs[0].id;}
+    }
+    if(W.id){
+      await db.collection("samples").doc(W.id).update({sampleNo:W.sampleNo,receivedAt:W.receivedAt,crop:W.crop,location:W.location,source:W.location,fieldNotes:W.fieldNotes,imageData:W.imageData||"",examinerName:W.examiner||me.name,stage:"received"});
+      await logStage(W.id,"received","تم تحديث بيانات استلام العينة");
+      toast("تم حفظ الاستلام — العينة رقم "+W.sampleNo);
+    }else{
       const ref=await db.collection("samples").add({
         sampleNo:W.sampleNo,receivedAt:W.receivedAt,crop:W.crop,location:W.location,source:W.location,fieldNotes:W.fieldNotes,
         imageData:W.imageData,examinerName:W.examiner||me.name,part:"",symptom:"",visualNotes:"",microNotes:"",resultDays:"",pathogen:"",microImage:"",
@@ -553,30 +633,37 @@ async function wizNext1(btn){
       });
       W.id=ref.id;
       await logStage(ref.id,"received","تم استلام العينة وتسجيلها");
-    }else{
-      await db.collection("samples").doc(W.id).update({sampleNo:W.sampleNo,receivedAt:W.receivedAt,crop:W.crop,location:W.location,source:W.location,fieldNotes:W.fieldNotes,imageData:W.imageData||"",examinerName:W.examiner||me.name});
+      toast("تم استلام العينة رقم "+W.sampleNo+" ✓");
     }
+    W.pickedStage="received";
   }catch(e){btn.disabled=false;return toast("خطأ: "+e.message);}
-  W.step=2;drawWizard();
+  drawWizard();
 }
-async function wizNext2(btn){
+
+async function wizSaveVisual(btn){
   W.part=$("w_part").value.trim();W.symptom=$("w_sym").value;W.visualNotes=$("w_vnotes").value.trim();
+  if(!W.id)return toast("اختر العينة أولاً");
   btn.disabled=true;
   try{
     await db.collection("samples").doc(W.id).update({part:W.part,symptom:W.symptom,visualNotes:W.visualNotes,sampleType:W.part,stage:"visual"});
     await logStage(W.id,"visual","تم حفظ نتائج الفحص الظاهري");
+    W.pickedStage="visual";
+    toast("تم حفظ الفحص الظاهري للعينة "+W.sampleNo+" ✓");
   }catch(e){btn.disabled=false;return toast("خطأ: "+e.message);}
-  W.step=3;drawWizard();
+  drawWizard();
 }
-async function wizSave(btn){
+
+async function wizSaveMicro(btn){
   W.microNotes=$("w_micro").value.trim();W.resultDays=$("w_days").value;W.pathogen=$("w_path").value;
+  if(!W.id)return toast("اختر العينة أولاً");
   btn.disabled=true;
   try{
     await db.collection("samples").doc(W.id).update({microNotes:W.microNotes,resultDays:W.resultDays,pathogen:W.pathogen,microImage:W.microImage||"",stage:"micro"});
     await logStage(W.id,"micro","تم حفظ نتائج الفحص المجهري");
-    toast("تم تسجيل العينة برقم "+W.sampleNo);
-    openSample(W.id);
-  }catch(e){btn.disabled=false;toast("خطأ: "+e.message);}
+    W.pickedStage="micro";
+    toast("تم حفظ الفحص المجهري للعينة "+W.sampleNo+" ✓");
+  }catch(e){btn.disabled=false;return toast("خطأ: "+e.message);}
+  drawWizard();
 }
 
 /* ===== صفحة العينة ===== */
