@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>مختبر أمراض النبات</title>
 <style>
-:root{
-  --g:#1b7a43; --g2:#14532d; --gl:#e8f5ec; --gl2:#d7efe0;
-  --muted:#64748b; --border:#e2e8f0; --bg:#eef3ef;
-}
+:root{--g:#1b7a43;--g2:#14532d;--gl:#e8f5ec;--gl2:#d7efe0;--muted:#64748b;--border:#e2e8f0;--bg:#eef3ef}
 *{box-sizing:border-box;font-family:"Segoe UI",Tahoma,Arial,sans-serif;-webkit-tap-highlight-color:transparent}
 body{margin:0;background:var(--bg);color:#0f172a}
 button{cursor:pointer;font-family:inherit}
@@ -18,8 +15,6 @@ textarea{resize:vertical}
 label{font-size:13px;font-weight:700;display:block;margin-bottom:6px;color:#1e293b}
 .hidden{display:none!important}
 a{color:var(--g)}
-
-/* ===== الدخول ===== */
 #authScreen{min-height:100vh;display:flex;flex-direction:column;background:linear-gradient(180deg,#fff 55%,var(--g2) 55%)}
 .auth-top{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 22px}
 .logo{width:92px;height:92px;border-radius:50%;background:var(--gl);border:3px solid var(--g);display:flex;align-items:center;justify-content:center;font-size:44px;margin-bottom:12px}
@@ -28,16 +23,11 @@ a{color:var(--g)}
 .auth-card{background:#fff;border-radius:18px;padding:22px;width:100%;max-width:380px;box-shadow:0 6px 24px rgba(0,0,0,.07)}
 .auth-card .field{margin-bottom:12px}
 .auth-links{display:flex;justify-content:space-between;margin-top:12px;font-size:12.5px}
-.auth-hero{height:34vh;background:linear-gradient(160deg,#166534,#22c55e);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
-.auth-hero .plant{font-size:110px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.3));margin-bottom:24px}
-.auth-hero::after{content:"";position:absolute;bottom:0;left:0;right:0;height:44px;background:radial-gradient(ellipse at 50% 100%, #3f2d1e 0%, #2b1e12 70%);border-radius:50% 50% 0 0/100% 100% 0 0;transform:scaleX(1.3)}
-
-/* ===== شاشات الحالة ===== */
+.auth-hero{height:30vh;background:linear-gradient(160deg,#166534,#22c55e);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+.auth-hero .plant{font-size:100px;filter:drop-shadow(0 8px 12px rgba(0,0,0,.3));margin-bottom:26px}
 .status-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
 .status-card{background:#fff;border-radius:18px;padding:34px;max-width:420px;width:100%;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.08)}
 .status-card .ico{font-size:52px;margin-bottom:12px}
-
-/* ===== الهيكل ===== */
 #appScreen{min-height:100vh;display:flex;flex-direction:column;max-width:520px;margin:0 auto;background:#fff;box-shadow:0 0 30px rgba(0,0,0,.06)}
 .topbar{position:sticky;top:0;z-index:40;background:var(--g);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:13px 16px}
 .topbar b{font-size:16px}
@@ -45,8 +35,6 @@ a{color:var(--g)}
 main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
 .page-head{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px}
 .page-head h1{font-size:19px;margin:0}
-
-/* البطاقات الرئيسية */
 .hello{display:flex;align-items:center;gap:12px;margin-bottom:16px}
 .hello .av{width:52px;height:52px;border-radius:50%;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:26px}
 .hello b{font-size:16px}.hello span{font-size:12px;color:var(--muted);display:block}
@@ -56,8 +44,6 @@ main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
 .tile .ico{font-size:30px;margin-bottom:8px}
 .tile b{font-size:13.5px;color:#14532d}
 .tile small{display:block;color:var(--muted);font-size:11px;margin-top:3px}
-
-/* أزرار */
 .btn{background:var(--g);color:#fff;border:none;padding:12px 18px;border-radius:12px;font-size:14.5px;font-weight:700}
 .btn:active{filter:brightness(.92)}
 .btn.outline{background:#fff;color:#334155;border:1px solid var(--border)}
@@ -65,26 +51,17 @@ main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
 .btn.gray{background:#e2e8f0;color:#334155}
 .btn.sm{padding:7px 12px;font-size:12.5px;border-radius:9px}
 .btn:disabled{opacity:.55}
-.btnrow{display:flex;gap:10px}
-.btnrow .btn{flex:1}
-
-/* بطاقات */
+.btnrow{display:flex;gap:10px}.btnrow .btn{flex:1}
 .card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 1px 4px rgba(0,0,0,.06);border:1px solid var(--border);margin-bottom:14px}
 .card h3{margin:0 0 12px;font-size:15.5px;color:var(--g2)}
 .stat{background:#fff;border-radius:14px;padding:13px;border:1px solid var(--border)}
 .stat .n{font-size:23px;font-weight:800;margin-top:4px;color:var(--g2)}
 .stat .t{font-size:11.5px;color:var(--muted)}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
 @media(max-width:640px){.grid5{grid-template-columns:repeat(2,1fr)}}
-
-/* جداول وقوائم */
-table.list{width:100%;border-collapse:collapse;font-size:13px}
-table.list th,table.list td{padding:10px 8px;text-align:right;border-bottom:1px solid var(--border)}
-table.list th{color:var(--muted);font-size:11.5px;background:#f8fafc}
 .badge{display:inline-block;padding:3px 10px;border-radius:99px;font-size:11.5px;font-weight:700;white-space:nowrap}
-.b-received{background:#dbeafe;color:#1e40af}.b-in_progress{background:#fef3c7;color:#92400e}
-.b-completed{background:#d1fae5;color:#065f46}.b-pending_approval{background:#ede9fe;color:#5b21b6}
+.b-received{background:#dbeafe;color:#1e40af}.b-visual{background:#fef3c7;color:#92400e}
+.b-micro{background:#d1fae5;color:#065f46}.b-pending_approval{background:#ede9fe;color:#5b21b6}
 .b-approved{background:#ccfbf1;color:#115e59}.b-sent{background:#e2e8f0;color:#334155}
 .b-suspended{background:#fee2e2;color:#b91c1c}.b-pending{background:#fef3c7;color:#92400e}
 .b-replied{background:#d1fae5;color:#065f46}.b-waiting{background:#fef3c7;color:#92400e}
@@ -93,16 +70,12 @@ table.list th{color:var(--muted);font-size:11.5px;background:#f8fafc}
 .sample-item img{width:64px;height:64px;object-fit:cover;border-radius:10px;flex-shrink:0}
 .sample-item .info{flex:1;min-width:0;font-size:12.5px;color:var(--muted);line-height:1.8}
 .sample-item .info b{color:#0f172a;font-size:13.5px}
-
-/* خطوات المعالج */
 .stepsbar{display:flex;gap:6px;margin-bottom:16px}
 .stepsbar div{flex:1;text-align:center;font-size:11px;color:var(--muted);padding-top:8px;position:relative}
-.stepsbar div::before{content:"";display:block;width:26px;height:26px;border-radius:50%;background:#e2e8f0;color:#64748b;margin:0 auto 4px;line-height:26px;font-weight:700;content:attr(data-n)}
+.stepsbar div::before{content:attr(data-n);display:block;width:26px;height:26px;border-radius:50%;background:#e2e8f0;color:#64748b;margin:0 auto 4px;line-height:26px;font-weight:700}
 .stepsbar div.on{color:var(--g2);font-weight:700}
 .stepsbar div.on::before{background:var(--g);color:#fff}
 .stepsbar div.done::before{background:var(--gl2);color:var(--g2)}
-
-/* خط المراحل */
 .stages{display:flex;justify-content:space-between;margin:6px 0;overflow:hidden}
 .stg{flex:1;text-align:center;position:relative;font-size:9.5px;min-width:0;color:#475569}
 .stg::before{content:"";display:block;width:16px;height:16px;border-radius:50%;margin:0 auto 5px;background:#e2e8f0;border:2px solid #fff;box-shadow:0 0 0 2px #e2e8f0;z-index:1;position:relative}
@@ -110,7 +83,6 @@ table.list th{color:var(--muted);font-size:11.5px;background:#f8fafc}
 .stg .bar{position:absolute;top:9px;right:50%;width:100%;height:3px;background:#e2e8f0}
 .stg.done .bar{background:var(--g)}
 .stg:first-child .bar{display:none}
-
 .imgbox img{max-height:220px;max-width:100%;border-radius:12px;border:1px solid var(--border)}
 .img-drop{border:2px dashed #a7c8b4;border-radius:12px;padding:22px;text-align:center;color:var(--muted);cursor:pointer;font-size:13px;display:block;background:var(--gl)}
 .chart{display:flex;align-items:flex-end;gap:8px;height:150px;padding-top:24px}
@@ -126,29 +98,20 @@ table.list th{color:var(--muted);font-size:11.5px;background:#f8fafc}
 .log-item{display:flex;gap:10px;font-size:13px;padding:7px 0;border-bottom:1px dashed var(--border)}
 .log-item .dot{width:9px;height:9px;border-radius:50%;background:var(--g);margin-top:5px;flex-shrink:0}
 .log-item small{color:var(--muted);display:block}
-
-/* منبثقة */
 #modal{position:fixed;inset:0;background:rgba(15,23,42,.5);display:flex;align-items:center;justify-content:center;z-index:80;padding:16px}
 .modal-card{background:#fff;border-radius:16px;padding:20px;max-width:440px;width:100%;max-height:85vh;overflow:auto}
 .modal-card h3{margin:0 0 12px;font-size:16px}
 .modal-actions{display:flex;gap:8px;margin-top:14px;justify-content:flex-end}
-
-/* الشريط السفلي */
 .bottomnav{position:fixed;bottom:0;right:50%;transform:translateX(50%);width:100%;max-width:520px;z-index:50;background:#fff;border-top:1px solid var(--border);display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(0,0,0,.06)}
 .bottomnav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:none;font-size:10.5px;color:var(--muted);padding:6px 2px;border-radius:10px;position:relative}
 .bottomnav button .ico{font-size:21px}
 .bottomnav button.active{color:var(--g2);font-weight:700}
 .bottomnav .b-dot{position:absolute;top:0;left:20%;background:#7c3aed;color:#fff;font-size:10px;border-radius:99px;padding:1px 6px}
-
-/* قائمة منسدلة جانبية */
 #drawer{position:fixed;inset:0;z-index:70}
 #drawer .back{position:absolute;inset:0;background:rgba(15,23,42,.4)}
 #drawer .panel{position:absolute;top:0;bottom:0;right:0;width:270px;background:#fff;padding:20px 14px;overflow:auto;box-shadow:-4px 0 20px rgba(0,0,0,.15)}
 #drawer .panel h3{color:var(--g2);margin:0 0 14px}
 #drawer button.mi{display:flex;align-items:center;gap:10px;width:100%;padding:12px;border:none;background:none;border-radius:12px;font-size:14px;text-align:right;color:#1e293b}
-#drawer button.mi:active{background:var(--gl)}
-
-/* التقرير للطباعة */
 #reportPage{background:#f1f5f9;padding:26px 0;min-height:100vh}
 .sheet{background:#fff;max-width:820px;margin:0 auto;padding:40px 44px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .sheet table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:16px}
@@ -156,19 +119,13 @@ table.list th{color:var(--muted);font-size:11.5px;background:#f8fafc}
 .sheet .head td{font-weight:700;background:#f8fafc}
 .sheet h2{font-size:16px;text-decoration:underline;margin:18px 0 8px}
 .sheet ul{line-height:2}
-.sheet .sig{display:flex;justify-content:space-between;margin-top:50px;font-size:13px}
 .report-toolbar{max-width:820px;margin:0 auto 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:0 14px}
 @media(max-width:640px){.sheet{padding:20px 14px}.sheet table{font-size:11.5px}}
-@media print{
-  body{background:#fff}
-  .no-print{display:none!important}
-  .sheet{box-shadow:none;max-width:100%;padding:0}
-}
+@media print{body{background:#fff}.no-print{display:none!important}.sheet{box-shadow:none;max-width:100%;padding:0}}
 </style>
 </head>
 <body>
 
-<!-- ======== شاشة الدخول ======== -->
 <div id="authScreen">
   <div class="auth-top">
     <div class="logo">🌿</div>
@@ -190,12 +147,11 @@ table.list th{color:var(--muted);font-size:11.5px;background:#f8fafc}
 
 <div id="statusScreen" class="hidden"></div>
 
-<!-- ======== التطبيق ======== -->
 <div id="appScreen" class="hidden">
   <div class="topbar no-print">
     <button onclick="openDrawer()">☰</button>
     <b id="topTitle">الرئيسية</b>
-    <button onclick="goHomeBell()">🔔</button>
+    <button onclick="showPage('approvals')">🔔</button>
   </div>
   <main id="main"></main>
   <div class="bottomnav no-print" id="bottomNav">
@@ -228,25 +184,23 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 /* ===== ثوابت ===== */
-const STAGES = {received:"تم الاستلام",in_progress:"قيد الفحص",completed:"اكتمل الفحص",pending_approval:"بانتظار الموافقة",approved:"تمت الموافقة",sent:"أُرسل لصاحب العينة"};
-const STAGE_ORDER = ["received","in_progress","completed","pending_approval","approved","sent"];
-const REPORT_STATUS = {pending:"بانتظار الموافقة",approved:"معتمد",rejected:"معاد للمراجعة",sent:"مُرسل"};
+const STAGES = {received:"تم الاستلام",visual:"الفحص الظاهري",micro:"الفحص المجهري",pending_approval:"بانتظار الموافقة",approved:"تمت الموافقة",sent:"أُرسل لصاحب العينة"};
+const STAGE_ORDER = ["received","visual","micro","pending_approval","approved","sent"];
+const REPORT_STATUS = {draft:"مسودة (مُرجع)",pending:"بانتظار الموافقة",approved:"معتمد",rejected:"معاد للمراجعة",sent:"مُرسل"};
 const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
 const ROLES = {admin:"المسؤول",approver:"المدير",user:"فاحص",pending:"بانتظار الموافقة"};
 const LOGO_B64 = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAF/AZADASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD7LooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiig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";
 const DURATIONS = ["يوم","يومان","3 أيام","4 أيام","5 أيام","6 أيام","7 أيام","8 أيام","9 أيام","10 أيام","11 يوم","12 يوم","13 يوم","14 يوم"];
 const DEFAULT_LISTS = {
-  crops:["عنب","نخيل","ليمون","مانجو","طماطم","قمح","بصل"],
-  parts:["الأوراق","السيقان","الجذور","الثمار"],
   symptoms:["تبقعات","ذبول","تعفن","اصفرار","تشققات","نمو فطري","تقرحات","جفاف الأطراف"],
   pathogens:["فطر","بكتيريا","فيروس","نيماتودا","حشرة","إجهاد بيئي","غير محدد"],
   directorates:["مديرية زراعة الباطنة شمال","مديرية زراعة الباطنة جنوب","مديرية زراعة الظاهرة","مديرية زراعة الداخلية","مديرية زراعة الشرقية شمال","مديرية زراعة الشرقية جنوب","مديرية زراعة الوسطى","مديرية زراعة ظفار","مديرية زراعة مسقط","مديرية زراعة مسندم","مديرية زراعة البريمي"]
 };
-const LIST_NAMES = {crops:"المحاصيل",parts:"أجزاء النبات المصابة",symptoms:"أنواع الأعراض",pathogens:"الأسباب المرضية",directorates:"المديريات"};
-/* الصفحات وصلاحياتها */
+const LIST_NAMES = {symptoms:"الأعراض",pathogens:"الأسباب المرضية",directorates:"المديريات"};
 const PAGES = {dashboard:"الرئيسية",samples:"سجل العينات",new:"تسجيل عينة",transferred:"العينات المحولة",approvals:"موافقات التقارير",settings:"الإعدادات",staff:"الموظفون"};
-
-let me = null, LISTS = {...DEFAULT_LISTS}, isRegisterMode = false;
+</script>
+<script>
+let me = null, LISTS = JSON.parse(JSON.stringify(DEFAULT_LISTS)), isRegisterMode = false;
 const $ = id => document.getElementById(id);
 const esc = s => String(s??"").replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const today = () => new Date().toISOString().slice(0,10);
@@ -344,23 +298,17 @@ auth.onAuthStateChanged(async u=>{
   showPage("dashboard");
 });
 
-/* ===== القوائم المنسدلة (من Firestore) ===== */
+/* ===== القوائم المنسدلة ===== */
 async function loadLists(){
   try{
     const d=await db.collection("settings").doc("lists").get();
-    if(d.exists){LISTS={...DEFAULT_LISTS,...d.data()};}
+    if(d.exists){LISTS={...JSON.parse(JSON.stringify(DEFAULT_LISTS)),...d.data()};}
     else{await db.collection("settings").doc("lists").set(DEFAULT_LISTS);}
-  }catch(e){LISTS={...DEFAULT_LISTS};}
+  }catch(e){}
 }
 const opts = key => LISTS[key].map(x=>`<option>${esc(x)}</option>`).join("");
 
-/* ===== أدوات ===== */
-async function nextNo(name,prefix){
-  const ref=db.collection("counters").doc(name);
-  const year=new Date().getFullYear();
-  const n=await db.runTransaction(async t=>{const d=await t.get(ref);const v=(d.exists?d.data().value:0)+1;t.set(ref,{value:v});return v;});
-  return `${prefix}-${year}-${String(n).padStart(3,"0")}`;
-}
+/* ===== أدوات عامة ===== */
 async function logStage(sampleId,stage,note){
   await db.collection("samples").doc(sampleId).collection("logs").add({stage,note:note||"",by:me.name,at:firebase.firestore.FieldValue.serverTimestamp()});
 }
@@ -393,17 +341,16 @@ function openDrawer(){
   </div>`;
 }
 function closeDrawer(){$("drawer").classList.add("hidden");}
-function goHomeBell(){showPage("approvals");}
-</script>
-<script>
+
 /* ===== التنقل ===== */
 function showPage(p){
-  if(!can(p) && p!=="dashboard" && p!=="more"){toast("لا تملك صلاحية الدخول لهذه الصفحة");return;}
+  if(!can(p) && !["dashboard","more"].includes(p)){toast("لا تملك صلاحية الدخول لهذه الصفحة");return;}
   document.querySelectorAll("#bottomNav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
-  $("topTitle").textContent = p==="dashboard"?"الرئيسية":p==="new"?"تسجيل عينة جديدة":p==="samples"?"قائمة العينات":p==="transferred"?"العينات المحولة للمديرية":p==="approvals"?"التقارير":p==="settings"?"الإعدادات":p==="staff"?"الموظفون":p==="more"?"المزيد":"";
+  $("topTitle").textContent={dashboard:"الرئيسية",new:"تسجيل عينة جديدة",samples:"قائمة العينات",transferred:"العينات المحولة للمديرية",approvals:"التقارير",settings:"الإعدادات",staff:"الموظفون",more:"المزيد"}[p]||"";
   ({dashboard:renderDashboard,samples:renderSamples,new:renderWizard,transferred:renderTransferred,approvals:renderApprovals,staff:renderStaff,settings:renderSettings,more:renderMore})[p]();
 }
-
+</script>
+<script>
 /* ===== الرئيسية ===== */
 async function renderDashboard(){
   $("main").innerHTML="جارٍ التحميل...";
@@ -418,7 +365,6 @@ async function renderDashboard(){
   const pend=await db.collection("reports").where("status","==","pending").get();
   pendBadgeM.textContent=pend.size;pendBadgeM.classList.toggle("hidden",pend.size===0);
   const tsnap=await db.collection("transfers").get();
-
   $("main").innerHTML=`
     <div class="hello">
       <div style="flex:1"><span>مرحباً</span><b>${esc(me.name)}</b><span>${ROLES[me.role]||""}</span></div>
@@ -434,32 +380,32 @@ async function renderDashboard(){
     ${me.role==="admin"?`<div class="homegrid" style="margin-bottom:14px"><div class="tile" onclick="showPage('settings')"><div class="ico">⚙️</div><b>الإعدادات</b><small>القوائم المنسدلة</small></div><div class="tile" onclick="showPage('staff')"><div class="ico">👥</div><b>الموظفون</b><small>الصلاحيات والحسابات</small></div></div>`:""}
     <div class="grid5" style="margin-bottom:14px">
       <div class="stat"><div class="t">📥 إجمالي العينات</div><div class="n">${samples.length}</div></div>
-      <div class="stat"><div class="t">🧪 قيد الفحص</div><div class="n">${byStage.received+byStage.in_progress}</div></div>
-      <div class="stat"><div class="t">⏳ بانتظار الموافقة</div><div class="n">${byStage.pending_approval}</div></div>
-      <div class="stat"><div class="t">✅ تقارير معتمدة</div><div class="n">${byStage.approved}</div></div>
-      <div class="stat"><div class="t">📤 أُرسلت لصاحب العينة</div><div class="n">${byStage.sent}</div></div>
+      <div class="stat"><div class="t">🔬 قيد الفحص</div><div class="n">${(byStage.received||0)+(byStage.visual||0)+(byStage.micro||0)}</div></div>
+      <div class="stat"><div class="t">⏳ بانتظار الموافقة</div><div class="n">${byStage.pending_approval||0}</div></div>
+      <div class="stat"><div class="t">✅ تقارير معتمدة</div><div class="n">${byStage.approved||0}</div></div>
+      <div class="stat"><div class="t">📤 أُرسلت لصاحب العينة</div><div class="n">${byStage.sent||0}</div></div>
     </div>
     <div class="card"><h3>العينات حسب الشهر</h3>
       <div class="chart">${months.map(m=>{const[y,mo]=m.split("-");
         return `<div class="col"><div class="bar-v" style="height:${Math.max(3,Math.round(monthly[m]/maxM*100))}%"><span>${monthly[m]}</span></div><div class="lbl">${MONTHS[+mo-1]}<br>${y}</div></div>`;}).join("")||'<p style="color:var(--muted)">لا توجد بيانات بعد</p>'}</div>
     </div>
     <div class="card"><h3>مراحل العينات</h3>
-      ${STAGE_ORDER.map(s=>{const c=byStage[s];const pct=samples.length?Math.round(c/samples.length*100):0;
+      ${STAGE_ORDER.map(s=>{const c=byStage[s]||0;const pct=samples.length?Math.round(c/samples.length*100):0;
         return `<div style="margin-bottom:11px"><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px">
         <span class="badge b-${s}">${STAGES[s]}</span><b>${c}</b></div>
         <div style="height:8px;background:#f1f5f9;border-radius:99px"><div style="height:100%;width:${pct}%;background:var(--g);border-radius:99px"></div></div></div>`;}).join("")}
     </div>
     <div class="card"><h3>أحدث العينات</h3>
       ${samples.sort((a,b)=>(b.createdAtSec||0)-(a.createdAtSec||0)).slice(0,5).map(s=>`
-        <div class="sample-item" onclick="openSample('${s.id}')" style="cursor:pointer">
-          ${s.imageData?`<img src="${s.imageData}">`:""}
+        <div class="sample-item" style="cursor:pointer" onclick="openSample('${s.id}')">
+          ${s.imageData?`<img src="${s.imageData}">`:`<div style="width:64px;height:64px;border-radius:10px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">🌿</div>`}
           <div class="info"><b class="mono">${esc(s.sampleNo)}</b> — ${esc(s.crop||"")}<br>تاريخ الاستلام: ${esc(s.receivedAt)}</div>
           <span class="badge b-${s.stage}">${STAGES[s.stage]}</span>
         </div>`).join("")||'<p style="color:var(--muted);text-align:center;padding:16px">لا توجد عينات بعد</p>'}
     </div>`;
 }
 
-/* ===== المزيد ===== */
+/* ===== المزيد وحسابي ===== */
 function renderMore(){
   $("main").innerHTML=`
     <div class="page-head"><h1>المزيد</h1></div>
@@ -499,7 +445,7 @@ async function renderSamples(){
     <div class="page-head"><h1>قائمة العينات</h1>
       <button class="btn sm" onclick="showPage('new')">➕ عينة جديدة</button></div>
     <div style="display:flex;gap:8px;margin-bottom:12px">
-      <input id="q" placeholder="🔍 بحث برقم العينة / المزارع / المحصول..." style="flex:1" oninput="loadSamples()">
+      <input id="q" placeholder="🔍 بحث برقم العينة / الموقع / نوع العينة..." style="flex:1" oninput="loadSamples()">
       <select id="fstage" style="width:130px" onchange="loadSamples()">
         <option value="">كل المراحل</option>${STAGE_ORDER.map(s=>`<option value="${s}">${STAGES[s]}</option>`).join("")}
       </select>
@@ -512,13 +458,13 @@ async function loadSamples(){
   const snap=await db.collection("samples").get();
   let rows=snap.docs.map(d=>({id:d.id,...d.data()}));
   if(st)rows=rows.filter(r=>r.stage===st);
-  if(q)rows=rows.filter(r=>(r.sampleNo||"").includes(q)||(r.farmerName||"").includes(q)||(r.source||"").includes(q)||(r.crop||"").includes(q));
+  if(q)rows=rows.filter(r=>(r.sampleNo||"").includes(q)||(r.location||r.source||"").includes(q)||(r.crop||"").includes(q));
   rows.sort((a,b)=>(b.createdAtSec||0)-(a.createdAtSec||0));
   $("rows").innerHTML=rows.map(s=>`
     <div class="sample-item">
       <div style="display:flex;gap:12px;align-items:center;flex:1;min-width:0;cursor:pointer" onclick="openSample('${s.id}')">
         ${s.imageData?`<img src="${s.imageData}">`:`<div style="width:64px;height:64px;border-radius:10px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">🌿</div>`}
-        <div class="info"><b class="mono">${esc(s.sampleNo)}</b> — ${esc(s.crop||s.sampleType||"")}<br>${esc(s.location||s.source||"")}<br>تاريخ الاستلام: ${esc(s.receivedAt)}</div>
+        <div class="info"><b class="mono">${esc(s.sampleNo)}</b> — ${esc(s.crop||"")}<br>${esc(s.location||s.source||"")}<br>تاريخ الاستلام: ${esc(s.receivedAt)}</div>
         <span class="badge b-${s.stage}">${STAGES[s.stage]}</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:6px">
@@ -529,10 +475,10 @@ async function loadSamples(){
 }
 </script>
 <script>
-/* ===== معالج تسجيل العينة (3 خطوات) ===== */
+/* ===== معالج تسجيل العينة (3 خطوات — يحفظ كل مرحلة) ===== */
 let W = {};
 function renderWizard(){
-  W = {step:1, sampleNo:"", receivedAt:today(), crop:"", location:"", fieldNotes:"", imageData:"", part:"", symptom:"", visualNotes:"", microNotes:"", resultDays:"", pathogen:""};
+  W = {step:1, id:"", sampleNo:"", receivedAt:today(), crop:"", location:"", examiner:"", fieldNotes:"", imageData:"", part:"", symptom:"", visualNotes:"", microNotes:"", resultDays:"", pathogen:"", microImage:""};
   drawWizard();
 }
 function stepsbar(){
@@ -551,68 +497,85 @@ function drawWizard(){
       <div class="field" style="margin-bottom:12px"><label>الأعراض والملاحظات الميدانية</label><textarea id="w_notes" rows="3" placeholder="مثال: وجود بقع بنية على الأوراق">${esc(W.fieldNotes)}</textarea></div>
       <div class="field"><label>صورة العينة</label>
         <div id="w_imgArea">${W.imageData?`<div class="imgbox"><img src="${W.imageData}"></div>`:`<label class="img-drop">📷 اختر صورة<input type="file" accept="image/*" class="hidden" onchange="wizImg(this)"></label>`}</div>
-        <p style="font-size:11px;color:var(--muted);margin:6px 0 0">ملاحظة: سيتم عرض نفس الصورة في خطوة الفحص الظاهري وفي التقرير</p>
       </div>
     </div>
-    <button class="btn" style="width:100%" onclick="wizNext1()">التالي</button>`;
+    <button class="btn" style="width:100%" onclick="wizNext1(this)">التالي</button>`;
   }
   if(W.step===2){
     body=`
     <div class="card"><h3>2. الفحص الظاهري</h3>
       <div class="field" style="margin-bottom:12px"><label>الجزء المصاب</label><input id="w_part" value="${esc(W.part)}" placeholder="مثال: الأوراق، الجذور، الثمار..."></div>
       <div class="field" style="margin-bottom:12px"><label>الأعراض</label><select id="w_sym"><option value="">اختر...</option>${opts("symptoms")}</select></div>
-      <div class="field" style="margin-bottom:12px"><label>ملاحظات إضافية</label><textarea id="w_vnotes" rows="3">${esc(W.visualNotes)}</textarea></div>
+      <div class="field" style="margin-bottom:12px"><label>ملاحظات</label><textarea id="w_vnotes" rows="3">${esc(W.visualNotes)}</textarea></div>
       <div class="field"><label>صورة العينة</label>
         ${W.imageData?`<div class="imgbox"><img src="${W.imageData}"></div>`:'<p style="color:var(--muted);font-size:12px">لم تُرفق صورة في الخطوة الأولى</p>'}
       </div>
     </div>
-    <div class="btnrow"><button class="btn gray" onclick="W.step=1;drawWizard()">السابق</button><button class="btn" onclick="wizNext2()">التالي</button></div>`;
+    <div class="btnrow"><button class="btn gray" onclick="W.step=1;drawWizard()">السابق</button><button class="btn" onclick="wizNext2(this)">التالي</button></div>`;
+    setTimeout(()=>{$("w_sym").value=W.symptom;},0);
   }
   if(W.step===3){
     body=`
     <div class="card"><h3>3. الفحص المجهري</h3>
       <div class="field" style="margin-bottom:12px"><label>ملاحظات الفحص المجهري</label><textarea id="w_micro" rows="3" placeholder="مثال: تم مشاهدة الأبواغ الفطرية تحت المجهر">${esc(W.microNotes)}</textarea></div>
       <div class="field" style="margin-bottom:12px"><label>مدة ظهور نتيجة العينة</label><select id="w_days"><option value="">اختر...</option>${DURATIONS.map(d=>`<option>${d}</option>`).join("")}</select></div>
-      <div class="field"><label>السبب المرضي</label><select id="w_path"><option value="">اختر...</option>${opts("pathogens")}</select></div>
+      <div class="field" style="margin-bottom:12px"><label>السبب المرضي</label><select id="w_path"><option value="">اختر...</option>${opts("pathogens")}</select></div>
+      <div class="field"><label>صورة الفحص المجهري <span style="font-weight:400;color:var(--muted);font-size:11px">(تُحفظ في التطبيق فقط — لا تظهر في التقرير)</span></label>
+        <div id="w_microArea">${W.microImage?`<div class="imgbox"><img src="${W.microImage}"></div>`:`<label class="img-drop">🔬 اختر صورة<input type="file" accept="image/*" class="hidden" onchange="wizMicroImg(this)"></label>`}</div>
+      </div>
     </div>
     <div class="btnrow"><button class="btn gray" onclick="W.step=2;drawWizard()">السابق</button><button class="btn" onclick="wizSave(this)">حفظ</button></div>`;
+    setTimeout(()=>{$("w_days").value=W.resultDays;$("w_path").value=W.pathogen;},0);
   }
   $("main").innerHTML = stepsbar()+body;
-  if(W.step===2){$("w_part").value=W.part;$("w_sym").value=W.symptom;}
-  if(W.step===3){$("w_days").value=W.resultDays;$("w_path").value=W.pathogen;}
-  if(W.step===1){$("w_crop").value=W.crop;}
 }
 async function wizImg(inp){
   const f=inp.files[0];if(!f)return;
   W.imageData=await fileToDataUrl(f);
   $("w_imgArea").innerHTML=`<div class="imgbox"><img src="${W.imageData}"></div>`;
 }
-function wizNext1(){
+async function wizMicroImg(inp){
+  const f=inp.files[0];if(!f)return;
+  W.microImage=await fileToDataUrl(f);
+  $("w_microArea").innerHTML=`<div class="imgbox"><img src="${W.microImage}"></div>`;
+}
+async function wizNext1(btn){
   W.sampleNo=$("w_no").value.trim();W.receivedAt=$("w_received").value;W.crop=$("w_crop").value.trim();W.location=$("w_loc").value.trim();W.fieldNotes=$("w_notes").value.trim();W.examiner=$("w_examiner").value.trim();
   if(!W.sampleNo)return toast("أدخل رقم العينة");
   if(!W.crop)return toast("أدخل نوع العينة");
+  btn.disabled=true;
+  try{
+    if(!W.id){
+      const ref=await db.collection("samples").add({
+        sampleNo:W.sampleNo,receivedAt:W.receivedAt,crop:W.crop,location:W.location,source:W.location,fieldNotes:W.fieldNotes,
+        imageData:W.imageData,examinerName:W.examiner||me.name,part:"",symptom:"",visualNotes:"",microNotes:"",resultDays:"",pathogen:"",microImage:"",
+        sampleType:"",stage:"received",createdBy:me.name,createdAtSec:Date.now()
+      });
+      W.id=ref.id;
+      await logStage(ref.id,"received","تم استلام العينة وتسجيلها");
+    }else{
+      await db.collection("samples").doc(W.id).update({sampleNo:W.sampleNo,receivedAt:W.receivedAt,crop:W.crop,location:W.location,source:W.location,fieldNotes:W.fieldNotes,imageData:W.imageData||"",examinerName:W.examiner||me.name});
+    }
+  }catch(e){btn.disabled=false;return toast("خطأ: "+e.message);}
   W.step=2;drawWizard();
 }
-function wizNext2(){
+async function wizNext2(btn){
   W.part=$("w_part").value.trim();W.symptom=$("w_sym").value;W.visualNotes=$("w_vnotes").value.trim();
+  btn.disabled=true;
+  try{
+    await db.collection("samples").doc(W.id).update({part:W.part,symptom:W.symptom,visualNotes:W.visualNotes,sampleType:W.part,stage:"visual"});
+    await logStage(W.id,"visual","تم حفظ نتائج الفحص الظاهري");
+  }catch(e){btn.disabled=false;return toast("خطأ: "+e.message);}
   W.step=3;drawWizard();
 }
 async function wizSave(btn){
   W.microNotes=$("w_micro").value.trim();W.resultDays=$("w_days").value;W.pathogen=$("w_path").value;
   btn.disabled=true;
   try{
-    const ref=await db.collection("samples").add({
-      sampleNo:W.sampleNo,receivedAt:W.receivedAt,crop:W.crop,location:W.location,fieldNotes:W.fieldNotes,
-      imageData:W.imageData,part:W.part,symptom:W.symptom,visualNotes:W.visualNotes,
-      microNotes:W.microNotes,resultDays:W.resultDays,pathogen:W.pathogen,
-      sampleType:W.part,source:W.location,examStartedAt:today(),examinerName:W.examiner||me.name,
-      stage:"completed",createdBy:me.name,createdAtSec:Date.now()
-    });
-    await logStage(ref.id,"received","تم استلام العينة وتسجيلها");
-    await logStage(ref.id,"in_progress","بدأ الفحص (ظاهري ومجهري)");
-    await logStage(ref.id,"completed","اكتمل الفحص وتم تسجيل النتائج");
+    await db.collection("samples").doc(W.id).update({microNotes:W.microNotes,resultDays:W.resultDays,pathogen:W.pathogen,microImage:W.microImage||"",stage:"micro"});
+    await logStage(W.id,"micro","تم حفظ نتائج الفحص المجهري");
     toast("تم تسجيل العينة برقم "+W.sampleNo);
-    openSample(ref.id);
+    openSample(W.id);
   }catch(e){btn.disabled=false;toast("خطأ: "+e.message);}
 }
 
@@ -630,7 +593,6 @@ async function openSample(id){
   const report=reps.empty?null:{id:reps.docs[0].id,...reps.docs[0].data()};
   const cur=STAGE_ORDER.indexOf(s.stage);
   const editable=!report||["pending","rejected","draft"].includes(report.status);
-
   $("main").innerHTML=`
     <div class="page-head">
       <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -642,12 +604,9 @@ async function openSample(id){
         ${report&&report.status==="approved"?`<button class="btn sm" style="background:#0f766e" onclick="markSent('${report.id}','${id}')">📤 تم الإرسال لصاحب العينة</button>`:""}
       </div>
     </div>
-
     <div class="card"><h3>مراحل العينة</h3>
-      <div class="stages">${STAGE_ORDER.map((st,i)=>{
-        return `<div class="stg ${i<=cur?"done":""}"><div class="bar"></div>${STAGES[st]}</div>`;}).join("")}</div>
+      <div class="stages">${STAGE_ORDER.map((st,i)=>`<div class="stg ${i<=cur?"done":""}"><div class="bar"></div>${STAGES[st]}</div>`).join("")}</div>
     </div>
-
     <div class="card">
       <h3>1. استلام العينة وتسجيلها</h3>
       ${s.imageData?`<div class="imgbox" style="margin-bottom:10px"><img src="${s.imageData}" style="max-height:140px"></div>`:""}
@@ -660,7 +619,6 @@ async function openSample(id){
         <div><b>الأعراض والملاحظات الميدانية:</b> ${esc(s.fieldNotes||"—")}</div>
       </div>
     </div>
-
     <div class="card"><h3>2. الفحص الظاهري</h3>
       <div style="font-size:13px;line-height:2">
         <div><b>الجزء المصاب:</b> ${esc(s.part||"—")}</div>
@@ -668,15 +626,14 @@ async function openSample(id){
         <div><b>ملاحظات:</b> ${esc(s.visualNotes||"—")}</div>
       </div>
     </div>
-
     <div class="card"><h3>3. الفحص المجهري</h3>
+      ${s.microImage?`<div class="imgbox" style="margin-bottom:10px"><img src="${s.microImage}" style="max-height:140px"></div>`:""}
       <div style="font-size:13px;line-height:2">
         <div><b>ملاحظات الفحص:</b> ${esc(s.microNotes||"—")}</div>
         <div><b>مدة ظهور النتيجة:</b> ${esc(s.resultDays||"—")}</div>
         <div><b>السبب المرضي:</b> ${esc(s.pathogen||"—")}</div>
       </div>
     </div>
-
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px">
         <h3 style="margin:0">📄 التقرير الفني</h3>
@@ -690,7 +647,6 @@ async function openSample(id){
       ${report&&report.status==="draft"?`<div class="alert green" style="margin-top:12px;margin-bottom:0">تم إرجاع التقرير من الإرسال — عدّل التوصيات ثم أعد الإرسال للمدير.</div>`:""}
       ${report&&report.status==="pending"&&me.role==="admin"?`<button class="btn gray" style="width:100%;margin-top:10px" onclick="recallReport('${report.id}','${id}')">↩️ إرجاع التقرير (سحب من المدير)</button>`:""}
     </div>
-
     <div class="card"><h3>سجل الحركة</h3>
       ${[...logs].reverse().map(l=>`<div class="log-item"><div class="dot"></div><div>
         <b>${STAGES[l.stage]||l.stage}</b> ${l.note?`<span style="color:var(--muted)">— ${esc(l.note)}</span>`:""}
@@ -704,10 +660,16 @@ async function saveReport(sampleId,reportId){
   const diagnosis=`بعد فحص عينة ${s.crop||""} (${s.part||""}) ظاهرياً ومجهرياً أظهرت النتائج ما يلي:\nالأعراض: ${s.symptom||"—"}${s.fieldNotes?" — "+s.fieldNotes:""}\nالفحص المجهري: ${s.microNotes||"—"}${s.resultDays?" (مدة ظهور النتيجة: "+s.resultDays+")":""}\nالسبب المرضي: ${s.pathogen||"—"}`;
   const data={sampleId,diagnosis,recommendations,status:"pending",reviewerNote:"",reportDate:today(),createdBy:me.name};
   if(reportId){await db.collection("reports").doc(reportId).update(data);}
-  else{data.reportNo=await nextNo("report","ت");await db.collection("reports").add(data);}
+  else{data.reportNo=await nextNoReport();await db.collection("reports").add(data);}
   await db.collection("samples").doc(sampleId).update({stage:"pending_approval"});
   await logStage(sampleId,"pending_approval","تم إرسال التقرير الفني لموافقة المدير");
   toast("تم إرسال التقرير لموافقة المدير");openSample(sampleId);
+}
+async function nextNoReport(){
+  const ref=db.collection("counters").doc("report");
+  const year=new Date().getFullYear();
+  const n=await db.runTransaction(async t=>{const d=await t.get(ref);const v=(d.exists?d.data().value:0)+1;t.set(ref,{value:v});return v;});
+  return `ت-${year}-${String(n).padStart(3,"0")}`;
 }
 async function markSent(reportId,sampleId){
   await db.collection("reports").doc(reportId).update({status:"sent"});
@@ -715,16 +677,15 @@ async function markSent(reportId,sampleId){
   await logStage(sampleId,"sent","تم تسليم/إرسال التقرير لصاحب العينة");
   toast("تم التعليم كمُرسل");openSample(sampleId);
 }
-
-/* ===== إرجاع التقرير (المسؤول يسحبه من المدير) ===== */
 async function recallReport(reportId,sampleId){
   if(me.role!=="admin")return toast("هذه الخاصية للمسؤول فقط");
   await db.collection("reports").doc(reportId).update({status:"draft"});
-  await db.collection("samples").doc(sampleId).update({stage:"completed"});
-  await logStage(sampleId,"completed","أرجع المسؤول التقرير من الإرسال (لن يظهر للمدير)");
+  await db.collection("samples").doc(sampleId).update({stage:"micro"});
+  await logStage(sampleId,"micro","أرجع المسؤول التقرير من الإرسال (لن يظهر للمدير)");
   toast("تم إرجاع التقرير — لم يعد يظهر للمدير");openSample(sampleId);
 }
-
+</script>
+<script>
 /* ===== تعديل وحذف العينات ===== */
 async function editSample(id){
   const d=await db.collection("samples").doc(id).get();
@@ -750,7 +711,7 @@ async function editSample(id){
       <button class="btn outline sm" onclick="closeModal()">إلغاء</button>
       <button class="btn sm" onclick="saveEditedSample('${id}')">حفظ التعديلات</button>
     </div>`);
-  $("ed_sym").value=s.symptom||"";$("ed_days").value=s.resultDays||"";$("ed_path").value=s.pathogen||"";
+  setTimeout(()=>{$("ed_sym").value=s.symptom||"";$("ed_days").value=s.resultDays||"";$("ed_path").value=s.pathogen||"";},0);
 }
 async function saveEditedSample(id){
   const data={
@@ -762,7 +723,7 @@ async function saveEditedSample(id){
   };
   if(!data.sampleNo)return toast("أدخل رقم العينة");
   await db.collection("samples").doc(id).update(data);
-  await logStage(id, (await db.collection("samples").doc(id).get()).data().stage, "تم تعديل بيانات العينة");
+  await logStage(id,"received","تم تعديل بيانات العينة");
   closeModal();toast("تم حفظ التعديلات");renderSamples();
 }
 function deleteSampleModal(id,no){
@@ -781,13 +742,12 @@ async function confirmDeleteSample(id){
   await db.collection("samples").doc(id).delete();
   closeModal();toast("تم حذف العينة نهائياً");renderSamples();
 }
-</script>
-<script>
+
 /* ===== العينات المحولة للمديرية ===== */
 async function renderTransferred(){
   $("main").innerHTML=`
     <div class="page-head"><h1>العينات المحولة للمديرية</h1>
-      <button class="btn sm" onclick="transferForm()">➕ إضافة عينة محولة</button></div>
+      <button class="btn sm" onclick="transferForm()">➕ إضافة</button></div>
     <input id="tq" placeholder="🔍 بحث عن رقم العينة..." style="margin-bottom:12px" oninput="loadTransfers()">
     <div id="trows">جارٍ التحميل...</div>`;
   loadTransfers();
@@ -904,8 +864,8 @@ function rejectModal(rid,sid){
 async function confirmReject(rid,sid){
   const note=$("rejectNote").value.trim();
   await db.collection("reports").doc(rid).update({status:"rejected",reviewerNote:note});
-  await db.collection("samples").doc(sid).update({stage:"completed"});
-  await logStage(sid,"completed","أعاد "+ROLES[me.role]+" التقرير للمراجعة"+(note?": "+note:""));
+  await db.collection("samples").doc(sid).update({stage:"micro"});
+  await logStage(sid,"micro","أعاد "+ROLES[me.role]+" التقرير للمراجعة"+(note?": "+note:""));
   closeModal();toast("تمت إعادة التقرير للمراجعة");renderApprovals();
 }
 
@@ -982,7 +942,7 @@ async function renderSettings(){
   }
   await loadLists();
   $("main").innerHTML=`<div class="page-head"><h1>الإعدادات — القوائم المنسدلة</h1></div>
-    <div class="alert green">أضف أو احذف عناصر القوائم المنسدلة — تظهر فوراً لجميع الموظفين في شاشات التسجيل والفحص والتحويل.</div>
+    <div class="alert green">أضف أو احذف عناصر القوائم — تظهر فوراً لجميع الموظفين.</div>
     ${Object.keys(LIST_NAMES).map(k=>`
       <div class="card"><h3>${LIST_NAMES[k]}</h3>
         <div style="display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px">
