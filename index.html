@@ -76,12 +76,13 @@ main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
 .stepsbar div.on{color:var(--g2);font-weight:700}
 .stepsbar div.on::before{background:var(--g);color:#fff}
 .stepsbar div.done::before{background:var(--gl2);color:var(--g2)}
-.stages{display:flex;justify-content:space-between;margin:6px 0;overflow:hidden}
+.stages{display:flex;justify-content:space-between;margin:2px 0 4px;padding:12px 2px 0;overflow:visible}
 .stg{flex:1;text-align:center;position:relative;font-size:9.5px;min-width:0;color:#475569}
-.stg::before{content:"";display:block;width:16px;height:16px;border-radius:50%;margin:0 auto 5px;background:#e2e8f0;border:2px solid #fff;box-shadow:0 0 0 2px #e2e8f0;z-index:1;position:relative}
-.stg.done::before{background:var(--g);box-shadow:0 0 0 2px var(--g)}
-.stg .bar{position:absolute;top:9px;right:50%;width:100%;height:3px;background:#e2e8f0}
-.stg.done .bar{background:var(--g)}
+.stg::before{content:"";display:block;width:18px;height:18px;border-radius:50%;margin:0 auto 5px;background:#e2e8f0;border:2px solid #fff;box-shadow:0 0 0 2px #e2e8f0;z-index:1;position:relative}
+.stg.done{color:#1e293b;font-weight:700}
+.stg.done::before{background:var(--sc,var(--g));box-shadow:0 0 0 2px var(--sc,var(--g))}
+.stg .bar{position:absolute;top:12px;left:50%;width:100%;height:3px;background:#e2e8f0}
+.stg.done .bar{background:var(--sc,var(--g))}
 .stg:first-child .bar{display:none}
 .imgbox img{max-height:220px;max-width:100%;border-radius:12px;border:1px solid var(--border)}
 .img-drop{border:2px dashed #a7c8b4;border-radius:12px;padding:22px;text-align:center;color:var(--muted);cursor:pointer;font-size:13px;display:block;background:var(--gl)}
@@ -185,6 +186,7 @@ const db = firebase.firestore();
 
 /* ===== ثوابت ===== */
 const STAGES = {received:"تم الاستلام",visual:"الفحص الظاهري",micro:"الفحص المجهري",pending_approval:"بانتظار الموافقة",approved:"تمت الموافقة",sent:"أُرسل لصاحب العينة"};
+const STAGE_COLORS = {received:"#dc2626",visual:"#eab308",micro:"#ea580c",pending_approval:"#2563eb",approved:"#0d9488",sent:"#16a34a"};
 const STAGE_ORDER = ["received","visual","micro","pending_approval","approved","sent"];
 const REPORT_STATUS = {draft:"مسودة (مُرجع)",pending:"بانتظار الموافقة",approved:"معتمد",rejected:"معاد للمراجعة",sent:"مُرسل"};
 const MONTHS = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
@@ -484,7 +486,7 @@ function renderWizard(){ W=blankW(); drawWizard(); }
 function miniStages(stage){
   const order=["received","visual","micro"];
   const cur=order.indexOf(stage);
-  return `<div class="card" style="padding:10px 12px"><div class="stages">${order.map((st,i)=>`<div class="stg ${i<=cur?"done":""}"><div class="bar"></div>${STAGES[st]}</div>`).join("")}</div></div>`;
+  return `<div class="card" style="padding:10px 12px"><div class="stages">${order.map((st,i)=>`<div class="stg ${i<=cur?"done":""}" style="--sc:${STAGE_COLORS[st]}"><div class="bar"></div>${STAGES[st]}</div>`).join("")}</div></div>`;
 }
 
 function drawWizard(){
@@ -692,7 +694,7 @@ async function openSample(id){
       </div>
     </div>
     <div class="card"><h3>مراحل العينة</h3>
-      <div class="stages">${STAGE_ORDER.map((st,i)=>`<div class="stg ${i<=cur?"done":""}"><div class="bar"></div>${STAGES[st]}</div>`).join("")}</div>
+      <div class="stages">${STAGE_ORDER.map((st,i)=>`<div class="stg ${i<=cur?"done":""}" style="--sc:${STAGE_COLORS[st]}"><div class="bar"></div>${STAGES[st]}</div>`).join("")}</div>
     </div>
     <div class="card">
       <h3>1. استلام العينة وتسجيلها</h3>
