@@ -108,6 +108,8 @@ main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
 .bottomnav button .ico{font-size:21px}
 .bottomnav button.active{color:var(--g2);font-weight:700}
 .bottomnav .b-dot{position:absolute;top:0;left:20%;background:#7c3aed;color:#fff;font-size:10px;border-radius:99px;padding:1px 6px}
+.sidenav{display:none}
+
 
 /* ===== تخطيط الكمبيوتر: شاشة كاملة + قائمة جانبية يمين ===== */
 @media(min-width:900px){
@@ -119,6 +121,7 @@ main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
   .sidenav h3{color:var(--g2);margin:0 6px 14px;font-size:16px;display:flex;align-items:center;gap:8px}
   .sidenav button.mi{display:flex;align-items:center;gap:11px;width:100%;padding:12px 14px;border:none;background:none;border-radius:12px;font-size:14px;text-align:right;color:#1e293b}
   .sidenav button.mi:hover{background:#f1f5f9}
+  .sidenav button.mi:active{background:var(--gl2)}
   .sidenav button.mi.active{background:var(--gl);color:var(--g2);font-weight:700}
   .sidenav .b-dot{position:static;margin-right:auto}
   main{grid-column:2;grid-row:2;padding:26px 32px 40px;max-width:1080px;width:100%;margin:0 auto}
@@ -128,7 +131,6 @@ main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
   #toast{bottom:28px}
   #drawer .panel{width:320px}
 }
-.sidenav{display:none}
 #drawer{position:fixed;inset:0;z-index:70}
 #drawer .back{position:absolute;inset:0;background:rgba(15,23,42,.4)}
 #drawer .panel{position:absolute;top:0;bottom:0;right:0;width:270px;background:#fff;padding:20px 14px;overflow:auto;box-shadow:-4px 0 20px rgba(0,0,0,.15)}
@@ -415,11 +417,11 @@ async function renderDashboard(){
       <div class="tile" onclick="showPage('samples')"><div class="ico">🗂️</div><b>قائمة العينات</b><small>${samples.length} عينة</small></div>
       <div class="tile" onclick="showPage('transferred')"><div class="ico">🚚</div><b>العينات المحولة للمديرية</b><small>${tsnap.size} عينة</small></div>
       <div class="tile" onclick="showPage('approvals')"><div class="ico">📊</div><b>التقارير</b><small>${pend.size} بانتظار الموافقة</small></div>
+    ${me.role==="admin"?`<div class="tile" onclick="showPage('staff')"><div class="ico">👥</div><b>الموظفون</b><small>الصلاحيات والحسابات</small></div><div class="tile" onclick="showPage('settings')"><div class="ico">⚙️</div><b>الإعدادات</b><small>القوائم المنسدلة</small></div>`:""}
     </div>
-    ${me.role==="admin"?`<div class="homegrid" style="margin-bottom:14px"><div class="tile" onclick="showPage('settings')"><div class="ico">⚙️</div><b>الإعدادات</b><small>القوائم المنسدلة</small></div><div class="tile" onclick="showPage('staff')"><div class="ico">👥</div><b>الموظفون</b><small>الصلاحيات والحسابات</small></div></div>`:""}
     <div class="grid5" style="margin-bottom:14px">
       <div class="stat"><div class="t">📥 إجمالي العينات</div><div class="n">${samples.length}</div></div>
-      <div class="stat"><div class="t">🔬 قيد الفحص</div><div class="n">${(byStage.received||0)+(byStage.visual||0)+(byStage.micro||0)}</div></div>
+      <div class="stat"><div class="t">🔬 تحت الفحص</div><div class="n">${(byStage.received||0)+(byStage.visual||0)+(byStage.micro||0)}</div></div>
       <div class="stat"><div class="t">⏳ بانتظار الموافقة</div><div class="n">${byStage.pending_approval||0}</div></div>
       <div class="stat"><div class="t">✅ تقارير معتمدة</div><div class="n">${byStage.approved||0}</div></div>
       <div class="stat"><div class="t">📤 أُرسلت لصاحب العينة</div><div class="n">${byStage.sent||0}</div></div>
