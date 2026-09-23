@@ -515,10 +515,16 @@ async function loadSamples(){
   if(q)rows=rows.filter(r=>(r.sampleNo||"").includes(q)||(r.farmerName||"").includes(q)||(r.source||"").includes(q)||(r.crop||"").includes(q));
   rows.sort((a,b)=>(b.createdAtSec||0)-(a.createdAtSec||0));
   $("rows").innerHTML=rows.map(s=>`
-    <div class="sample-item" onclick="openSample('${s.id}')" style="cursor:pointer">
-      ${s.imageData?`<img src="${s.imageData}">`:`<div style="width:64px;height:64px;border-radius:10px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">🌿</div>`}
-      <div class="info"><b class="mono">${esc(s.sampleNo)}</b> — ${esc(s.crop||s.sampleType||"")}<br>${esc(s.farmerName||s.source||"")}<br>تاريخ الاستلام: ${esc(s.receivedAt)}</div>
-      <span class="badge b-${s.stage}">${STAGES[s.stage]}</span>
+    <div class="sample-item">
+      <div style="display:flex;gap:12px;align-items:center;flex:1;min-width:0;cursor:pointer" onclick="openSample('${s.id}')">
+        ${s.imageData?`<img src="${s.imageData}">`:`<div style="width:64px;height:64px;border-radius:10px;background:var(--gl);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0">🌿</div>`}
+        <div class="info"><b class="mono">${esc(s.sampleNo)}</b> — ${esc(s.crop||s.sampleType||"")}<br>${esc(s.location||s.source||"")}<br>تاريخ الاستلام: ${esc(s.receivedAt)}</div>
+        <span class="badge b-${s.stage}">${STAGES[s.stage]}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <button class="btn outline sm" title="تعديل" onclick="editSample('${s.id}')">✏️</button>
+        <button class="btn danger sm" title="حذف" onclick="deleteSampleModal('${s.id}','${esc(s.sampleNo)}')">🗑️</button>
+      </div>
     </div>`).join("")||'<div class="card" style="text-align:center;color:var(--muted);padding:34px">لا توجد عينات مطابقة</div>';
 }
 </script>
@@ -681,6 +687,8 @@ async function openSample(id){
         <textarea id="r_rec" rows="5" ${editable?"":"disabled"} placeholder="التخلص من الأجزاء المصابة.&#10;معاملة التربة بالتعقيم الحراري إن أمكن...">${esc(report?report.recommendations:"")}</textarea></div>
       ${editable?`<button class="btn" style="width:100%" onclick="saveReport('${id}','${report?report.id:""}')">📨 ${report&&report.status==="rejected"?"إعادة إرسال لموافقة المدير":"إرسال التقرير لموافقة المدير"}</button>`:""}
       ${report&&report.status==="pending"?`<div class="alert purple" style="margin-top:12px;margin-bottom:0">التقرير بانتظار موافقة المدير — لا يمكن إرساله رسمياً لصاحب العينة قبل الاعتماد.</div>`:""}
+      ${report&&report.status==="draft"?`<div class="alert green" style="margin-top:12px;margin-bottom:0">تم إرجاع التقرير من الإرسال — عدّل التوصيات ثم أعد الإرسال للمدير.</div>`:""}
+      ${report&&report.status==="pending"&&me.role==="admin"?`<button class="btn gray" style="width:100%;margin-top:10px" onclick="recallReport('${report.id}','${id}')">↩️ إرجاع التقرير (سحب من المدير)</button>`:""}
     </div>
 
     <div class="card"><h3>سجل الحركة</h3>
@@ -706,6 +714,72 @@ async function markSent(reportId,sampleId){
   await db.collection("samples").doc(sampleId).update({stage:"sent"});
   await logStage(sampleId,"sent","تم تسليم/إرسال التقرير لصاحب العينة");
   toast("تم التعليم كمُرسل");openSample(sampleId);
+}
+
+/* ===== إرجاع التقرير (المسؤول يسحبه من المدير) ===== */
+async function recallReport(reportId,sampleId){
+  if(me.role!=="admin")return toast("هذه الخاصية للمسؤول فقط");
+  await db.collection("reports").doc(reportId).update({status:"draft"});
+  await db.collection("samples").doc(sampleId).update({stage:"completed"});
+  await logStage(sampleId,"completed","أرجع المسؤول التقرير من الإرسال (لن يظهر للمدير)");
+  toast("تم إرجاع التقرير — لم يعد يظهر للمدير");openSample(sampleId);
+}
+
+/* ===== تعديل وحذف العينات ===== */
+async function editSample(id){
+  const d=await db.collection("samples").doc(id).get();
+  if(!d.exists)return toast("العينة غير موجودة");
+  const s=d.data();
+  openModal(`
+    <h3>✏️ تعديل العينة ${esc(s.sampleNo)}</h3>
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div><label>رقم العينة</label><input id="ed_no" value="${esc(s.sampleNo)}"></div>
+      <div><label>تاريخ الاستلام</label><input type="date" id="ed_received" value="${esc(s.receivedAt)}"></div>
+      <div><label>نوع العينة</label><input id="ed_crop" value="${esc(s.crop||"")}"></div>
+      <div><label>موقع أخذ العينة</label><input id="ed_loc" value="${esc(s.location||s.source||"")}"></div>
+      <div><label>فاحص العينة</label><input id="ed_examiner" value="${esc(s.examinerName||"")}"></div>
+      <div><label>الأعراض والملاحظات الميدانية</label><textarea id="ed_notes" rows="2">${esc(s.fieldNotes||"")}</textarea></div>
+      <div><label>الجزء المصاب</label><input id="ed_part" value="${esc(s.part||"")}"></div>
+      <div><label>الأعراض</label><select id="ed_sym"><option value="">—</option>${opts("symptoms")}</select></div>
+      <div><label>ملاحظات الفحص الظاهري</label><textarea id="ed_vnotes" rows="2">${esc(s.visualNotes||"")}</textarea></div>
+      <div><label>ملاحظات الفحص المجهري</label><textarea id="ed_micro" rows="2">${esc(s.microNotes||"")}</textarea></div>
+      <div><label>مدة ظهور النتيجة</label><select id="ed_days"><option value="">—</option>${DURATIONS.map(x=>`<option>${x}</option>`).join("")}</select></div>
+      <div><label>السبب المرضي</label><select id="ed_path"><option value="">—</option>${opts("pathogens")}</select></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn outline sm" onclick="closeModal()">إلغاء</button>
+      <button class="btn sm" onclick="saveEditedSample('${id}')">حفظ التعديلات</button>
+    </div>`);
+  $("ed_sym").value=s.symptom||"";$("ed_days").value=s.resultDays||"";$("ed_path").value=s.pathogen||"";
+}
+async function saveEditedSample(id){
+  const data={
+    sampleNo:$("ed_no").value.trim(),receivedAt:$("ed_received").value,crop:$("ed_crop").value.trim(),
+    location:$("ed_loc").value.trim(),source:$("ed_loc").value.trim(),examinerName:$("ed_examiner").value.trim(),
+    fieldNotes:$("ed_notes").value.trim(),part:$("ed_part").value.trim(),sampleType:$("ed_part").value.trim(),
+    symptom:$("ed_sym").value,visualNotes:$("ed_vnotes").value.trim(),
+    microNotes:$("ed_micro").value.trim(),resultDays:$("ed_days").value,pathogen:$("ed_path").value
+  };
+  if(!data.sampleNo)return toast("أدخل رقم العينة");
+  await db.collection("samples").doc(id).update(data);
+  await logStage(id, (await db.collection("samples").doc(id).get()).data().stage, "تم تعديل بيانات العينة");
+  closeModal();toast("تم حفظ التعديلات");renderSamples();
+}
+function deleteSampleModal(id,no){
+  openModal(`<h3>🗑️ حذف العينة</h3>
+    <p style="font-size:13.5px;color:var(--muted)">سيتم حذف العينة <b class="mono">${esc(no)}</b> مع تقريرها وسجل حركتها نهائياً. لا يمكن التراجع.</p>
+    <div class="modal-actions">
+      <button class="btn outline sm" onclick="closeModal()">إلغاء</button>
+      <button class="btn danger sm" onclick="confirmDeleteSample('${id}')">تأكيد الحذف</button>
+    </div>`);
+}
+async function confirmDeleteSample(id){
+  const logs=await db.collection("samples").doc(id).collection("logs").get();
+  for(const l of logs.docs) await l.ref.delete();
+  const reps=await db.collection("reports").where("sampleId","==",id).get();
+  for(const r of reps.docs) await r.ref.delete();
+  await db.collection("samples").doc(id).delete();
+  closeModal();toast("تم حذف العينة نهائياً");renderSamples();
 }
 </script>
 <script>
