@@ -629,7 +629,7 @@ async function openSample(id){
   const reps=await db.collection("reports").where("sampleId","==",id).get();
   const report=reps.empty?null:{id:reps.docs[0].id,...reps.docs[0].data()};
   const cur=STAGE_ORDER.indexOf(s.stage);
-  const editable=!report||["pending","rejected"].includes(report.status);
+  const editable=!report||["pending","rejected","draft"].includes(report.status);
 
   $("main").innerHTML=`
     <div class="page-head">
