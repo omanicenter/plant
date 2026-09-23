@@ -114,11 +114,13 @@ main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
   body{background:#f8fafc}
   #appScreen{max-width:none;min-height:100vh;display:grid;grid-template-columns:236px minmax(0,1fr);grid-template-rows:auto 1fr;background:#f8fafc;box-shadow:none}
   .topbar{grid-column:1/3;grid-row:1;padding:15px 26px}
-  .bottomnav{position:static;transform:none;right:auto;bottom:auto;width:auto;max-width:none;grid-column:1;grid-row:2;flex-direction:column;align-items:stretch;border-top:none;border-left:1px solid var(--border);padding:18px 12px;gap:4px;box-shadow:none;background:#fff}
-  .bottomnav button{flex-direction:row;justify-content:flex-start;gap:12px;font-size:14px;padding:13px 16px;border-radius:12px;width:100%}
-  .bottomnav button:hover{background:#f1f5f9}
-  .bottomnav button.active{background:var(--gl);color:var(--g2)}
-  .bottomnav button .ico{font-size:22px}
+  .bottomnav{display:none}
+  .sidenav{display:flex;flex-direction:column;grid-column:1;grid-row:2;background:#fff;border-left:1px solid var(--border);padding:20px 12px;gap:3px;align-items:stretch}
+  .sidenav h3{color:var(--g2);margin:0 6px 14px;font-size:16px;display:flex;align-items:center;gap:8px}
+  .sidenav button.mi{display:flex;align-items:center;gap:11px;width:100%;padding:12px 14px;border:none;background:none;border-radius:12px;font-size:14px;text-align:right;color:#1e293b}
+  .sidenav button.mi:hover{background:#f1f5f9}
+  .sidenav button.mi.active{background:var(--gl);color:var(--g2);font-weight:700}
+  .sidenav .b-dot{position:static;margin-right:auto}
   main{grid-column:2;grid-row:2;padding:26px 32px 40px;max-width:1080px;width:100%;margin:0 auto}
   .homegrid{grid-template-columns:repeat(3,1fr)}
   .grid5{grid-template-columns:repeat(5,1fr)}
@@ -126,6 +128,7 @@ main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
   #toast{bottom:28px}
   #drawer .panel{width:320px}
 }
+.sidenav{display:none}
 #drawer{position:fixed;inset:0;z-index:70}
 #drawer .back{position:absolute;inset:0;background:rgba(15,23,42,.4)}
 #drawer .panel{position:absolute;top:0;bottom:0;right:0;width:270px;background:#fff;padding:20px 14px;overflow:auto;box-shadow:-4px 0 20px rgba(0,0,0,.15)}
@@ -172,6 +175,7 @@ main{flex:1;padding:16px;padding-bottom:96px;min-width:0}
     <b id="topTitle">الرئيسية</b>
     <button onclick="showPage('approvals')">🔔</button>
   </div>
+  <div id="sideNav" class="sidenav no-print"></div>
   <main id="main"></main>
   <div class="bottomnav no-print" id="bottomNav">
     <button data-page="dashboard" onclick="showPage('dashboard')"><span class="ico">🏠</span>الرئيسية</button>
@@ -360,12 +364,26 @@ function openDrawer(){
     <button class="mi" style="color:#dc2626" onclick="closeDrawer();doLogout()">🚪 تسجيل الخروج</button>
   </div>`;
 }
+function renderSideNav(active){
+  const btn=(p,label)=>`<button class="mi ${active===p?"active":""}" onclick="showPage('${p}')">${label}</button>`;
+  $("sideNav").innerHTML=`<h3>🌿 مختبر أمراض النبات</h3>
+    ${btn("dashboard","🏠 الرئيسية")}
+    ${btn("new","📝 تسجيل عينة جديدة")}
+    ${btn("samples","🗂️ قائمة العينات")}
+    ${btn("transferred","🚚 العينات المحولة للمديرية")}
+    ${btn("approvals","📊 التقارير والموافقات"+'<span id="pendBadgeS" class="b-dot hidden"></span>')}
+    ${me.role==="admin"?btn("staff","👥 الموظفون")+btn("settings","⚙️ الإعدادات"):""}
+    <hr style="border:none;border-top:1px solid var(--border);margin:8px 6px">
+    <button class="mi" onclick="openProfile()">👤 حسابي (${esc(me.name)})</button>
+    <button class="mi" style="color:#dc2626" onclick="doLogout()">🚪 تسجيل الخروج</button>`;
+}
 function closeDrawer(){$("drawer").classList.add("hidden");}
 
 /* ===== التنقل ===== */
 function showPage(p){
   if(!can(p) && !["dashboard","more"].includes(p)){toast("لا تملك صلاحية الدخول لهذه الصفحة");return;}
   document.querySelectorAll("#bottomNav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
+  renderSideNav(p);
   $("topTitle").textContent={dashboard:"الرئيسية",new:"تسجيل عينة جديدة",samples:"قائمة العينات",transferred:"العينات المحولة للمديرية",approvals:"التقارير",settings:"الإعدادات",staff:"الموظفون",more:"المزيد"}[p]||"";
   ({dashboard:renderDashboard,samples:renderSamples,new:renderWizard,transferred:renderTransferred,approvals:renderApprovals,staff:renderStaff,settings:renderSettings,more:renderMore})[p]();
 }
@@ -384,6 +402,7 @@ async function renderDashboard(){
   const maxM=Math.max(1,...months.map(m=>monthly[m]));
   const pend=await db.collection("reports").where("status","==","pending").get();
   pendBadgeM.textContent=pend.size;pendBadgeM.classList.toggle("hidden",pend.size===0);
+  if($("pendBadgeS")){pendBadgeS.textContent=pend.size;pendBadgeS.classList.toggle("hidden",pend.size===0);}
   const tsnap=await db.collection("transfers").get();
   $("main").innerHTML=`
     <div class="hello">
