@@ -768,6 +768,8 @@ async function openSample(id){
         ${report?`<span class="badge ${report.status==="approved"?"b-approved":report.status==="rejected"?"b-suspended":"b-pending_approval"}">${REPORT_STATUS[report.status]} — ${esc(report.reportNo)}</span>`:""}
       </div>
       ${report&&report.status==="rejected"&&report.reviewerNote?`<div class="alert red">ملاحظة المدير: ${esc(report.reviewerNote)}</div>`:""}
+      <div style="margin-bottom:12px"><label>رقم التقرير (يُكتب يدوياً)</label>
+        <input id="r_no" value="${esc(report?report.reportNo:"")}" ${editable?"":"disabled"} placeholder="مثال: 5/2026" style="font-family:Consolas,monospace;font-weight:700"></div>
       <div style="margin-bottom:12px"><label>التوصيات (سطر لكل توصية)</label>
         <textarea id="r_rec" rows="5" ${editable?"":"disabled"} placeholder="التخلص من الأجزاء المصابة.&#10;معاملة التربة بالتعقيم الحراري إن أمكن...">${esc(report?report.recommendations:"")}</textarea></div>
       ${editable?`<button class="btn" style="width:100%" onclick="saveReport('${id}','${report?report.id:""}')">📨 ${report&&report.status==="rejected"?"إعادة إرسال لموافقة المدير":"إرسال التقرير لموافقة المدير"}</button>`:""}
@@ -784,11 +786,13 @@ async function openSample(id){
 async function saveReport(sampleId,reportId){
   const recommendations=$("r_rec").value.trim();
   if(!recommendations)return toast("اكتب التوصيات");
+  const reportNo=($("r_no")?$("r_no").value:"").trim();
+  if(!reportNo)return toast("أدخل رقم التقرير");
   const d=await db.collection("samples").doc(sampleId).get();const s=d.data();
   const diagnosis=`بعد فحص عينة ${s.crop||""} (${s.part||""}) ظاهرياً ومجهرياً أظهرت النتائج ما يلي:\nالأعراض: ${s.symptom||"—"}${s.fieldNotes?" — "+s.fieldNotes:""}\nالفحص المجهري: ${s.microNotes||"—"}${s.resultDays?" (مدة ظهور النتيجة: "+s.resultDays+")":""}\nالسبب المرضي: ${s.pathogen||"—"}`;
-  const data={sampleId,diagnosis,recommendations,status:"pending",reviewerNote:"",reportDate:today(),createdBy:me.name};
+  const data={sampleId,reportNo,diagnosis,recommendations,status:"pending",reviewerNote:"",reportDate:today(),createdBy:me.name};
   if(reportId){await db.collection("reports").doc(reportId).update(data);}
-  else{data.reportNo=await nextNoReport();await db.collection("reports").add(data);}
+  else{await db.collection("reports").add(data);}
   await db.collection("samples").doc(sampleId).update({stage:"pending_approval"});
   await logStage(sampleId,"pending_approval","تم إرسال التقرير الفني لموافقة المدير");
   toast("تم إرسال التقرير لموافقة المدير");openSample(sampleId);
@@ -1097,6 +1101,44 @@ async function delListItem(k,i){
 }
 
 /* ===== التقرير للطباعة ===== */
+/* محتوى التقرير الموحّد — نفس التنسيق للشاشة و Word */
+function reportSheetHTML(r,s){
+  const B='border:1px solid #94a3b8;padding:8px 10px;';
+  const H=B+'font-weight:700;background:#f8fafc;';
+  const T='width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:16px;';
+  return `
+  <div style="text-align:center;margin-bottom:18px"><img src="${LOGO_B64}" style="width:130px" alt="شعار الوزارة"></div>
+  <table style="${T}">
+    <tr>
+      <td style="${H}width:33%">المديرية العامة<br>للبحوث الزراعية والحيوانية</td>
+      <td style="${H}width:34%;font-size:18px">تقرير فني</td>
+      <td style="${H}width:33%">مركز بحوث وقاية النبات<br><span style="font-weight:400">قسم بحوث أمراض النبات</span></td>
+    </tr>
+    <tr>
+      <td style="${H}">التاريخ: <span style="font-weight:400">${esc(r.reportDate)}</span></td>
+      <td colspan="2" style="${B}text-align:right"><b>مصدر العينة: </b>${esc(s.location||s.source||"—")} &nbsp; <b>رقم العينة: </b>${esc(s.sampleNo)}</td>
+    </tr>
+    <tr>
+      <td style="${H}">رقم التقرير: <span style="font-weight:400">${esc(r.reportNo)}</span></td>
+      <td colspan="2" style="${B}text-align:right"><b>فاحص العينة: </b>${esc(s.examinerName||r.createdBy||"—")} &nbsp; <b>نوع العينة: </b>${esc(s.crop||"—")}</td>
+    </tr>
+  </table>
+
+  <h2 style="font-size:16px;text-decoration:underline;margin:18px 0 8px">1. التشخيص:</h2>
+  <p style="white-space:pre-line;line-height:1.9">${esc(r.diagnosis)}</p>
+
+  <table style="${T}">
+    <tr><td style="${H}width:40px">م</td><td style="${H}">رقم العينة</td><td style="${H}">العينة</td><td style="${H}">الجزء المصاب</td><td style="${H}">الإصابة</td></tr>
+    <tr><td style="${B}">1</td><td style="${B}">${esc(s.sampleNo)}</td><td style="${B}">${esc(s.crop||"—")}</td><td style="${B}">${esc(s.part||"—")}</td>
+        <td style="${B}font-weight:700;color:#b91c1c">${esc(s.pathogen||s.symptom||"—")}</td></tr>
+  </table>
+
+  <h2 style="font-size:16px;text-decoration:underline;margin:18px 0 8px">2. التوصيات:</h2>
+  <ul style="line-height:2">${r.recommendations.split("\n").filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
+
+  <div style="text-align:center;margin-top:44px;font-size:13px;color:#475569">..............قسم بحوث أمراض النبات..............</div>`;
+}
+
 async function openReport(rid){
   const d=await db.collection("reports").doc(rid).get();
   if(!d.exists)return toast("التقرير غير موجود");
@@ -1107,37 +1149,30 @@ async function openReport(rid){
   const rp=$("reportPage");rp.classList.remove("hidden");
   rp.innerHTML=`
     <div class="report-toolbar no-print">
-      <button class="btn" onclick="window.print()">🖨️ طباعة / حفظ PDF</button>
+      <div style="display:flex;gap:8px">
+        <button class="btn" onclick="window.print()">🖨️ PDF / طباعة</button>
+        <button class="btn outline" onclick="downloadWord('${r.id}')">⬇️ Word</button>
+      </div>
       <button class="btn outline" onclick="closeReport('${r.sampleId}')">→ رجوع</button>
     </div>
-    <div class="sheet">
-      <div style="text-align:center;margin-bottom:18px">
-        <img src="${LOGO_B64}" style="width:130px" alt="شعار الوزارة">
-      </div>
-      <table><tr class="head">
-        <td style="width:33%">المديرية العامة<br>للبحوث الزراعية والحيوانية</td>
-        <td style="width:34%;font-size:18px">تقرير فني</td>
-        <td style="width:33%">مركز بحوث وقاية النبات<br><span style="font-weight:400">قسم بحوث أمراض النبات</span></td></tr>
-      <tr><td class="head">التاريخ: <span style="font-weight:400">${esc(r.reportDate)}</span></td>
-          <td colspan="2" style="text-align:right"><b>مصدر العينة: </b>${esc(s.location||s.source||"—")} &nbsp; <b>رقم العينة: </b>${esc(s.sampleNo)}</td></tr>
-      <tr><td class="head">رقم التقرير: <span style="font-weight:400">${esc(r.reportNo)}</span></td>
-          <td colspan="2" style="text-align:right"><b>فاحص العينة: </b>${esc(s.examinerName||r.createdBy||"—")} &nbsp; <b>نوع العينة: </b>${esc(s.crop||"—")}</td></tr>
-      </table>
+    <div class="sheet">${reportSheetHTML(r,s)}</div>`;
+}
 
-      <h2>1. التشخيص:</h2>
-      <p style="white-space:pre-line;line-height:1.9">${esc(r.diagnosis)}</p>
-
-      <table>
-        <tr class="head"><td style="width:40px">م</td><td>رقم العينة</td><td>العينة</td><td>الجزء المصاب</td><td>الإصابة</td></tr>
-        <tr><td>1</td><td>${esc(s.sampleNo)}</td><td>${esc(s.crop||"—")}</td><td>${esc(s.part||"—")}</td>
-            <td style="font-weight:700;color:#b91c1c">${esc(s.pathogen||s.symptom||"—")}</td></tr>
-      </table>
-
-      <h2>2. التوصيات:</h2>
-      <ul>${r.recommendations.split("\n").filter(Boolean).map(x=>`<li>${esc(x)}</li>`).join("")}</ul>
-
-      <div style="text-align:center;margin-top:44px;font-size:13px;color:#475569">..............قسم بحوث أمراض النبات..............</div>
-    </div>`;
+/* تصدير التقرير كملف Word بنفس التنسيق تماماً */
+async function downloadWord(rid){
+  const d=await db.collection("reports").doc(rid).get();
+  if(!d.exists)return toast("التقرير غير موجود");
+  const r={id:d.id,...d.data()};
+  const sd=await db.collection("samples").doc(r.sampleId).get();
+  const s=sd.data();
+  const html=`<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" dir="rtl" lang="ar"><head><meta charset="utf-8"><title>تقرير ${esc(r.reportNo)}</title><!--[if gte mso 9]><xml><w:WordDocument><w:View>Print</w:View></w:WordDocument></xml><![endif]--><style>@page{size:A4;margin:2cm}body{font-family:"Traditional Arabic",Arial,sans-serif;font-size:14px;direction:rtl;color:#0f172a}table{page-break-inside:auto}tr{page-break-inside:avoid}</style></head><body>${reportSheetHTML(r,s)}</body></html>`;
+  const blob=new Blob(["\ufeff"+html],{type:"application/msword"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="تقرير-"+(r.reportNo||rid)+".doc";
+  document.body.appendChild(a);a.click();a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  toast("تم تصدير ملف Word ✓");
 }
 function closeReport(sid){
   $("reportPage").classList.add("hidden");
