@@ -1140,7 +1140,7 @@ function drawFungi(q){
     <p style="font-size:12px;color:var(--muted);margin:-4px 2px 12px">${query?`النتائج المطابقة: <b>${list.length}</b>`:`إجمالي الأنواع المسجلة: <b>${FUNGI.length}</b>`}</p>
     ${list.length?`<div class="homegrid" style="grid-template-columns:repeat(2,1fr)">${list.map(f=>`
       <div class="tile" style="padding:12px 8px" onclick="openFungus('${f.id}')">
-        ${f.image?`<img src="${f.image}" style="width:100%;height:110px;object-fit:cover;border-radius:12px;margin-bottom:8px">`:`<div style="font-size:44px;margin-bottom:8px">🍄</div>`}
+        ${f.image?`<img src="${f.image}" style="width:100%;height:110px;object-fit:cover;border-radius:12px;margin-bottom:8px">`:`<div style="padding:14px 0 6px"><img src="${MICRO_ICON}" style="width:56px;height:56px"></div>`}
         <b style="font-size:12.5px;display:block">${esc(f.name)}</b>
       </div>`).join("")}</div>`:`<div class="card" style="text-align:center;color:var(--muted);padding:26px">${query?`لا توجد نتائج مطابقة لـ «${esc(query)}»`:"لا توجد فطريات مسجلة بعد — اضغط ➕ لإضافة أول فطر"}</div>`}`;
   const si=$("f_search");
@@ -1155,7 +1155,7 @@ function openFungus(id){
       <button class="btn outline sm" onclick="renderFungi()">→ رجوع للقائمة</button>
     </div>
     <div class="card" style="text-align:center;padding:18px">
-      ${f.image?`<img src="${f.image}" style="width:100%;max-height:420px;object-fit:contain;border-radius:14px">`:`<div style="font-size:90px;padding:30px 0">🍄</div>`}
+      ${f.image?`<img src="${f.image}" style="width:100%;max-height:420px;object-fit:contain;border-radius:14px">`:`<div style="padding:34px 0"><img src="${MICRO_ICON}" style="width:130px;height:130px"></div>`}
     </div>
     <div class="card">
       <h3 style="margin:0 0 8px;color:#7c2d12">🍄 ${esc(f.name)}</h3>
