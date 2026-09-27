@@ -223,7 +223,7 @@ const DEFAULT_LISTS = {
   directorates:["مديرية زراعة الباطنة شمال","مديرية زراعة الباطنة جنوب","مديرية زراعة الظاهرة","مديرية زراعة الداخلية","مديرية زراعة الشرقية شمال","مديرية زراعة الشرقية جنوب","مديرية زراعة الوسطى","مديرية زراعة ظفار","مديرية زراعة مسقط","مديرية زراعة مسندم","مديرية زراعة البريمي"]
 };
 const LIST_NAMES = {symptoms:"الأعراض",pathogens:"الأسباب المرضية",directorates:"المديريات"};
-const PAGES = {dashboard:"الرئيسية",samples:"سجل العينات",new:"تسجيل عينة",transferred:"العينات المحولة",approvals:"موافقات التقارير",settings:"الإعدادات",staff:"الموظفون"};
+const PAGES = {dashboard:"الرئيسية",samples:"سجل العينات",new:"تسجيل عينة",transferred:"العينات المحولة",fungi:"المرجع العلمي للفطريات",approvals:"موافقات التقارير",settings:"الإعدادات",staff:"الموظفون"};
 </script>
 <script>
 let me = null, LISTS = JSON.parse(JSON.stringify(DEFAULT_LISTS)), isRegisterMode = false;
@@ -236,7 +236,7 @@ const canApprove = () => me && (me.role==="admin"||me.role==="approver");
 function myPages(){
   if(me.role==="admin") return Object.keys(PAGES);
   if(me.pages && me.pages.length) return me.pages;
-  return me.role==="approver" ? ["dashboard","samples","new","transferred","approvals"] : ["dashboard","samples","new","transferred"];
+  return me.role==="approver" ? ["dashboard","samples","new","transferred","fungi","approvals"] : ["dashboard","samples","new","transferred","fungi"];
 }
 const can = p => myPages().includes(p);
 
@@ -359,6 +359,7 @@ function openDrawer(){
     <button class="mi" onclick="closeDrawer();showPage('new')">📝 تسجيل عينة جديدة</button>
     <button class="mi" onclick="closeDrawer();showPage('samples')">🗂️ قائمة العينات</button>
     <button class="mi" onclick="closeDrawer();showPage('transferred')">🚚 العينات المحولة للمديرية</button>
+    <button class="mi" onclick="closeDrawer();showPage('fungi')">🍄 المرجع العلمي للفطريات</button>
     <button class="mi" onclick="closeDrawer();showPage('approvals')">📊 التقارير والموافقات</button>
     ${me.role==="admin"?`<button class="mi" onclick="closeDrawer();showPage('staff')">👥 الموظفون</button><button class="mi" onclick="closeDrawer();showPage('settings')">⚙️ الإعدادات</button>`:""}
     <hr style="border:none;border-top:1px solid var(--border);margin:10px 0">
@@ -373,6 +374,7 @@ function renderSideNav(active){
     ${btn("new","📝 تسجيل عينة جديدة")}
     ${btn("samples","🗂️ قائمة العينات")}
     ${btn("transferred","🚚 العينات المحولة للمديرية")}
+    ${btn("fungi","🍄 المرجع العلمي للفطريات")}
     ${btn("approvals","📊 التقارير والموافقات"+'<span id="pendBadgeS" class="b-dot hidden"></span>')}
     ${me.role==="admin"?btn("staff","👥 الموظفون")+btn("settings","⚙️ الإعدادات"):""}
     <hr style="border:none;border-top:1px solid var(--border);margin:8px 6px">
@@ -383,11 +385,11 @@ function closeDrawer(){$("drawer").classList.add("hidden");}
 
 /* ===== التنقل ===== */
 function showPage(p){
-  if(!can(p) && !["dashboard","more"].includes(p)){toast("لا تملك صلاحية الدخول لهذه الصفحة");return;}
+  if(!can(p) && !["dashboard","more","fungi"].includes(p)){toast("لا تملك صلاحية الدخول لهذه الصفحة");return;}
   document.querySelectorAll("#bottomNav button").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
   renderSideNav(p);
-  $("topTitle").textContent={dashboard:"الرئيسية",new:"تسجيل عينة جديدة",samples:"قائمة العينات",transferred:"العينات المحولة للمديرية",approvals:"التقارير",settings:"الإعدادات",staff:"الموظفون",more:"المزيد"}[p]||"";
-  ({dashboard:renderDashboard,samples:renderSamples,new:renderWizard,transferred:renderTransferred,approvals:renderApprovals,staff:renderStaff,settings:renderSettings,more:renderMore})[p]();
+  $("topTitle").textContent={dashboard:"الرئيسية",new:"تسجيل عينة جديدة",samples:"قائمة العينات",transferred:"العينات المحولة للمديرية",approvals:"التقارير",settings:"الإعدادات",staff:"الموظفون",fungi:"المرجع العلمي للفطريات",more:"المزيد"}[p]||"";
+  ({dashboard:renderDashboard,samples:renderSamples,new:renderWizard,transferred:renderTransferred,fungi:renderFungi,approvals:renderApprovals,staff:renderStaff,settings:renderSettings,more:renderMore})[p]();
 }
 </script>
 <script>
@@ -418,6 +420,7 @@ async function renderDashboard(){
       <div class="tile" onclick="showPage('transferred')"><div class="ico">🚚</div><b>العينات المحولة للمديرية</b><small>${tsnap.size} عينة</small></div>
       <div class="tile" onclick="showPage('approvals')"><div class="ico">📊</div><b>التقارير</b><small>${pend.size} بانتظار الموافقة</small></div>
     ${me.role==="admin"?`<div class="tile" onclick="showPage('staff')"><div class="ico">👥</div><b>الموظفون</b><small>الصلاحيات والحسابات</small></div><div class="tile" onclick="showPage('settings')"><div class="ico">⚙️</div><b>الإعدادات</b><small>القوائم المنسدلة</small></div>`:""}
+      <div class="tile" onclick="showPage('fungi')"><div class="ico">🍄</div><b>المرجع العلمي للفطريات</b><small>مرجع للأنواع الفطرية</small></div>
     </div>
     <div class="grid5" style="margin-bottom:14px">
       <div class="stat"><div class="t">📥 إجمالي العينات</div><div class="n">${samples.length}</div></div>
@@ -1111,6 +1114,94 @@ async function delListItem(k,i){
   LISTS[k].splice(i,1);
   await db.collection("settings").doc("lists").set(LISTS);
   toast("تم الحذف");renderSettings();
+}
+
+/* ===== المرجع العلمي للفطريات ===== */
+let FUNGI=[];
+async function renderFungi(){
+  $("main").innerHTML="جارٍ التحميل...";
+  try{
+    const snap=await db.collection("fungi").orderBy("name").get();
+    FUNGI=snap.docs.map(d=>({id:d.id,...d.data()}));
+  }catch(e){FUNGI=[];}
+  drawFungi("");
+}
+function drawFungi(q){
+  const query=(q||"").trim();
+  const list=query?FUNGI.filter(f=>(f.name||"").includes(query)):FUNGI;
+  $("main").innerHTML=`
+    <div class="page-head">
+      <h1>🍄 المرجع العلمي للفطريات</h1>
+      <button class="btn sm" onclick="fungusForm()">➕ إضافة فطر</button>
+    </div>
+    <div class="card" style="padding:12px 14px"><div class="field" style="margin:0">
+      <input id="f_search" placeholder="🔍 اكتب اسم الفطر — تظهر النتائج فوراً..." value="${esc(q)}" oninput="drawFungi(this.value)">
+    </div></div>
+    <p style="font-size:12px;color:var(--muted);margin:-4px 2px 12px">${query?`النتائج المطابقة: <b>${list.length}</b>`:`إجمالي الأنواع المسجلة: <b>${FUNGI.length}</b>`}</p>
+    ${list.length?list.map(f=>`
+      <div class="card">
+        ${f.image?`<div class="imgbox" style="margin-bottom:10px"><img src="${f.image}" style="max-height:180px"></div>`:""}
+        <h3 style="margin:0 0 6px;color:#7c2d12">🍄 ${esc(f.name)}</h3>
+        <div style="font-size:13px;color:#334155;line-height:1.9;white-space:pre-line"><b>التوصيف العلمي:</b> ${esc(f.desc)}</div>
+        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+          <button class="btn outline sm" onclick="fungusForm('${f.id}')">✏️ تعديل</button>
+          <button class="btn danger sm" onclick="deleteFungus('${f.id}')">🗑️ حذف</button>
+        </div>
+      </div>`).join(""):`<div class="card" style="text-align:center;color:var(--muted);padding:26px">${query?`لا توجد نتائج مطابقة لـ «${esc(query)}»`:"لا توجد فطريات مسجلة بعد — اضغط ➕ لإضافة أول فطر"}</div>`}`;
+  const si=$("f_search");
+  if(document.activeElement!==si){si.focus();si.setSelectionRange(si.value.length,si.value.length);}
+}
+
+let F_EDIT="",F_IMG="";
+function fungusForm(id){
+  F_EDIT=id||"";F_IMG="";
+  const f=F_EDIT?FUNGI.find(x=>x.id===F_EDIT):{name:"",desc:"",image:""};
+  openModal(`
+    <h3>${F_EDIT?"✏️ تعديل فطر":"➕ إضافة فطر جديد"}</h3>
+    <div style="display:flex;flex-direction:column;gap:11px">
+      <div><label>اسم الفطر</label><input id="f_name" value="${esc(f.name)}" placeholder="مثال: الفيوزاريوم wilt"></div>
+      <div><label>التوصيف العلمي</label><textarea id="f_desc" rows="4" placeholder="الشكل، اللون، الأبواغ، بيئة النمو...">${esc(f.desc)}</textarea></div>
+      <div><label>صورة الفطر</label>
+        <div id="f_imgArea">${f.image?`<div class="imgbox"><img src="${f.image}"></div><label class="img-drop" style="margin-top:8px">🔄 تغيير الصورة<input type="file" accept="image/*" class="hidden" onchange="fungusImg(this)"></label>`:`<label class="img-drop">🍄 اختر صورة<input type="file" accept="image/*" class="hidden" onchange="fungusImg(this)"></label>`}</div>
+      </div>
+      <button class="btn" onclick="saveFungus()">💾 حفظ</button>
+    </div>`);
+}
+async function fungusImg(inp){
+  const file=inp.files[0];if(!file)return;
+  F_IMG=await fileToDataUrl(file);
+  $("f_imgArea").innerHTML=`<div class="imgbox"><img src="${F_IMG}"></div><label class="img-drop" style="margin-top:8px">🔄 تغيير الصورة<input type="file" accept="image/*" class="hidden" onchange="fungusImg(this)"></label>`;
+}
+async function saveFungus(){
+  const name=$("f_name").value.trim(),desc=$("f_desc").value.trim();
+  if(!name)return toast("أدخل اسم الفطر");
+  if(!desc)return toast("أدخل التوصيف العلمي");
+  const old=F_EDIT?FUNGI.find(x=>x.id===F_EDIT):null;
+  const image=F_IMG||(old?old.image:"");
+  if(!image)return toast("أرفق صورة الفطر");
+  const data={name,desc,image,updatedBy:me.name,updatedAt:Date.now()};
+  try{
+    if(F_EDIT){await db.collection("fungi").doc(F_EDIT).update(data);}
+    else{data.createdBy=me.name;data.createdAt=Date.now();await db.collection("fungi").add(data);}
+  }catch(e){return toast("خطأ: "+e.message);}
+  closeModal();toast("تم حفظ الفطر ✓");renderFungi();
+}
+function deleteFungus(id){
+  const f=FUNGI.find(x=>x.id===id);if(!f)return;
+  openModal(`
+    <div style="text-align:center">
+      <div style="font-size:42px;margin-bottom:6px">🗑️</div>
+      <h3 style="margin:0 0 6px">حذف الفطر</h3>
+      <p style="color:var(--muted);font-size:14px;margin:0 0 18px">هل أنت متأكد من حذف <b style="color:#b91c1c">${esc(f.name)}</b> من المرجع؟</p>
+      <div class="btnrow">
+        <button class="btn gray" onclick="closeModal()">تراجع</button>
+        <button class="btn danger" onclick="closeModal();doDeleteFungus('${id}')">نعم، حذف</button>
+      </div>
+    </div>`);
+}
+async function doDeleteFungus(id){
+  try{await db.collection("fungi").doc(id).delete();}catch(e){return toast("خطأ: "+e.message);}
+  toast("تم الحذف");renderFungi();
 }
 
 /* ===== التقرير للطباعة ===== */
