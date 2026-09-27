@@ -729,7 +729,8 @@ async function openSample(id){
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         ${report?`<button class="btn outline sm" onclick="openReport('${report.id}')">🖨️ طباعة التقرير</button>`:""}
-        ${report&&report.status==="approved"?`<button class="btn sm" style="background:#0f766e" onclick="markSent('${report.id}','${id}')">📤 تم الإرسال لصاحب العينة</button>`:""}
+        ${report&&report.status==="approved"?`<button class="btn sm" style="background:#dc2626" onclick="confirmSendReport('${report.id}','${id}')">📤 إرسال لصاحب العينة</button>`:""}
+        ${report&&report.status==="sent"?`<button class="btn sm" style="background:#16a34a" disabled>✓ أُرسلت لصاحب العينة</button>`:""}
       </div>
     </div>
     <div class="card"><h3>مراحل العينة</h3>
@@ -802,6 +803,18 @@ async function nextNoReport(){
   const year=new Date().getFullYear();
   const n=await db.runTransaction(async t=>{const d=await t.get(ref);const v=(d.exists?d.data().value:0)+1;t.set(ref,{value:v});return v;});
   return `ت-${year}-${String(n).padStart(3,"0")}`;
+}
+function confirmSendReport(reportId,sampleId){
+  openModal(`
+    <div style="text-align:center">
+      <div style="font-size:46px;margin-bottom:8px">📤</div>
+      <h3 style="margin:0 0 6px;color:#0f172a">تأكيد الإرسال</h3>
+      <p style="color:var(--muted);font-size:14px;margin:0 0 20px;line-height:1.8">هل أنت متأكد من إرسال التقرير لصاحب العينة؟<br><b style="color:#b91c1c">لا يمكن التراجع عن هذا الإجراء بعد التأكيد.</b></p>
+      <div class="btnrow">
+        <button class="btn gray" onclick="closeModal()">تراجع</button>
+        <button class="btn" style="background:#dc2626" onclick="closeModal();markSent('${reportId}','${sampleId}')">نعم، إرسال</button>
+      </div>
+    </div>`);
 }
 async function markSent(reportId,sampleId){
   await db.collection("reports").doc(reportId).update({status:"sent"});
