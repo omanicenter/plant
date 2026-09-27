@@ -449,7 +449,7 @@ async function renderDashboard(){
       <div class="tile" onclick="showPage('transferred')"><div class="ico">🚚</div><b>العينات المحولة للمديرية</b><small>${tsnap.size} عينة</small></div>
       <div class="tile" onclick="showPage('approvals')"><div class="ico">📊</div><b>التقارير</b><small>${pend.size} بانتظار الموافقة</small></div>
     ${me.role==="admin"?`<div class="tile" onclick="showPage('staff')"><div class="ico">👥</div><b>الموظفون</b><small>الصلاحيات والحسابات</small></div><div class="tile" onclick="showPage('settings')"><div class="ico">⚙️</div><b>الإعدادات</b><small>القوائم المنسدلة</small></div>`:""}
-      <div class="tile" onclick="showPage('fungi')"><img src="${MICRO_ICON}" style="width:40px;height:40px;margin-bottom:8px"><b>المرجع العلمي للفطريات</b><small>مرجع للأنواع الفطرية</small></div>
+      <div class="tile" onclick="showPage('fungi')"><img src="${MICRO_ICON}" style="display:block;margin:0 auto 8px;width:42px;height:42px"><b style="display:block">المرجع العلمي للفطريات</b><small>مرجع للأنواع الفطرية</small></div>
     </div>
     <div class="grid5" style="margin-bottom:14px">
       <div class="stat"><div class="t">📥 إجمالي العينات</div><div class="n">${samples.length}</div></div>
