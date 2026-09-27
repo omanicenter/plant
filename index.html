@@ -1138,18 +1138,35 @@ function drawFungi(q){
       <input id="f_search" placeholder="🔍 اكتب اسم الفطر — تظهر النتائج فوراً..." value="${esc(q)}" oninput="drawFungi(this.value)">
     </div></div>
     <p style="font-size:12px;color:var(--muted);margin:-4px 2px 12px">${query?`النتائج المطابقة: <b>${list.length}</b>`:`إجمالي الأنواع المسجلة: <b>${FUNGI.length}</b>`}</p>
-    ${list.length?list.map(f=>`
-      <div class="card">
-        ${f.image?`<div class="imgbox" style="margin-bottom:10px"><img src="${f.image}" style="max-height:180px"></div>`:""}
-        <h3 style="margin:0 0 6px;color:#7c2d12">🍄 ${esc(f.name)}</h3>
-        <div style="font-size:13px;color:#334155;line-height:1.9;white-space:pre-line"><b>التوصيف العلمي:</b> ${esc(f.desc)}</div>
-        <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
-          <button class="btn outline sm" onclick="fungusForm('${f.id}')">✏️ تعديل</button>
-          <button class="btn danger sm" onclick="deleteFungus('${f.id}')">🗑️ حذف</button>
-        </div>
-      </div>`).join(""):`<div class="card" style="text-align:center;color:var(--muted);padding:26px">${query?`لا توجد نتائج مطابقة لـ «${esc(query)}»`:"لا توجد فطريات مسجلة بعد — اضغط ➕ لإضافة أول فطر"}</div>`}`;
+    ${list.length?`<div class="homegrid" style="grid-template-columns:repeat(2,1fr)">${list.map(f=>`
+      <div class="tile" style="padding:12px 8px" onclick="openFungus('${f.id}')">
+        ${f.image?`<img src="${f.image}" style="width:100%;height:110px;object-fit:cover;border-radius:12px;margin-bottom:8px">`:`<div style="font-size:44px;margin-bottom:8px">🍄</div>`}
+        <b style="font-size:12.5px;display:block">${esc(f.name)}</b>
+      </div>`).join("")}</div>`:`<div class="card" style="text-align:center;color:var(--muted);padding:26px">${query?`لا توجد نتائج مطابقة لـ «${esc(query)}»`:"لا توجد فطريات مسجلة بعد — اضغط ➕ لإضافة أول فطر"}</div>`}`;
   const si=$("f_search");
   if(document.activeElement!==si){si.focus();si.setSelectionRange(si.value.length,si.value.length);}
+}
+
+function openFungus(id){
+  const f=FUNGI.find(x=>x.id===id);if(!f)return;
+  $("main").innerHTML=`
+    <div class="page-head">
+      <h1 style="font-size:16px">🍄 ${esc(f.name)}</h1>
+      <button class="btn outline sm" onclick="renderFungi()">→ رجوع للقائمة</button>
+    </div>
+    <div class="card" style="text-align:center;padding:18px">
+      ${f.image?`<img src="${f.image}" style="width:100%;max-height:420px;object-fit:contain;border-radius:14px">`:`<div style="font-size:90px;padding:30px 0">🍄</div>`}
+    </div>
+    <div class="card">
+      <h3 style="margin:0 0 8px;color:#7c2d12">🍄 ${esc(f.name)}</h3>
+      <div style="font-size:14px;color:#334155;line-height:2;white-space:pre-line"><b>التوصيف العلمي:</b><br>${esc(f.desc)}</div>
+      ${f.updatedBy?`<div style="font-size:11px;color:var(--muted);margin-top:12px">آخر تحديث: ${esc(f.updatedBy)}</div>`:""}
+    </div>
+    <div class="btnrow">
+      <button class="btn outline" onclick="fungusForm('${f.id}')">✏️ تعديل</button>
+      <button class="btn danger" onclick="deleteFungus('${f.id}')">🗑️ حذف</button>
+    </div>`;
+  window.scrollTo(0,0);
 }
 
 let F_EDIT="",F_IMG="";
